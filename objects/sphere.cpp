@@ -23,10 +23,6 @@ Geometry* createSphere(const double radius, const int lsteps, const int wsteps )
 	double x = 0.0;
 	double y = 0.0;
 	double z = 0.0;
-	//  current normal coordinates
-	double nx = 0.0;
-	double ny = 0.0;
-	double nz = 1.0;
 	
 	Vec3d coords;
 
