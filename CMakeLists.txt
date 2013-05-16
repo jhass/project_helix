@@ -38,8 +38,7 @@ foreach( executable project_helix sphere )
   config_project( ${executable} OSGVIEWER )
   config_project( ${executable} OSGUTIL )
   config_project( ${executable} GLUT )
-  config_project( ${executable} OpenGL )
-
+  config_project( ${executable} OPENGL )
 endforeach()
 
 
