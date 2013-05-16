@@ -1,12 +1,11 @@
 #include <osgDB/ReadFile>
 #include <osgViewer/Viewer>
-#include <osg/Fog>
 #include "objects/ship.h"
 
 using namespace osg;
 int main(void) {
     ref_ptr<Group> root = new Group();
-    ref_ptr<Group> ship = new Ship();
+    ref_ptr<Node> ship = new Ship();
     
     root->addChild(ship);
     osgViewer::Viewer viewer;

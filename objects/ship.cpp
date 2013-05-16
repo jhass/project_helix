@@ -6,4 +6,3 @@ Ship::Ship() {
    this->addChild(osgDB::readNodeFile(fileLocation));
 }
 
-Ship::~Ship() {}
