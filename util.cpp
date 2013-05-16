@@ -1,5 +1,6 @@
-#include "util.h"
+#include <osgDB/ReadFile>
 
+#include "util.h"
 
 Vec3f* ph::computeNormal(Vec3f a, Vec3f b, Vec3f c) {
     Vec3f* r = new Vec3f;
@@ -23,4 +24,13 @@ ref_ptr<Vec3Array> ph::buildNormals(ref_ptr<Vec3Array> vertices, ref_ptr<DrawEle
     vertices.release();
     indices.release();
     return normals.release();
+}
+
+
+PositionAttitudeTransform* ph::getDebugAxes(double scale, double dx, double dy, double dz) {
+    ref_ptr<PositionAttitudeTransform> axes = new PositionAttitudeTransform;
+    axes->setScale(Vec3d(scale, scale, scale));
+    axes->setPosition(Vec3d(dx, dy, dz));
+    axes->addChild(osgDB::readNodeFile("../resources/axes.osgt"));
+    return axes.release();
 }

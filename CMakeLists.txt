@@ -8,6 +8,7 @@ project( project_helix )
 
 add_executable( project_helix
                 project_helix.cpp 
+                util.cpp
                 objects/ship.cpp )
 
 add_executable( sphere
