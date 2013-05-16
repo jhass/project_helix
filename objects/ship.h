@@ -1,19 +1,21 @@
 #ifndef SHIP_H
 #define SHIP_H
 
-#include <osgDB/ReadFile>
-#include <osg/ProxyNode>
 #include <string>
 
+#include <osg/ProxyNode>
+
 using namespace osg;
+using namespace std;
 
-class Ship : public ProxyNode {
-    private:
-        static std::string fileLocation;
-        
-    public: 
-        Ship();
+namespace ph {
+    class Ship : public ProxyNode {
+        private:
+            static string fileLocation;
 
-};
+        public: 
+            Ship();
+    };
+}
 
 #endif

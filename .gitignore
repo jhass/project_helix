@@ -17,3 +17,7 @@ CMakeLists.txt.local
 
 # Local build files
 build/
+
+# Backup files
+*~
+*.orig
