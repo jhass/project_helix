@@ -10,7 +10,8 @@ add_executable( project_helix
                 project_helix.cpp )
 
 add_executable( sphere
-                objects/sphere.cpp )
+                objects/sphere.cpp
+                runners/sphere.cpp )
 
 
 if( EXISTS CMakeLists.txt.local )
@@ -40,6 +41,3 @@ foreach( executable project_helix sphere )
   config_project( ${executable} GLUT )
   config_project( ${executable} OPENGL )
 endforeach()
-
-
-#target_link_libraries( project_helix GL )
