@@ -7,7 +7,8 @@ cmake_minimum_required( VERSION 2.6 )
 project( project_helix )
 
 add_executable( project_helix
-                project_helix.cpp )
+                project_helix.cpp 
+                objects/ship.cpp )
 
 add_executable( sphere
                 objects/sphere.cpp
