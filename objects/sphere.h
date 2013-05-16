@@ -12,7 +12,11 @@ namespace ph {
       double radius;
       int lsteps;
       int wsteps;
-      Geometry* compute();
+      ref_ptr<Geometry> sphere;
+
+      void compute();
+      void setVerticiesAndNormals();
+      void setIndicies();
     public:
       Sphere(const double radius, const int lsteps, const int wsteps);
   };
