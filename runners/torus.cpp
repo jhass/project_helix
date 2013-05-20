@@ -9,13 +9,15 @@ using namespace osgToy;
 
 
 int main(void) {
-    ref_ptr<ph::Torus> torus = new ph::Torus(6, 1.5, 75, 75);
+    ref_ptr<ph::Torus> torus = new ph::Torus(8, 1.5, 75, 75);
     ref_ptr<Group> root = new Group();
     root->addChild(torus.get());
 
     // Zum Normalen anschauen
-    ref_ptr<VertexNormals> normals = new VertexNormals(torus.get());
-    root->addChild(normals.get());
+    ref_ptr<VertexNormals> vNormals = new VertexNormals(torus.get());
+    ref_ptr<SurfaceNormals> sNormals = new SurfaceNormals(torus.get());
+    root->addChild(vNormals.get());
+    root->addChild(sNormals.get());
 
     // Wenn man die Dreiecke mal sehen will:
     // ref_ptr<PolygonMode> pm = new PolygonMode;
