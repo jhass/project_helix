@@ -15,6 +15,11 @@ add_executable( sphere
                 objects/sphere.cpp
                 runners/sphere.cpp )
 
+add_executable( torus
+                3rdparty/osgToy/Normals.cpp
+                objects/torus.cpp
+                runners/torus.cpp )
+
 
 if( EXISTS CMakeLists.txt.local )
   include( CMakeLists.txt.local )
@@ -33,7 +38,7 @@ find_package( osgViewer )
 find_package( GLUT )
 find_package( OpenGL )
 
-foreach( executable project_helix sphere )
+foreach( executable project_helix sphere torus )
 
   config_project( ${executable} OPENTHREADS )
   config_project( ${executable} OSG )
