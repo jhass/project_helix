@@ -14,12 +14,12 @@ ph::Torus::Torus(const double iRadius, const double oRadius, const int phiIterat
 	this->compute();
 }
 
-ph:Torus::~Torus() {
+ph::Torus::~Torus() {
 	this->torus.release();
 }
 
 void ph::Torus::compute() {
-    this->Coordinates();
+    this->setCoordinates();
     this->setIndicies();
 }
 
