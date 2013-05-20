@@ -42,10 +42,10 @@ void ph::Torus::setCoordinates {
             normals->push_back(coords);
         }
     }
-    this->sphere->setVertexArray(vertices.get());
-    this->sphere->setNormalArray(normals.get());
-    this->sphere->setTexCoordArray(o, texcoords.get());
-    this->sphere->setNormalBinding(Geometry::BIND_PER_VERTEX);
+    this->torus->setVertexArray(vertices.get());
+    this->torus->setNormalArray(normals.get());
+    this->torus->setTexCoordArray(o, texcoords.get());
+    this->torus->setNormalBinding(Geometry::BIND_PER_VERTEX);
 }
 
 void ph::Torus::setIndicies() {
@@ -60,5 +60,5 @@ void ph::Torus::setIndicies() {
         indices->push_back((i+1)*(this->thetaIteration+1));
     }
     
-    this->sphere->addPrimitiveSet(indices.get());
+    this->torus->addPrimitiveSet(indices.get());
 }
