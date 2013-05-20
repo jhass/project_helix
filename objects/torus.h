@@ -9,11 +9,11 @@ using namespace osg;
 namespace ph {
     class Torus : public Geode {
         private:          
-          double iRadius;
-		  double oRadius;
-		  int phiIteration;
-	      int thetaIteration;          
-          ref_ptr<Geometry> torus;
+        	double iRadius;
+			double oRadius;
+			int phiIteration;
+			int thetaIteration;          
+			ref_ptr<Geometry> torus;
 
           void compute();
           void setCoordinates();
