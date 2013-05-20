@@ -33,10 +33,10 @@ void ph::Torus::setCoordinates {
                 this->(iRadius + oRadius* cos(2*PI*phi))* cos(2*PI*theta), // x
                 this->(iRadius + oRadius* cos(2*PI*phi))* sin(2*PI*theta), // y
                 this->0.5* sin(2*PI*phi)              // z
-                /*normally: oRadius* sin(2*PI*phi), but we need the other notion for 
+                /*normally: oRadius* sin(2*PI*phi), but we need the other notation for 
                 			our rings*/
             );
-            texcoords->push_back(Vec2(s, t));
+            texcoords->push_back(Vec2(phi, theta));
             vertices->push_back(coords);
             coords.normalize();
             normals->push_back(coords);
