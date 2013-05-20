@@ -35,12 +35,17 @@ void ph::Torus::setCoordinates() {
             coords = Vec3d(
                 (this->iRadius + this->tRadius* cos(2*PI*phi))* cos(2*PI*theta), // x
                 (this->iRadius + this->tRadius* cos(2*PI*phi))* sin(2*PI*theta), // y
-                0.5* sin(2*PI*phi)              // z
+                this->tRadius* sin(2*PI*phi)//0.5* sin(2*PI*phi)              // z
                 /*normally: this->tRadius* sin(2*PI*phi), but we need the other notation for 
                             our rings*/
             );
             texcoords->push_back(Vec2(theta, phi));
             vertices->push_back(coords);
+            coords = Vec3d(
+                (this->tRadius* cos(2*PI*phi))* cos(2*PI*theta), // x
+                (this->tRadius* cos(2*PI*phi))* sin(2*PI*theta), // y
+                this->tRadius* sin(2*PI*phi)             // z
+            );
             coords.normalize();
             normals->push_back(coords);
         }
