@@ -18,13 +18,14 @@ ph::Sphere::~Sphere() {
 }
 
 void ph::Sphere::compute() {
-    this->setVerticiesAndNormals();
+    this->Coordinates();
     this->setIndicies();
 }
 
-void ph::Sphere::setVerticiesAndNormals() {
+void ph::Sphere::setCoordinates() {
     ref_ptr<Vec3Array> vertices = new Vec3Array();
     ref_ptr<Vec3Array> normals = new Vec3Array();
+	ref_ptf<Vec2Array> texcoords = new Vec2Array;
 
     double sstep = this->radius/this->lsteps;
     double tstep = this->radius/this->wsteps;
@@ -37,6 +38,7 @@ void ph::Sphere::setVerticiesAndNormals() {
                 this->radius*sin(2*PI*s)*cos(PI*t-PI_2), // y
                 this->radius*sin(PI*t-PI_2)              // z
             );
+            texcoords->push_back(Vec2(s, t));
             vertices->push_back(coords);
             coords.normalize();
             normals->push_back(coords);
@@ -44,6 +46,7 @@ void ph::Sphere::setVerticiesAndNormals() {
     }
     this->sphere->setVertexArray(vertices.get());
     this->sphere->setNormalArray(normals.get());
+    this->sphere->setTexCoordArray(o, texcoords.get());
     this->sphere->setNormalBinding(Geometry::BIND_PER_VERTEX);
 }
 

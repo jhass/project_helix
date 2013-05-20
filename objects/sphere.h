@@ -15,7 +15,7 @@ namespace ph {
           ref_ptr<Geometry> sphere;
 
           void compute();
-          void setVerticiesAndNormals();
+          void setCoordinates();
           void setIndicies();
           
         public:
