@@ -25,7 +25,7 @@ void ph::Sphere::compute() {
 void ph::Sphere::setCoordinates() {
     ref_ptr<Vec3Array> vertices = new Vec3Array();
     ref_ptr<Vec3Array> normals = new Vec3Array();
-	ref_ptr<Vec2Array> texcoords = new Vec2Array;
+    ref_ptr<Vec2Array> texcoords = new Vec2Array;
 
     double sstep = this->radius/this->lsteps;
     double tstep = this->radius/this->wsteps;

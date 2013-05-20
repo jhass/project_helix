@@ -9,14 +9,14 @@ using namespace osg;
 namespace ph {
     class Sphere : public Geode {
         private:
-          double radius;
-          int lsteps;
-          int wsteps;
-          ref_ptr<Geometry> sphere;
+            double radius;
+            int lsteps;
+            int wsteps;
+            ref_ptr<Geometry> sphere;
 
-          void compute();
-          void setCoordinates();
-          void setIndicies();
+            void compute();
+            void setCoordinates();
+            void setIndicies();
           
         public:
             Sphere(const double radius, const int lsteps, const int wsteps);

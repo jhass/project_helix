@@ -9,18 +9,18 @@ using namespace osg;
 namespace ph {
     class Torus : public Geode {
         private:          
-        	double iRadius;
-			double tRadius;
-			int phiIteration;
-			int thetaIteration;          
-			ref_ptr<Geometry> torus;
+            double iRadius;
+            double tRadius;
+            int phiIteration;
+            int thetaIteration;          
+            ref_ptr<Geometry> torus;
 
-          void compute();
-          void setCoordinates();
-          void setIndicies();
+            void compute();
+            void setCoordinates();
+            void setIndicies();
           
         public:
-            Torus(const double iRadius, const double oRadius, const int phiIteration, const int thetaIteration);
+            Torus(const double iRadius, const double tRadius, const int phiIteration, const int thetaIteration);
             ~Torus();
     };
 }
