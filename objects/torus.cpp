@@ -28,7 +28,7 @@ void ph::Torus::setCoordinates() {
     ref_ptr<Vec3Array> normals = new Vec3Array();
 	ref_ptr<Vec2Array> texcoords = new Vec2Array;
 	
-	double phiStep = this->iRaidus / phiIteration;
+	double phiStep = this->iRadius / phiIteration;
 	double thetaStep = this->tRadius / thetaIteration;
 	Vec3d coords;
 	
@@ -47,10 +47,10 @@ void ph::Torus::setCoordinates() {
             normals->push_back(coords);
         }
     }
-    this->torus->setVertexArray(vertices.get());
-    this->torus->setNormalArray(normals.get());
-    this->torus->setTexCoordArray(0, texcoords.get());
-    this->torus->setNormalBinding(Geometry::BIND_PER_VERTEX);
+	this->torus->setVertexArray(vertices.get());
+	this->torus->setNormalArray(normals.get());
+	this->torus->setTexCoordArray(0, texcoords.get());
+	this->torus->setNormalBinding(Geometry::BIND_PER_VERTEX);
 }
 
 void ph::Torus::setIndicies() {

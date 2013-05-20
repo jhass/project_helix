@@ -10,7 +10,7 @@ namespace ph {
     class Torus : public Geode {
         private:          
         	double iRadius;
-			double oRadius;
+			double tRadius;
 			int phiIteration;
 			int thetaIteration;          
 			ref_ptr<Geometry> torus;
