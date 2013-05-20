@@ -7,7 +7,10 @@ ph::Torus::Torus(const double iRadius, const double tRadius, const int phiIterat
     this->tRadius = tRadius; //radius of the torus
     this->phiIteration = phiIteration; //iterations for the torus-circle
     this->thetaIteration = thetaIteration; //iterations of the planar circle
+
+    this->style = NORMAL;
     this->torus = new Geometry;
+
     this->addDrawable(this->torus.get());
     this->compute();
 }
@@ -16,45 +19,67 @@ ph::Torus::~Torus() {
     this->torus.release();
 }
 
+void ph::Torus::setStyle(const Style style) {
+    this->style = style;
+    this->compute();
+}
+
 void ph::Torus::compute() {
     this->setCoordinates();
     this->setIndicies();
 }
+
 
 void ph::Torus::setCoordinates() {
     ref_ptr<Vec3Array> vertices = new Vec3Array();
     ref_ptr<Vec3Array> normals = new Vec3Array();
     ref_ptr<Vec2Array> texcoords = new Vec2Array;
     
-    double phiStep = this->iRadius / phiIteration;
-    double thetaStep = this->tRadius / thetaIteration;
-    Vec3d coords;
+    double thetaStep = this->tRadius/thetaIteration;
+    double phiStep = this->iRadius/phiIteration;
     
     for (double i = 0, theta = 0; i <= this->phiIteration; i++, theta += thetaStep) {
         for (double j = 0, phi = 0; j <= this->thetaIteration; j++, phi += phiStep) {
-            coords = Vec3d(
-                (this->iRadius + this->tRadius* cos(2*PI*phi))* cos(2*PI*theta), // x
-                (this->iRadius + this->tRadius* cos(2*PI*phi))* sin(2*PI*theta), // y
-                this->tRadius* sin(2*PI*phi)//0.5* sin(2*PI*phi)              // z
-                /*normally: this->tRadius* sin(2*PI*phi), but we need the other notation for 
-                            our rings*/
-            );
+            vertices->push_back(calculateVertex(theta, phi));
+            normals->push_back(calculateNormal(theta, phi));
             texcoords->push_back(Vec2(theta, phi));
-            vertices->push_back(coords);
-            coords = Vec3d(
-                (this->tRadius* cos(2*PI*phi))* cos(2*PI*theta), // x
-                (this->tRadius* cos(2*PI*phi))* sin(2*PI*theta), // y
-                this->tRadius* sin(2*PI*phi)             // z
-            );
-            coords.normalize();
-            normals->push_back(coords);
         }
     }
+    
     this->torus->setVertexArray(vertices.get());
     this->torus->setNormalArray(normals.get());
-    this->torus->setTexCoordArray(0, texcoords.get());
     this->torus->setNormalBinding(Geometry::BIND_PER_VERTEX);
+    this->torus->setTexCoordArray(0, texcoords.get());
 }
+
+Vec3d ph::Torus::calculateVertex(const double theta, const double phi) {
+    double z = 0;
+
+    if (this->style == FLAT) {
+        z = 0.5* sin(2*PI*phi);
+    } else if (this->style == NORMAL) {
+        z =  this->tRadius* sin(2*PI*phi);
+    }
+
+    return Vec3d(
+        (this->iRadius + this->tRadius*cos(2*PI*phi))*cos(2*PI*theta), // x
+        (this->iRadius + this->tRadius*cos(2*PI*phi))*sin(2*PI*theta), // y
+        z // z
+    );
+}
+
+Vec3d ph::Torus::calculateNormal(const double theta, const double phi) {
+    Vec3d coords = Vec3d(
+        (this->tRadius* cos(2*PI*phi))* cos(2*PI*theta), // x
+        (this->tRadius* cos(2*PI*phi))* sin(2*PI*theta), // y
+         this->tRadius* sin(2*PI*phi)                    // z
+    );
+
+    coords.normalize();
+
+    return coords;
+}
+
 
 void ph::Torus::setIndicies() {
     ref_ptr<DrawElementsUInt> indices = new DrawElementsUInt(GL_TRIANGLE_STRIP);
@@ -69,4 +94,9 @@ void ph::Torus::setIndicies() {
     }
     
     this->torus->addPrimitiveSet(indices.get());
+}
+
+
+ph::FlatTorus::FlatTorus(const double iRadius, const double tRadius, const int phiIteration, const int thetaIteration) : Torus(iRadius, tRadius, phiIteration, thetaIteration) {
+    this->setStyle(FLAT);
 }
