@@ -23,7 +23,7 @@ namespace ph {
           
         public:
             Asteroid(const double radius, const int lsteps, const int wsteps, 
-            	   int xd, int yd, int zd);
+                     const int xd, const int yd, const int zd);
             ~Asteroid();
     };
 }

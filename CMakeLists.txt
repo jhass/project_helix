@@ -20,6 +20,10 @@ add_executable( torus
                 objects/torus.cpp
                 runners/torus.cpp )
 
+add_executable( asteroid
+                objects/asteroid.cpp
+                runners/asteroid.cpp )
+
 
 if( EXISTS CMakeLists.txt.local )
   include( CMakeLists.txt.local )
@@ -38,7 +42,7 @@ find_package( osgViewer )
 find_package( GLUT )
 find_package( OpenGL )
 
-foreach( executable project_helix sphere torus )
+foreach( executable project_helix sphere torus asteroid )
 
   config_project( ${executable} OPENTHREADS )
   config_project( ${executable} OSG )

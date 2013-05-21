@@ -7,7 +7,7 @@
 using namespace std;
 
 ph::Asteroid::Asteroid(const double radius, const int lsteps, const int wsteps,
-					   const double xi, const double yi, const double zi) {
+                       const int xi, const int yi, const int zi) {
     this->radius = radius;
     this->lsteps = lsteps;
     this->wsteps = wsteps;
@@ -19,7 +19,7 @@ ph::Asteroid::Asteroid(const double radius, const int lsteps, const int wsteps,
     this->compute();
 }
 
-ph::Asteroid::~asteroid() {
+ph::Asteroid::~Asteroid() {
     this->asteroid.release();
 }
 
