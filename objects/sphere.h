@@ -24,4 +24,10 @@ namespace ph {
     };
 }
 
+
+class StackedSphere : public Geode {
+    public:
+        StackedSphere(const double radius, const int stacks, const int slices);
+};
+
 #endif

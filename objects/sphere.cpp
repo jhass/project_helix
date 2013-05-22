@@ -65,3 +65,45 @@ void ph::Sphere::setIndicies() {
     
     this->sphere->addPrimitiveSet(indices.get());
 }
+
+
+StackedSphere::StackedSphere(const double radius, const int wsteps, const int lsteps) {
+    ref_ptr<Vec3Array> verticies = new Vec3Array;
+    ref_ptr<DrawElementsUInt> indicies = new DrawElementsUInt(GL_TRIANGLE_STRIP);
+    ref_ptr<Vec3Array> normals = new Vec3Array();
+    ref_ptr<Vec2Array> texcoords = new Vec2Array;
+    Vec3d coords;
+    double theta, phi;
+
+    // i == stack (v), j == slice (h)
+    for (int i = 0; i <= wsteps; i++) {
+        for (int j = 0; j < lsteps; j++) {
+            theta = i * PI / wsteps;
+            phi = j * 2 * PI / lsteps;
+            coords = Vec3d(
+                radius * cos(phi) * sin(theta), 
+                radius * sin(phi) * sin(theta), 
+                radius * cos(theta)
+            );
+            texcoords->push_back(Vec2d(i/(double) wsteps, j/(double) lsteps)); // noch blödsinn
+            verticies->push_back(coords);
+            coords.normalize();
+            normals->push_back(coords);
+        }
+    }
+    
+    for (int i = 0; i < wsteps; i++) {
+        for (int j = 0; j <= lsteps; j++) {
+            indicies->push_back((i * lsteps) + (j % lsteps));
+            indicies->push_back(((i + 1) * lsteps) + (j % lsteps));
+        }
+    }
+
+    ref_ptr<Geometry> sphere = new Geometry;
+    sphere->setVertexArray(verticies.get());
+    sphere->setNormalArray(normals.get());
+    sphere->setNormalBinding(Geometry::BIND_PER_VERTEX);
+    sphere->addPrimitiveSet(indicies);
+    sphere->setTexCoordArray(0, texcoords);
+    this->addDrawable(sphere.get());
+}
