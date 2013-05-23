@@ -16,6 +16,7 @@ int main(void) {
     ref_ptr<Image> image = osgDB::readImageFile("../Textures/EarthMap.jpg");
     texture->setWrap(Texture::WRAP_S, Texture::CLAMP);
     texture->setImage(image.get());
+    root->getOrCreateStateSet()->setTextureAttributeAndModes(0, texture.get());
     
     root->addChild(sphere.get());
 
