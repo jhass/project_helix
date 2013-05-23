@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <time.h>
 
+#include <osg/Texture2D>
+#include <osgDB/ReadFile>
+
 #include "asteroid.h"
 
 using namespace std;
@@ -33,24 +36,25 @@ void ph::Asteroid::setCoordinates() {
     ref_ptr<Vec3Array> normals = new Vec3Array();
     ref_ptr<Vec2Array> texcoords = new Vec2Array;
 
-    double sstep = this->radius/this->lsteps;
-    double tstep = this->radius/this->wsteps;
     Vec3d coords; // current vertex coordinates
     srand( time(NULL) );
-    double x = 0, y = 0, z = 0;
+    double theta, phi;
 
-    for (double i = 0, s = 0; i <= this->lsteps; i++, s += sstep) {
-        for (double j = 0, t = 0; j <= this->wsteps; j++, t += tstep) {
-        	int random = rand() % 20;
+    for (int i = 0; i <= this->wsteps; i++) {
+        for (int j = 0; j < this->lsteps; j++) {
+            theta = i * PI / this->wsteps;
+            phi = j * 2 * PI / (this->lsteps-1);
+            int random = rand() % 20;
 			double nradius = this->radius + (random -10) * this->radius/100;
-        	x = this->xd*nradius*cos(2*PI*s)*cos(PI*t-PI_2);
-        	y = this->yd*nradius*sin(2*PI*s)*cos(PI*t-PI_2);
-        	z = this->zd*nradius*sin(PI*t-PI_2);
-            coords = Vec3d(x,y,z);            
+            coords = Vec3d(
+                xd*nradius * cos(phi) * sin(theta), 
+                yd*nradius * sin(phi) * sin(theta), 
+                zd*nradius * cos(theta)
+            );
             vertices->push_back(coords);
             coords.normalize();
             normals->push_back(coords);
-        } 
+        }
     }
     this->asteroid->setVertexArray(vertices.get());
     this->asteroid->setNormalArray(normals.get());
@@ -61,14 +65,34 @@ void ph::Asteroid::setCoordinates() {
 void ph::Asteroid::setIndicies() {
     ref_ptr<DrawElementsUInt> indices = new DrawElementsUInt(GL_TRIANGLE_STRIP);
 
-    for (int i = 0; i < this->lsteps; i++) {
-        for (int j = 0; j <= this->wsteps; j++) {
-            indices->push_back(i*(this->wsteps+1)+j);
-            indices->push_back((i+1)*(this->wsteps+1)+j);
+    for (int i = 0; i < this->wsteps; i++) {
+        for (int j = 0; j <= this->lsteps; j++) {     
+            indices->push_back((i * this->lsteps + j % this->lsteps));
+            indices->push_back(((i + 1) * this->lsteps) + (j % this->lsteps));
         }
-        indices->push_back((i+1)*(this->wsteps+1)+this->wsteps);
-        indices->push_back((i+1)*(this->wsteps+1));
     }
     
     this->asteroid->addPrimitiveSet(indices.get());
+}
+
+void ph::Asteroid::setTextureCoordinates(int textureNumber) {
+    ref_ptr<Vec2Array> texcoords = new Vec2Array;
+
+    for (double j = this->lsteps; j >= 0; j--) {
+        for (double i = 0; i < this->wsteps; i++) {
+            texcoords->push_back(Vec2d(i/this->wsteps, j/this->lsteps));
+        }
+    }
+
+    this->asteroid->setTexCoordArray(textureNumber, texcoords.get());
+}
+
+void ph::Asteroid::setTexture(const int textureNumber, const string filename) {
+    this->setTextureCoordinates(textureNumber);
+
+    ref_ptr<Texture2D> texture = new Texture2D;
+    ref_ptr<Image> image = osgDB::readImageFile(filename);
+    texture->setWrap(Texture::WRAP_S, Texture::CLAMP_TO_EDGE);
+    texture->setImage(image.get());
+    this->getOrCreateStateSet()->setTextureAttributeAndModes(textureNumber, texture.get());
 }
