@@ -1,10 +1,13 @@
 #ifndef SPHERE_H
 #define SPHERE_H
 
+#include <string>
+
 #include <osg/Geode>
 #include <osg/Geometry>
 
 using namespace osg;
+using namespace std;
 
 namespace ph {
     class Sphere : public Geode {
@@ -15,19 +18,15 @@ namespace ph {
             ref_ptr<Geometry> sphere;
 
             void compute();
-            void setCoordinates();
+            void setVerticesAndNormals();
+            void setTextureCoordinates(int textureNumber);
             void setIndicies();
           
         public:
             Sphere(const double radius, const int lsteps, const int wsteps);
             ~Sphere();
+            void setTexture(const int textureNumber, const string filename);
     };
 }
-
-
-class StackedSphere : public Geode {
-    public:
-        StackedSphere(const double radius, const int stacks, const int slices);
-};
 
 #endif
