@@ -24,7 +24,10 @@ add_executable( asteroid
                 objects/asteroid.cpp
                 runners/asteroid.cpp )
 
-
+add_executable( rotator
+                objects/rotator.cpp
+                runners/rotator.cpp )
+                
 if( EXISTS CMakeLists.txt.local )
   include( CMakeLists.txt.local )
 endif()
@@ -44,7 +47,7 @@ find_package( osgViewer )
 find_package( GLUT )
 find_package( OpenGL )
 
-foreach( executable project_helix sphere torus asteroid )
+foreach( executable project_helix sphere torus asteroid rotator)
 
   config_project( ${executable} OPENTHREADS )
   config_project( ${executable} OSG )
