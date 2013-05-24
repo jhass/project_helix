@@ -24,6 +24,11 @@ add_executable( asteroid
                 objects/asteroid.cpp
                 runners/asteroid.cpp )
 
+add_executable( sun
+				objects/sphere.cpp
+				objects/sun.cpp
+				runners/sun.cpp	)
+
 add_executable( rotator
                 objects/rotator.cpp
                 runners/rotator.cpp )
@@ -47,7 +52,7 @@ find_package( osgViewer )
 find_package( GLUT )
 find_package( OpenGL )
 
-foreach( executable project_helix sphere torus asteroid rotator)
+foreach( executable project_helix sphere torus asteroid sun rotator)
 
   config_project( ${executable} OPENTHREADS )
   config_project( ${executable} OSG )

@@ -23,7 +23,7 @@ void ph::Sphere::setTexture(const int textureNumber, const string filename) {
 
     ref_ptr<Texture2D> texture = new Texture2D;
     ref_ptr<Image> image = osgDB::readImageFile(filename);
-    texture->setWrap(Texture::WRAP_S, Texture::CLAMP);
+    texture->setWrap(Texture::WRAP_S, Texture::CLAMP_TO_EDGE);
     texture->setImage(image.get());
     this->getOrCreateStateSet()->setTextureAttributeAndModes(textureNumber, texture.get());
 }
