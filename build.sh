@@ -7,4 +7,4 @@ fi
 
 mkdir -p build
 cd build
-cmake .. && make "$target" && exec "./$target"
+cmake .. && make "$target" && exec "./src/$target"
