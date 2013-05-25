@@ -1,8 +1,10 @@
 #ifndef SHIP_H
 #define SHIP_H
 
+//Lonely std::import, poor guy.
 #include <string>
 
+//Metric fuckton of imports of osg::stuffsies
 #include <osg/Vec3d>
 #include <osg/ProxyNode>
 #include <osg/MatrixTransform>
@@ -28,7 +30,7 @@ namespace ph {
     class Ship : public ProxyNode {
         private:
             static string fileLocation;
-            static osgParticle::ParticleSystem* createParticleSystem(osg::Group* parent);
+            static osgParticle::ParticleSystem* createParticleSystem(Group* parent);
 
         public: 
             Ship();

@@ -1,54 +1,58 @@
-#include <osgDB/ReadFile>
-
 #include "ship.h"
 
-
-
+//Define the filelocation of the ship's .obj file here
 string ph::Ship::fileLocation = "../resources/cruiser.obj";
 
-osgParticle::ParticleSystem* ph::Ship::createParticleSystem( osg::Group* parent ) {
-    osg::ref_ptr<osgParticle::ParticleSystem> ps = new osgParticle::ParticleSystem;
+//Particle function of DOOM
+osgParticle::ParticleSystem* ph::Ship::createParticleSystem( Group* parent ) {
+    ref_ptr<osgParticle::ParticleSystem> ps = new osgParticle::ParticleSystem();
     ps->getDefaultParticleTemplate().setShape( osgParticle::Particle::POINT );
     
-    osg::ref_ptr<osg::BlendFunc> blendFunc = new osg::BlendFunc;
+    ref_ptr<BlendFunc> blendFunc = new BlendFunc();
     blendFunc->setFunction( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
 
-    osg::ref_ptr<osg::Texture2D> texture = new osg::Texture2D;
+    //choosing the texture, gonna have to create one somtimes soon......
+    ref_ptr<Texture2D> texture = new Texture2D;
 //    texture->setImage( osgDB::readImageFile("../smoke.rgb") );
     texture->setImage( osgDB::readImageFile("../resources/particle.rgb") );
 //    texture->setImage( osgDB::readImageFile("../resources/fireparticle8x8.png") );
     
-    osg::StateSet* ss = ps->getOrCreateStateSet();
+    //Rendering stuffsies
+    StateSet* ss = ps->getOrCreateStateSet();
     ss->setAttributeAndModes( blendFunc.get() );
     ss->setTextureAttributeAndModes( 0, texture.get() );
+    ss->setAttribute( new Point(20.0f) );
+    ss->setTextureAttributeAndModes( 0, new PointSprite );
+    ss->setMode( GL_LIGHTING, StateAttribute::OFF);
+    ss->setRenderingHint( StateSet::TRANSPARENT_BIN );
     
-    ss->setAttribute( new osg::Point(20.0f) );
-    ss->setTextureAttributeAndModes( 0, new osg::PointSprite );
-    
-    ss->setMode( GL_LIGHTING, osg::StateAttribute::OFF);
-    ss->setRenderingHint( osg::StateSet::TRANSPARENT_BIN );
-    
-    osg::ref_ptr<osgParticle::RandomRateCounter> rrc = new osgParticle::RandomRateCounter;
+    //Rng
+    ref_ptr<osgParticle::RandomRateCounter> rrc = new osgParticle::RandomRateCounter();
     rrc->setRateRange( 100, 500 );
     
-    osg::ref_ptr<osgParticle::RadialShooter> myshooter = new osgParticle::RadialShooter();
+    //makeshooter
+    ref_ptr<osgParticle::RadialShooter> myshooter = new osgParticle::RadialShooter();
     myshooter->setThetaRange(-1.7,-1.4); // Neigung z-x-ebene gegen UZS
     myshooter->setPhiRange(-0.2,0.2); //Neigung x-y-ebene gegen UZS
     myshooter->setInitialSpeedRange(3,6); //Geschwindigkeit
     
-    osg::ref_ptr<osgParticle::ModularEmitter> emitter = new osgParticle::ModularEmitter;
+    //Emmiter
+    ref_ptr<osgParticle::ModularEmitter> emitter = new osgParticle::ModularEmitter();
     emitter->setParticleSystem( ps.get() );
     emitter->setCounter( rrc.get() );
     emitter->setShooter(myshooter.get());    
     
-    osg::ref_ptr<osgParticle::AccelOperator> accel = new osgParticle::AccelOperator;
-    accel->setAcceleration(osg::Vec3d(0,0,0));
+    //Acceleration operations
+    ref_ptr<osgParticle::AccelOperator> accel = new osgParticle::AccelOperator();
+    accel->setAcceleration(Vec3d(-10,0,0)); //Bremsvektor
     
-    osg::ref_ptr<osgParticle::ModularProgram> program = new osgParticle::ModularProgram;
+    //??
+    ref_ptr<osgParticle::ModularProgram> program = new osgParticle::ModularProgram();
     program->setParticleSystem( ps.get() );
     program->addOperator( accel.get() );
     
-    osg::ref_ptr<osg::Geode> geode = new osg::Geode;
+    //Rendering stuff2
+    ref_ptr<Geode> geode = new Geode();
     geode->addDrawable( ps.get() );
     
     parent->addChild( emitter.get() );
@@ -58,16 +62,20 @@ osgParticle::ParticleSystem* ph::Ship::createParticleSystem( osg::Group* parent 
 }
  
 ph::Ship::Ship() {
+    //Loading the model of the ship + adding it as a Child
     this->addChild(osgDB::readNodeFile(fileLocation));
-    osg::ref_ptr<osg::MatrixTransform> mt = new osg::MatrixTransform;
-    mt->setMatrix( osg::Matrix::translate(-1.5f, 0.0f, 0.0f) );
-    
-    osgParticle::ParticleSystem* ps = createParticleSystem( mt.get() );
-    
-    osg::ref_ptr<osgParticle::ParticleSystemUpdater> updater =
-        new osgParticle::ParticleSystemUpdater;
+
+    //Moving the origin of particles
+    ref_ptr<MatrixTransform> mt = new MatrixTransform();
+    mt->setMatrix( Matrix::translate(-1.5f, 0.0f, 0.0f) );
+
+    //Creating the particlesystem at the point defined above
+    osgParticle::ParticleSystem* ps = createParticleSystem(mt.get());
+    ref_ptr<osgParticle::ParticleSystemUpdater> updater =
+        new osgParticle::ParticleSystemUpdater();
     updater->addParticleSystem( ps );
 
+    //Adding particlesystem and updater to ship's node
     this->addChild( updater.get() );
     this->addChild( mt.get() );
    }

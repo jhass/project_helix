@@ -19,7 +19,7 @@ int main(void) {
     
     ref_ptr<Texture2D> texture = new Texture2D;
     ref_ptr<Image> image = osgDB::readImageFile("../Textures/EarthMap.jpg");
-    texture->setWrap(Texture::WRAP_S, Texture::CLAMP);
+    texture->setWrap(Texture::WRAP_S, Texture::CLAMP_TO_EDGE);
     texture->setImage(image.get());
     
     root->getOrCreateStateSet()->setTextureAttributeAndModes(0, texture.get());

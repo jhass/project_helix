@@ -9,7 +9,8 @@ project( project_helix )
 add_executable( project_helix
                 project_helix.cpp 
                 util.cpp
-                objects/ship.cpp )
+                objects/ship.cpp 
+                objects/nebula.cpp)
 
 add_executable( sphere
                 objects/sphere.cpp
@@ -25,9 +26,9 @@ add_executable( asteroid
                 runners/asteroid.cpp )
 
 add_executable( sun
-				objects/sphere.cpp
-				objects/sun.cpp
-				runners/sun.cpp	)
+				        objects/sphere.cpp
+				        objects/sun.cpp
+				        runners/sun.cpp	)
 
 add_executable( rotator
                 objects/rotator.cpp

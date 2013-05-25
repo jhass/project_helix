@@ -14,7 +14,7 @@ int main(void) {
     // wenn man die Dreiecke mal sehen will:
      ref_ptr<PolygonMode> pm = new PolygonMode;
      pm->setMode(PolygonMode::FRONT_AND_BACK, PolygonMode::LINE);
-     //root->getOrCreateStateSet()->setAttribute(pm.get());
+    // root->getOrCreateStateSet()->setAttribute(pm.get());
 
     osgViewer::Viewer viewer;
     viewer.setSceneData(root.get());
