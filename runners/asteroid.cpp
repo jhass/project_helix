@@ -8,14 +8,16 @@
 
 
 int main(void) {
+	// Asteroid(radius, lengthSteps, widthSteps, deformationfactor in x,y,z
     ref_ptr<ph::Asteroid> asteroid = new ph::Asteroid(5, 20, 20, 2, 1, 3);
     ref_ptr<Group> root = new Group();
     
+    // giving the asteroid a texture
     asteroid->setTexture(0, "../Textures/EarthMap.jpg");
     
     root->addChild(asteroid.get());
 
-    // wenn man die Dreiecke mal sehen will:
+    // enables PolygonMode
     ref_ptr<PolygonMode> pm = new PolygonMode;
     pm->setMode(PolygonMode::FRONT_AND_BACK, PolygonMode::LINE);
     //root->getOrCreateStateSet()->setAttribute(pm.get());

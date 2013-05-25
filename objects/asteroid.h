@@ -12,12 +12,12 @@ using namespace std;
 namespace ph {
     class Asteroid : public Geode {
         private:
-            double radius;
-            int lsteps;
-            int wsteps;
-            int xd;
-            int yd;
-            int zd;
+            double radius; // initial radius of sphere
+            int lsteps; 
+            int wsteps; // steps in length/ width to create the sphere
+            int xd; // deformationfactor in x
+            int yd; // -"- in y
+            int zd; // -"- in z
             ref_ptr<Geometry> asteroid;
 
             void compute();

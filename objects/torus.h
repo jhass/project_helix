@@ -15,12 +15,13 @@ namespace ph {
             ~Torus();
         
         private:          
-            double iRadius;
-            double tRadius;
+            double iRadius; // inner radius from origin to the object
+            double tRadius; // radius of the torus-circle
             int phiIteration;
-            int thetaIteration;          
+            int thetaIteration; // number of iterations for angle phi and theta
+            //phi: angle of the torus-circle; theta: angle of the circle through the torus
             ref_ptr<Geometry> torus;
-            Style style;
+            Style style; // enum for normal or flat torus
 
             void compute();
             void setCoordinates();

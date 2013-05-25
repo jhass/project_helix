@@ -12,9 +12,9 @@ using namespace std;
 namespace ph {
     class Sphere : public Geode {
         private:
-            double radius;
+            double radius; // radius of the sphere
             int lsteps;
-            int wsteps;
+            int wsteps; // steps in length/ width to create the sphere
             ref_ptr<Geometry> sphere;
 
             void compute();

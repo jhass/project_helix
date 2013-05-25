@@ -25,7 +25,7 @@ void ph::Sun::createLight(int lightNumber) {
 
 void ph::Sun::setLightAndMaterial(ref_ptr<Group> &node) {
 	node->addChild(this->source.get());
-	//this->source->setStateSetModes(node->getOrCreateStateSet(), StateAttribute::ON);
+	node->getOrCreateStateSet()->setMode(GL_LIGHT0, StateAttribute::ON);
 	
 	this->material = new Material;
 	this->material->setDiffuse(Material::FRONT_AND_BACK, Vec4(1.0,0.0,0.0,1.0));
