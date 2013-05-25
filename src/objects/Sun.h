@@ -9,17 +9,17 @@
 using namespace osg;
 
 namespace ph {
-    class Sun : public Sphere {
+    class Sun : public Group {
         private:
             ref_ptr<Light> light;
             ref_ptr<LightSource> source;
             ref_ptr<Material> material;
+            ref_ptr<Sphere> sphere;
             
             void createLight(int lightNumber);
         
         public:
             Sun(const double radius, const int lsteps, const int wsteps, const int lightNumber);
-            void setLightAndMaterial(ref_ptr<Group> &node);
     };
 }
 
