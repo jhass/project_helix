@@ -10,7 +10,10 @@ add_executable( project_helix
                 project_helix.cpp 
                 util.cpp
                 objects/ship.cpp 
-                objects/nebula.cpp)
+                objects/nebula.cpp
+                objects/asteroid.cpp
+                objects/sphere.cpp
+                objects/torus.cpp)
 
 add_executable( sphere
                 objects/sphere.cpp
