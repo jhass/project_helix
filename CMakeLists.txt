@@ -7,13 +7,21 @@ cmake_minimum_required( VERSION 2.6 )
 project( project_helix )
 
 add_executable( project_helix
-                project_helix.cpp 
-                util.cpp
+                project_helix.cpp
+
+                views/MainView.cpp
+                
+                scenes/MainScene.cpp
+                
                 objects/ship.cpp 
                 objects/nebula.cpp
                 objects/asteroid.cpp
                 objects/sphere.cpp
-                objects/torus.cpp)
+                objects/torus.cpp
+                
+                interactors/KeyboardEventHandler.cpp
+
+                util.cpp)
 
 add_executable( sphere
                 objects/sphere.cpp
