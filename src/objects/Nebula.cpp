@@ -12,33 +12,23 @@
 
 string ph::Nebula::texturePath = "../resources/particle.rgb";
 
-//Create a Particle on the given Location, duh.....
-Particle* ph::Nebula::createParticleOnLocation(const Vec3d* location) {
-	Particle* p = new Particle();
-	p->setShape(Particle::POINT);
-    p->setPosition(*location);
-    p->setLifeTime(-1); //Never gets lifelong warranty.......
-    return p;
-}
-
-ph::Nebula::Nebula(Vec3d* location) {
+ph::Nebula::Nebula(const Vec3d location) {
 	//Set the location of the Nebula
 	ref_ptr<MatrixTransform> origin = new MatrixTransform();
-    origin->setMatrix(Matrix::translate(*location));
+    origin->setMatrix(Matrix::translate(location));
 
     //Creating a container for the ParticleSystem
     ref_ptr<Geode> particlesystemContainer = new Geode();
 
     //Creating the updater for the ParticleSystem
-    ref_ptr<ParticleSystemUpdater> updater =
-        				new ParticleSystemUpdater();
+    ref_ptr<ParticleSystemUpdater> updater = new ParticleSystemUpdater();
     
     //Creating the Particlesystem
     ref_ptr<ParticleSystem> ps = new ParticleSystem();
 
     //Set the default template of the particles
     ps->getDefaultParticleTemplate().setShape(Particle::POINT);
-    ps->getDefaultParticleTemplate().setPosition(*location);
+    ps->getDefaultParticleTemplate().setPosition(location);
     ps->getDefaultParticleTemplate().setLifeTime(-1);
     
     //Creating the Blendfunction, whatever that may be.
@@ -50,11 +40,13 @@ ph::Nebula::Nebula(Vec3d* location) {
     texture->setImage(osgDB::readImageFile(texturePath));
     
     //Creating the StateSet for Rendering
-    StateSet* ss = ps->getOrCreateStateSet(); //Adding it to the Particlsystem here!
+    ref_ptr<StateSet> ss = ps->getOrCreateStateSet(); //Adding it to the Particlsystem here!
     ss->setAttributeAndModes(blendFunc.get());
     ss->setTextureAttributeAndModes(0, texture.get());
-    ss->setAttribute(new Point(20.0f));
-    ss->setTextureAttributeAndModes(0, new PointSprite());
+    ref_ptr<Point> attribute = new Point(20.0f);
+    ss->setAttribute(attribute);
+    ref_ptr<PointSprite> sprite = new PointSprite();
+    ss->setTextureAttributeAndModes(0, sprite);
     ss->setMode(GL_LIGHTING, StateAttribute::OFF);
     ss->setRenderingHint(StateSet::TRANSPARENT_BIN);
 
@@ -66,28 +58,30 @@ ph::Nebula::Nebula(Vec3d* location) {
     //Creating a Particle
     ps->createParticle(NULL);
 
-	//Creating loads of Particles (Code secretly stolen from asteroid.cpp)   
-    Vec3d* coords; // current vertex coordinates
-    srand( time(NULL) );
+	//Creating loads of Particles (Code secretly stolen from asteroid.cpp)
+
+    Particle particle_template;
+    particle_template.setShape(Particle::POINT);
+    particle_template.setLifeTime(-1); //Never gets lifelong warranty.......
     double theta, phi;
     double xd = 1;
-	double yd = 1;	//Setting Dimensions
-	double zd = 1;
-	double radius = 50;
+    double yd = 1;  //Setting Dimensions
+    double zd = 1;
+    double radius = 50;
 
-	for (int r = 1; r <= radius; r += 1) {
-    	for (int i = 0; i <= r; i++) {
-        	for (int j = 0; j < r; j++) {
-        	    theta = i * PI / r;
-        	    phi = j * 2 * PI / (r-1);
-        	    double random = rand() % 100;
-				double nradius = r + (random) * r/100;
-        	    coords = new Vec3d(
+    for (int r = 1; r <= radius; r += 1) {
+        for (int i = 0; i <= r; i++) {
+            for (int j = 0; j < r; j++) {
+                theta = i * PI / r;
+                phi = j * 2 * PI / (r-1);
+                double random = rand() % 100;
+                double nradius = r + (random) * r/100;
+                particle_template.setPosition(Vec3d(
         	        xd*nradius * cos(phi) * sin(theta), 
         	        yd*nradius * sin(phi) * sin(theta), 
     	            zd*nradius * cos(theta)
-	            );
-            	ps->createParticle(createParticleOnLocation(coords));
+	            ));
+                ps->createParticle(&particle_template);
         	}
     	}
 	}

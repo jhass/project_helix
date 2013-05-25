@@ -20,7 +20,6 @@ namespace ph {
 		public:
 			Sun(const double radius, const int lsteps, const int wsteps, const int lightNumber);
 			void setLightAndMaterial(ref_ptr<Group> &node);
-            ~Sun();
 	};
 }
 

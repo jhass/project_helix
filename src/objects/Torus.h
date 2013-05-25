@@ -1,9 +1,12 @@
 #ifndef PH_TORUS_H
 #define PH_TORUS_H
 
+#include <string>
+
 #include <osg/Geode>
 #include <osg/Geometry>
 
+using namespace std;
 using namespace osg;
 
 namespace ph {
@@ -12,7 +15,7 @@ namespace ph {
             enum Style {NORMAL, FLAT};
             Torus(const double iRadius, const double tRadius, const int phiIteration, const int thetaIteration);
             void setStyle(const Style style);
-            ~Torus();
+            void setTexture(const int textureNumner, const string filename);
         
         private:          
             double iRadius; // inner radius from origin to the object

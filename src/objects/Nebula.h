@@ -16,10 +16,9 @@ namespace ph {
     
         private:
             static string texturePath;
-            static Particle* createParticleOnLocation(const Vec3d* location);
             
         public:
-            Nebula(Vec3d* location);
+            Nebula(const Vec3d location);
     };
 }
 

@@ -5,12 +5,6 @@ ph::Sun::Sun(const double radius, const int lsteps, const int wsteps, const int 
 	this->createLight(lightNumber);
 }
 
-ph::Sun::~Sun() {
-	this->light.release();
-	this->source.release();
-	this->material.release();
-}
-
 void ph::Sun::createLight(int lightNumber) {
 	this->light = new Light;
 	this->light->setLightNum(lightNumber);

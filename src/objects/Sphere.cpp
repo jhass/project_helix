@@ -15,10 +15,6 @@ ph::Sphere::Sphere(const double radius, const int lsteps, const int wsteps) {
     this->compute();
 }
 
-ph::Sphere::~Sphere() {
-    this->sphere.release();
-}
-
 void ph::Sphere::setTexture(const int textureNumber, const string filename) {
     this->setTextureCoordinates(textureNumber);
 

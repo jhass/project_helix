@@ -18,12 +18,13 @@
 string ph::Ship::fileLocation = "../resources/cruiser.obj";
 
 //Particle function of DOOM
-ParticleSystem* ph::Ship::createParticleSystem( Group* parent ) {
+ParticleSystem* ph::Ship::createParticleSystem(Group* _parent) {
+    ref_ptr<Group> parent = _parent;
     ref_ptr<ParticleSystem> ps = new ParticleSystem();
-    ps->getDefaultParticleTemplate().setShape( Particle::POINT );
+    ps->getDefaultParticleTemplate().setShape(Particle::POINT);
     
     ref_ptr<BlendFunc> blendFunc = new BlendFunc();
-    blendFunc->setFunction( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+    blendFunc->setFunction(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     //choosing the texture, gonna have to create one somtimes soon......
     ref_ptr<Texture2D> texture = new Texture2D;
@@ -32,11 +33,13 @@ ParticleSystem* ph::Ship::createParticleSystem( Group* parent ) {
 //    texture->setImage( osgDB::readImageFile("../resources/fireparticle8x8.png") );
     
     //Rendering stuffsies
-    StateSet* ss = ps->getOrCreateStateSet();
-    ss->setAttributeAndModes( blendFunc.get() );
-    ss->setTextureAttributeAndModes( 0, texture.get() );
-    ss->setAttribute( new Point(20.0f) );
-    ss->setTextureAttributeAndModes( 0, new PointSprite );
+    ref_ptr<StateSet> ss = ps->getOrCreateStateSet();
+    ss->setAttributeAndModes(blendFunc.get());
+    ss->setTextureAttributeAndModes(0, texture.get());
+    ref_ptr<Point> attribute = new Point(20.0f);
+    ss->setAttribute(attribute);
+    ref_ptr<PointSprite> sprite = new PointSprite;
+    ss->setTextureAttributeAndModes(0, sprite);
     ss->setMode( GL_LIGHTING, StateAttribute::OFF);
     ss->setRenderingHint( StateSet::TRANSPARENT_BIN );
     
@@ -84,14 +87,13 @@ ph::Ship::Ship() {
     mt->setMatrix( Matrix::translate(-1.5f, 0.0f, 0.0f) );
 
     //Creating the particlesystem at the point defined above
-    ParticleSystem* ps = createParticleSystem(mt.get());
-    ref_ptr<ParticleSystemUpdater> updater =
-        new ParticleSystemUpdater();
-    updater->addParticleSystem( ps );
+    ref_ptr<ParticleSystem> ps = createParticleSystem(mt.get());
+    ref_ptr<ParticleSystemUpdater> updater = new ParticleSystemUpdater();
+    updater->addParticleSystem(ps);
 
     //Adding particlesystem and updater to ship's node
-    this->addChild( updater.get() );
-    this->addChild( mt.get() );
+    this->addChild(updater.get());
+    this->addChild(mt.get());
    }
    
 

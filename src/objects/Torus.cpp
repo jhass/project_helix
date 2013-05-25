@@ -1,5 +1,9 @@
 #include <cmath>
 
+#include <osg/Texture2D>
+#include <osg/Image>
+#include <osgDB/ReadFile>
+
 #include "Torus.h"
 
 ph::Torus::Torus(const double iRadius, const double tRadius, const int phiIteration, const int thetaIteration) {
@@ -15,14 +19,19 @@ ph::Torus::Torus(const double iRadius, const double tRadius, const int phiIterat
     this->compute();
 }
 
-ph::Torus::~Torus() {
-    this->torus.release();
-}
-
 void ph::Torus::setStyle(const Style style) {
     this->style = style;
     this->compute();
 }
+
+void ph::Torus::setTexture(const int textureNumber, const string filename) {
+    ref_ptr<Texture2D> texture = new Texture2D;
+    ref_ptr<Image> image = osgDB::readImageFile(filename);
+    texture->setWrap(Texture::WRAP_S, Texture::CLAMP_TO_EDGE);
+    texture->setImage(image.get());
+    this->getOrCreateStateSet()->setTextureAttributeAndModes(textureNumber, texture.get());
+}
+
 
 void ph::Torus::compute() {
     this->setCoordinates();
@@ -34,13 +43,11 @@ void ph::Torus::setCoordinates() {
     ref_ptr<Vec3Array> vertices = new Vec3Array();
     ref_ptr<Vec3Array> normals = new Vec3Array();
     ref_ptr<Vec2Array> texcoords = new Vec2Array;
-    
-    double thetaStep = this->tRadius/thetaIteration;
-    double phiStep = this->iRadius/phiIteration;
+
     double phi, theta;
     
-    for (int i = 0; i <= this->phiIteration; i++) {
-        for (int j = 0; j <= this->thetaIteration; j++) {
+    for (double i = 0; i <= this->phiIteration; i++) {
+        for (double j = 0; j <= this->thetaIteration; j++) {
         	phi = (double) j / phiIteration;
         	theta = (double) i / thetaIteration;
             vertices->push_back(calculateVertex(theta, phi));

@@ -24,7 +24,6 @@ namespace ph {
           
         public:
             Sphere(const double radius, const int lsteps, const int wsteps);
-            ~Sphere();
             void setTexture(const int textureNumber, const string filename);
     };
 }

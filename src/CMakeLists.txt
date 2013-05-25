@@ -17,7 +17,7 @@ add_executable( project_helix
                 
                 interactors/KeyboardEventHandler.cpp
 
-                util.cpp)
+                util.cpp )
 
 add_executable( sphere
                 objects/Sphere.cpp
