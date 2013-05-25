@@ -15,7 +15,7 @@ namespace ph {
     class Ship : public ProxyNode {
         private:
             static string fileLocation;
-            static osgParticle::ParticleSystem* createParticleSystem(Group* parent);
+            static ParticleSystem* createParticleSystem(Group* parent);
 
         public: 
             Ship();

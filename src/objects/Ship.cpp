@@ -94,6 +94,4 @@ ph::Ship::Ship() {
     //Adding particlesystem and updater to ship's node
     this->addChild(updater.get());
     this->addChild(mt.get());
-   }
-   
-
+}

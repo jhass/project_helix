@@ -41,6 +41,10 @@ add_executable( rotator
                 objects/Rotator.cpp
                 runners/rotator.cpp )
 
+add_executable( ship
+                objects/Ship.cpp
+                runners/ship.cpp )
+
 macro( config_project PROJNAME LIBNAME )
     include_directories( ${${LIBNAME}_INCLUDE_DIR} )
     target_link_libraries( ${PROJNAME} ${${LIBNAME}_LIBRARY} )
@@ -57,7 +61,7 @@ find_package( GLUT )
 find_package( OpenGL )
 
 
-foreach( executable project_helix sphere torus asteroid sun rotator)
+foreach( executable project_helix sphere torus asteroid sun rotator ship )
 
   config_project( ${executable} OPENTHREADS )
   config_project( ${executable} OSG )
