@@ -48,8 +48,8 @@ void ph::Torus::setCoordinates() {
     
     for (double i = 0; i <= this->phiIteration; i++) {
         for (double j = 0; j <= this->thetaIteration; j++) {
-        	phi = (double) j / phiIteration;
-        	theta = (double) i / thetaIteration;
+            phi = (double) j / phiIteration;
+            theta = (double) i / thetaIteration;
             vertices->push_back(calculateVertex(theta, phi));
             normals->push_back(calculateNormal(theta, phi));
             texcoords->push_back(Vec2(theta, phi));
@@ -71,7 +71,7 @@ Vec3d ph::Torus::calculateVertex(const double theta, const double phi) {
         z =  this->tRadius* sin(2*PI*phi);
     }
 
-	Vec3d coords = Vec3d(
+    Vec3d coords = Vec3d(
         (this->iRadius + this->tRadius*cos(2*PI*phi))*cos(2*PI*theta), // x
         (this->iRadius + this->tRadius*cos(2*PI*phi))*sin(2*PI*theta), // y
         z // z

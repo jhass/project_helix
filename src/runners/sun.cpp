@@ -6,7 +6,7 @@
 #include "objects/Sphere.h"
 
 int main(void) {
-	// Sun(radius, lengthSteps, widthSteps, GLLightNumber)
+    // Sun(radius, lengthSteps, widthSteps, GLLightNumber)
     ref_ptr<ph::Sun> sun = new ph::Sun(5, 200, 200,0);
     ref_ptr<Group> sun_Node = new Group();
     
@@ -23,7 +23,7 @@ int main(void) {
     ref_ptr<ph::Sphere> sphere = new ph::Sphere(5, 200, 200);
     ref_ptr<Group> sphere_Node = new Group();
 
-	// giving the sphere a texturefile
+    // giving the sphere a texturefile
     sphere->setTexture(0, "../Textures/EarthMap.jpg");
     sphere_Node->addChild(sphere.get());
     
@@ -32,9 +32,9 @@ int main(void) {
     spheretrans->setMatrix(Matrix::translate(Vec3d(20,0,0)));
     spheretrans->addChild(sphere_Node.get());
 
-	ref_ptr<Group> root = new Group();
-	root->addChild(suntrans.get());
-	root->addChild(spheretrans.get());
+    ref_ptr<Group> root = new Group();
+    root->addChild(suntrans.get());
+    root->addChild(spheretrans.get());
 
     // enables PolygonMode
      ref_ptr<PolygonMode> pm = new PolygonMode;

@@ -8,7 +8,7 @@
 
 
 int main(void) {
-	// Asteroid(radius, lengthSteps, widthSteps, deformationfactor in x,y,z
+    // Asteroid(radius, lengthSteps, widthSteps, deformationfactor in x,y,z
     ref_ptr<ph::Asteroid> asteroid = new ph::Asteroid(5, 20, 20, 2, 1, 3);
     ref_ptr<Group> root = new Group();
     

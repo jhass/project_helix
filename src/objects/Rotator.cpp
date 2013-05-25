@@ -50,22 +50,22 @@ void ph::Rotator::setVerticesAndNormals() {
     
     
     for (int i = startx*50; i <endx*50; i++) { // X-Achsenpunkte *50 -> Schritte x
-    	    idouble4 = pow(i/50,4);
-    	    idouble2 = pow(i/50,2);
-    	    y=-0,5*idouble4+8*idouble2+0.5;
-    	    
-    	    for (int j = 0; j < 100;j++){ // einzelner Scheibenringe  von "hinten nach vorne" in 100 Teile zerlegt
-    	    	    
-    	    	    ystrich=cos(360/100*j)/y;
-    	    	    z=sin(360/100*j)/y;
-    	    	    coords=Vec3d(i/100,ystrich, z);
-    	    	    vertices->push_back(coords);
-    	    	    coords.normalize();
-    	    	    normals->push_back(coords); //Skript & Benni hilft bestimmt -- Vektor verschieben zum Schnittkreismittelpunkt
-    	       	    	    
-    	    }	    				
+            idouble4 = pow(i/50,4);
+            idouble2 = pow(i/50,2);
+            y=-0,5*idouble4+8*idouble2+0.5;
+            
+            for (int j = 0; j < 100;j++){ // einzelner Scheibenringe  von "hinten nach vorne" in 100 Teile zerlegt
+                    
+                    ystrich=cos(360/100*j)/y;
+                    z=sin(360/100*j)/y;
+                    coords=Vec3d(i/100,ystrich, z);
+                    vertices->push_back(coords);
+                    coords.normalize();
+                    normals->push_back(coords); //Skript & Benni hilft bestimmt -- Vektor verschieben zum Schnittkreismittelpunkt
+                            
+            }                       
     }
-    	     //rotationskörper
+             //rotationskörper
 
     this->rotator->setVertexArray(vertices.get());
     this->rotator->setNormalArray(normals.get());
@@ -74,15 +74,15 @@ void ph::Rotator::setVerticesAndNormals() {
 
 void ph::Rotator::setIndicies() {
     
-	ref_ptr<DrawElementsUInt> indices = new DrawElementsUInt(GL_TRIANGLE_STRIP);
-	for (int i = 0; i < fabs(startx*50)+fabs(endx*50) ; i++) {
-		for(int j =0; j<=100 ; j++){
-			indices->push_back( i*( 100+1)+j ) ;
-			indices->push_back( ( i +1)*(100+1)+j ) ;
-		}
-		indices->push_back( ( i +1)*(100+1)+fabs(startx*50)+fabs(endx*50)  ) ;
-		indices->push_back( ( i +1)*(100+1) ) ;
-	}
+    ref_ptr<DrawElementsUInt> indices = new DrawElementsUInt(GL_TRIANGLE_STRIP);
+    for (int i = 0; i < fabs(startx*50)+fabs(endx*50) ; i++) {
+        for(int j =0; j<=100 ; j++){
+            indices->push_back( i*( 100+1)+j ) ;
+            indices->push_back( ( i +1)*(100+1)+j ) ;
+        }
+        indices->push_back( ( i +1)*(100+1)+fabs(startx*50)+fabs(endx*50)  ) ;
+        indices->push_back( ( i +1)*(100+1) ) ;
+    }
     
     this->rotator->addPrimitiveSet(indices.get());
   

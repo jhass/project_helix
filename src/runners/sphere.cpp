@@ -4,11 +4,11 @@
 #include "objects/Sphere.h"
 
 int main(void) {
-	// Sphere(radius, legthSteps, widthSteps)
+    // Sphere(radius, legthSteps, widthSteps)
     ref_ptr<ph::Sphere> sphere = new ph::Sphere(5, 200, 200);
     ref_ptr<Group> root = new Group();
 
-	// giving the sphere a texturefile
+    // giving the sphere a texturefile
     sphere->setTexture(0, "../Textures/EarthMap.jpg");
     
     root->addChild(sphere.get());

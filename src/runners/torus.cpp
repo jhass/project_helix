@@ -11,7 +11,7 @@
 using namespace osgToy;
 
 int main(void) {
-	// Torus(innerRadius, torusRadius, lengthSteps, widthSteps)
+    // Torus(innerRadius, torusRadius, lengthSteps, widthSteps)
     ref_ptr<ph::Torus> torus = new ph::Torus(6, 1.5, 100, 100);
     ref_ptr<Group> root = new Group();
     root->addChild(torus.get());

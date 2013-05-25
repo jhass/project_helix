@@ -13,8 +13,8 @@
 string ph::Nebula::texturePath = "../resources/particle.rgb";
 
 ph::Nebula::Nebula(const Vec3d location) {
-	//Set the location of the Nebula
-	ref_ptr<MatrixTransform> origin = new MatrixTransform();
+    //Set the location of the Nebula
+    ref_ptr<MatrixTransform> origin = new MatrixTransform();
     origin->setMatrix(Matrix::translate(location));
 
     //Creating a container for the ParticleSystem
@@ -58,7 +58,7 @@ ph::Nebula::Nebula(const Vec3d location) {
     //Creating a Particle
     ps->createParticle(NULL);
 
-	//Creating loads of Particles (Code secretly stolen from asteroid.cpp)
+    //Creating loads of Particles (Code secretly stolen from asteroid.cpp)
 
     Particle particle_template;
     particle_template.setShape(Particle::POINT);
@@ -77,14 +77,14 @@ ph::Nebula::Nebula(const Vec3d location) {
                 double random = rand() % 100;
                 double nradius = r + (random) * r/100;
                 particle_template.setPosition(Vec3d(
-        	        xd*nradius * cos(phi) * sin(theta), 
-        	        yd*nradius * sin(phi) * sin(theta), 
-    	            zd*nradius * cos(theta)
-	            ));
+                    xd*nradius * cos(phi) * sin(theta), 
+                    yd*nradius * sin(phi) * sin(theta), 
+                    zd*nradius * cos(theta)
+                ));
                 ps->createParticle(&particle_template);
-        	}
-    	}
-	}
+            }
+        }
+    }
 
     this->addChild(origin.get());
     this->addChild(updater.get()); 
