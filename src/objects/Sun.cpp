@@ -1,13 +1,18 @@
 #include "Sun.h"
+#include <iostream>
 
-ph::Sun::Sun(const double radius, const int lsteps, const int wsteps, const int lightNumber) {
+ph::Sun::Sun(const double radius, const int lsteps, const int wsteps,
+             const int lightNumber,const double red, const double green, const double blue) {
     this->sphere = new Sphere(radius, lsteps, wsteps);
     this->addChild(this->sphere);
+    this->red = red;
+    this->blue = blue;
+    this->green= green;
     this->createLight(lightNumber);
 }
 
 void ph::Sun::createLight(int lightNumber) {
-
+	
 	// Creating a white light source in the interior of the sphere
 	// creating a new light
     this->light = new Light;
@@ -36,12 +41,12 @@ void ph::Sun::createLight(int lightNumber) {
     // Creating Material for the Sun
     this->material = new Material;
     // material emits giving light (R,G,B,x)
-    this->material->setEmission(Material::FRONT_AND_BACK, Vec4(0.9,0.6,0.0,1.0));
+    this->material->setEmission(Material::FRONT_AND_BACK, Vec4(this->red,this->green,this->blue,1.0));
     
     // material parameters; perhaps we need some of them later
-    //this->material->setDiffuse(Material::FRONT_AND_BACK, Vec4(1.0,0.0,0.0,1.0));
-    //this->material->setAmbient(Material::FRONT_AND_BACK, Vec4(1.0,0.0,0.0,1.0));
-    //this->material->setSpecular(Material::FRONT_AND_BACK, Vec4(1.0,0.0,0.0,1.0));
+    //this->material->setDiffuse(Material::FRONT_AND_BACK, Vec4(this->red,this->green,this->blue,1.0));
+    //this->material->setAmbient(Material::FRONT_AND_BACK, Vec4(this->red,this->green,this->blue,1.0));
+    //this->material->setSpecular(Material::FRONT_AND_BACK, Vec4(this->red,this->green,this->blue,1.0));
     //this->material->setShininess(Material::FRONT_AND_BACK, 1);
     
     //giving the material to the sphere

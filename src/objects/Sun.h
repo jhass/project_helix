@@ -15,11 +15,15 @@ namespace ph {
             ref_ptr<LightSource> source;
             ref_ptr<Material> material; // material of the sphere
             ref_ptr<Sphere> sphere;
+            double red;
+            double blue;
+            double green;
             
             void createLight(int lightNumber); // lightNumber: OpenGLLightNumber [0,7]
         
         public:
-            Sun(const double radius, const int lsteps, const int wsteps, const int lightNumber);
+            Sun(const double radius, const int lsteps, const int wsteps,
+             const int lightNumber,const double red, const double blue, const double green);
     };
 }
 
