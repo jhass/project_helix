@@ -24,10 +24,19 @@ void ph::MainView::switchToMainPerspective() {
     );
 }
 
-void ph::MainView::switchToSecondaryPerspective() {
+void ph::MainView::switchToSecondPerspective() {
     this->getCamera()->setViewMatrixAsLookAt(
         Vec3d(60, 0, 40), // eye
         Vec3d(0, 0, 0),  // center
         Vec3d(0, 0, 1)   // up
     );
+}
+
+
+void ph::MainView::switchToThirdPerspective() {
+    this->getCamera()->setViewMatrixAsLookAt(
+        Vec3d(-60, 0, -20), // eye
+        Vec3d(0, 0, 0),  // center
+        Vec3d(0, 0, 1)   // up
+    );   
 }

@@ -9,7 +9,8 @@ namespace ph {
     class View : public Viewer {
         public:
             virtual void switchToMainPerspective() = 0;
-            virtual void switchToSecondaryPerspective() = 0;
+            virtual void switchToSecondPerspective() = 0;
+            virtual void switchToThirdPerspective() = 0;
     }; 
 }
 

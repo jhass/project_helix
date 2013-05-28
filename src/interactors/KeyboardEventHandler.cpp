@@ -12,7 +12,10 @@ bool ph::KeyboardEventHandler::handle(const GUIEventAdapter& eventAdapter, GUIAc
                     this->view->switchToMainPerspective();
                     break;
                 case GUIEventAdapter::KEY_2:
-                    this->view->switchToSecondaryPerspective();
+                    this->view->switchToSecondPerspective();
+                    break;
+                case GUIEventAdapter::KEY_3:
+                    this->view->switchToThirdPerspective();
                     break;
             }
             return true;

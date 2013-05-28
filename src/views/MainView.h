@@ -8,7 +8,8 @@ namespace ph {
         public:
             MainView();
             virtual void switchToMainPerspective();
-            virtual void switchToSecondaryPerspective();
+            virtual void switchToSecondPerspective();
+            virtual void switchToThirdPerspective();
     };
 }
 
