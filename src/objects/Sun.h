@@ -22,7 +22,7 @@ namespace ph {
             void createLight(int lightNumber); // lightNumber: OpenGLLightNumber [0,7]
         
         public:
-            Sun(const double radius, const int lsteps, const int wsteps,
+            Sun(const double radius, const int steps,
              const int lightNumber,const double red, const double blue, const double green);
     };
 }

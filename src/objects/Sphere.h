@@ -13,8 +13,7 @@ namespace ph {
     class Sphere : public Geode {
         private:
             double radius; // radius of the sphere
-            int lsteps;
-            int wsteps; // steps in length/ width to create the sphere
+            int steps; // steps in length/ width to create the sphere
             ref_ptr<Geometry> sphere;
 
             void compute();
@@ -23,7 +22,7 @@ namespace ph {
             void setIndicies();
           
         public:
-            Sphere(const double radius, const int lsteps, const int wsteps);
+            Sphere(const double radius, const int steps);
             void setTexture(const int textureNumber, const string filename);
     };
 }

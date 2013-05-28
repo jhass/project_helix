@@ -6,10 +6,9 @@
 
 #include "Sphere.h"
 
-ph::Sphere::Sphere(const double radius, const int lsteps, const int wsteps) {
+ph::Sphere::Sphere(const double radius, const int steps) {
     this->radius = radius;
-    this->lsteps = lsteps;
-    this->wsteps = wsteps;
+    this->steps = steps;
     this->sphere = new Geometry;
     this->addDrawable(this->sphere.get());
     this->compute();
@@ -37,10 +36,10 @@ void ph::Sphere::setVerticesAndNormals() {
     double theta, phi;
 
     // i == stack (v), j == slice (h)
-    for (int i = 0; i <= this->wsteps; i++) {
-        for (int j = 0; j < this->lsteps; j++) {
-            theta = i * PI / this->wsteps;
-            phi = j * 2 * PI / (this->lsteps-1);
+    for (int i = 0; i <= this->steps; i++) {
+        for (int j = 0; j < this->steps; j++) {
+            theta = i * PI / this->steps;
+            phi = j * 2 * PI / (this->steps-1);
             coords = Vec3d(
                 radius * cos(phi) * sin(theta), 
                 radius * sin(phi) * sin(theta), 
@@ -60,10 +59,10 @@ void ph::Sphere::setVerticesAndNormals() {
 void ph::Sphere::setIndicies() {
     ref_ptr<DrawElementsUInt> indices = new DrawElementsUInt(GL_TRIANGLE_STRIP);
 
-    for (int i = 0; i < this->wsteps; i++) {
-        for (int j = 0; j <= this->lsteps; j++) {     
-            indices->push_back((i * this->lsteps + j % this->lsteps));
-            indices->push_back(((i + 1) * this->lsteps) + (j % this->lsteps));
+    for (int i = 0; i < this->steps; i++) {
+        for (int j = 0; j <= this->steps; j++) {     
+            indices->push_back((i * this->steps + j % this->steps));
+            indices->push_back(((i + 1) * this->steps) + (j % this->steps));
         }
     }
     
@@ -73,9 +72,9 @@ void ph::Sphere::setIndicies() {
 void ph::Sphere::setTextureCoordinates(int textureNumber) {
     ref_ptr<Vec2Array> texcoords = new Vec2Array;
 
-    for (double j = this->lsteps; j >= 0; j--) {
-        for (double i = 0; i < this->wsteps; i++) {
-            texcoords->push_back(Vec2d(i/this->wsteps, j/this->lsteps));
+    for (double j = this->steps; j >= 0; j--) {
+        for (double i = 0; i < this->steps; i++) {
+            texcoords->push_back(Vec2d(i/this->steps, j/this->steps));
         }
     }
 

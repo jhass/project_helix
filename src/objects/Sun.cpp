@@ -1,9 +1,9 @@
 #include "Sun.h"
 #include <iostream>
 
-ph::Sun::Sun(const double radius, const int lsteps, const int wsteps,
+ph::Sun::Sun(const double radius, const int steps,
              const int lightNumber,const double red, const double green, const double blue) {
-    this->sphere = new Sphere(radius, lsteps, wsteps);
+    this->sphere = new Sphere(radius, steps);
     this->addChild(this->sphere);
     this->red = red;
     this->blue = blue;
