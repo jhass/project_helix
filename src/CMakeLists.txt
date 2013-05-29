@@ -48,6 +48,10 @@ add_executable( ship
 add_executable( nebula
                 objects/Nebula.cpp
                 runners/nebula.cpp )
+                
+add_executable( rectangle
+                objects/Rectangle.cpp
+                runners/rectangle.cpp )                
 
 macro( config_project PROJNAME LIBNAME )
     include_directories( ${${LIBNAME}_INCLUDE_DIR} )
@@ -65,7 +69,7 @@ find_package( GLUT )
 find_package( OpenGL )
 
 
-foreach( executable project_helix sphere torus asteroid sun rotator ship nebula )
+foreach( executable project_helix sphere torus asteroid sun rotator ship nebula rectangle)
 
   config_project( ${executable} OPENTHREADS )
   config_project( ${executable} OSG )
