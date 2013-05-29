@@ -6,11 +6,10 @@
 
 #include "Torus.h"
 
-ph::Torus::Torus(const double iRadius, const double tRadius, const int phiIteration, const int thetaIteration) {
+ph::Torus::Torus(const double iRadius, const double tRadius, const int iteration) {
     this->iRadius = iRadius; //radius from origin to the torus
     this->tRadius = tRadius; //radius of the torus
-    this->phiIteration = phiIteration; //iterations for the torus-circle
-    this->thetaIteration = thetaIteration; //iterations of the planar circle
+    this->iteration = iteration; //iterations for the torus-circle
 
     this->style = NORMAL;
     this->torus = new Geometry;
@@ -46,10 +45,10 @@ void ph::Torus::setCoordinates() {
 
     double phi, theta;
     
-    for (double i = 0; i <= this->phiIteration; i++) {
-        for (double j = 0; j <= this->thetaIteration; j++) {
-            phi = (double) j / phiIteration;
-            theta = (double) i / thetaIteration;
+    for (double i = 0; i <= this->iteration; i++) {
+        for (double j = 0; j <= this->iteration; j++) {
+            phi = (double) j / iteration;
+            theta = (double) i / iteration;
             vertices->push_back(calculateVertex(theta, phi));
             normals->push_back(calculateNormal(theta, phi));
             texcoords->push_back(Vec2(theta, phi));
@@ -95,19 +94,19 @@ Vec3d ph::Torus::calculateNormal(const double theta, const double phi) {
 void ph::Torus::setIndicies() {
     ref_ptr<DrawElementsUInt> indices = new DrawElementsUInt(GL_TRIANGLE_STRIP);
 
-    for (int i = 0; i < this->phiIteration; i++) {
-        for (int j = 0; j <= this->thetaIteration; j++) {
-            indices->push_back(i*(this->thetaIteration+1)+j);
-            indices->push_back((i+1)*(this->thetaIteration+1)+j);
+    for (int i = 0; i < this->iteration; i++) {
+        for (int j = 0; j <= this->iteration; j++) {
+            indices->push_back(i*(this->iteration+1)+j);
+            indices->push_back((i+1)*(this->iteration+1)+j);
         }
-        indices->push_back((i+1)*(this->thetaIteration+1)+this->thetaIteration);
-        indices->push_back((i+1)*(this->thetaIteration+1));
+        indices->push_back((i+1)*(this->iteration+1)+this->iteration);
+        indices->push_back((i+1)*(this->iteration+1));
     }
     
     this->torus->addPrimitiveSet(indices.get());
 }
 
 
-ph::FlatTorus::FlatTorus(const double iRadius, const double tRadius, const int phiIteration, const int thetaIteration) : Torus(iRadius, tRadius, phiIteration, thetaIteration) {
+ph::FlatTorus::FlatTorus(const double iRadius, const double tRadius, const int iteration) : Torus(iRadius, tRadius, iteration) {
     this->setStyle(FLAT);
 }

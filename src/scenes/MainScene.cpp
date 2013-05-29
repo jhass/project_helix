@@ -19,14 +19,14 @@ ph::MainScene::MainScene() {
     ref_ptr<Node> nebula = new ph::Nebula(Vec3d(-100,-30,40)); //hinter, rechts, drüber
     
     //Parameterliste: ?,?,?,?,?
-    ref_ptr<ph::Asteroid> asteroid = new ph::Asteroid(2, 20, 20, 2, 1, 3);
+    ref_ptr<ph::Asteroid> asteroid = new ph::Asteroid(2, 20, 2, 1, 3);
     asteroid->setTexture(0, "../Textures/EarthMap.jpg"); //Wird beim Zoomen Blau? WTF?
     ref_ptr<MatrixTransform> asttrans = new MatrixTransform();
     asttrans->setMatrix(Matrix::translate(Vec3d(200,0,50))); //vor, -, drüber
     asttrans->addChild(asteroid.get());
 
     //Parameterliste: Radius, Auflösung, Auflösung
-    ref_ptr<ph::Sphere> planet = new ph::Sphere(1000, 200, 200);
+    ref_ptr<ph::Sphere> planet = new ph::Sphere(1000, 200);
     planet->setTexture(0, "../Textures/EarthMap.jpg"); //Auch Blau?
     ref_ptr<MatrixTransform> plantrans = new MatrixTransform();
     plantrans->setMatrix(Matrix::translate(Vec3d(0,1200,-100)));

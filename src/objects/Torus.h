@@ -13,15 +13,14 @@ namespace ph {
     class Torus : public Geode {
         public:
             enum Style {NORMAL, FLAT};
-            Torus(const double iRadius, const double tRadius, const int phiIteration, const int thetaIteration);
+            Torus(const double iRadius, const double tRadius, const int iteration);
             void setStyle(const Style style);
             void setTexture(const int textureNumner, const string filename);
         
         private:          
             double iRadius; // inner radius from origin to the object
             double tRadius; // radius of the torus-circle
-            int phiIteration;
-            int thetaIteration; // number of iterations for angle phi and theta
+            int iteration; // number of iterations for angle phi and theta
             //phi: angle of the torus-circle; theta: angle of the circle through the torus
             ref_ptr<Geometry> torus;
             Style style; // enum for normal or flat torus
@@ -35,7 +34,7 @@ namespace ph {
 
     class FlatTorus : public Torus {
         public:
-            FlatTorus(const double iRadius, const double tRadius, const int phiIteration, const int thetaIteration);
+            FlatTorus(const double iRadius, const double tRadius, const int phiIteration);
     };
 }
 

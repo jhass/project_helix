@@ -12,7 +12,7 @@ using namespace osgToy;
 
 int main(void) {
     // Torus(innerRadius, torusRadius, lengthSteps, widthSteps)
-    ref_ptr<ph::Torus> torus = new ph::Torus(6, 1.5, 100, 100);
+    ref_ptr<ph::Torus> torus = new ph::Torus(6, 1.5, 100);
     ref_ptr<Group> root = new Group();
     root->addChild(torus.get());
 
@@ -28,7 +28,7 @@ int main(void) {
     root->getOrCreateStateSet()->setTextureAttributeAndModes(0, texture.get());
 
     // Alternativ: normal Torus
-    //ref_ptr<ph::Torus> torus = new ph::FlatTorus(6, 1.5, 75, 75);
+    //ref_ptr<ph::Torus> torus = new ph::FlatTorus(6, 1.5, 75);
 
     // enables VertexNormals and FaceNormals
     // ref_ptr<VertexNormals> vNormals = new VertexNormals(torus.get());
