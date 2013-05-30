@@ -6,6 +6,8 @@
 #include "objects/Sphere.h"
 
 int main(void) {
+    ref_ptr<Group> root = new Group();
+
     // Sun(radius, Steps, GLLightNumber, red, green, blue)
     ref_ptr<ph::Sun> sun = new ph::Sun(8, 200, 1, 0.9, 0.6, 0.0);
     
@@ -33,10 +35,11 @@ int main(void) {
     spheretrans->setMatrix(Matrix::translate(Vec3d(20,0,0)));
     spheretrans->addChild(sphere.get());
 
-    ref_ptr<Group> root = new Group();
     root->addChild(suntrans.get());
     root->addChild(suntrans2.get());
     root->addChild(spheretrans.get());
+    root->getOrCreateStateSet()->setMode(GL_LIGHT1, StateAttribute::ON);
+    root->getOrCreateStateSet()->setMode(GL_LIGHT0, StateAttribute::ON);
 
     // enables PolygonMode
      ref_ptr<PolygonMode> pm = new PolygonMode;

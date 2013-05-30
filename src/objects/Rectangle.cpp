@@ -25,14 +25,10 @@ void ph::Rectangle::compute() {
     vertices->push_back(Vec3((-1/2.0)*height, 0.0, (1/2.0)*width));
     vertices->push_back(Vec3((1/2.0)*height, 0.0, (1/2.0)*width));
     
-    normals->push_back(Vec3(0.0,-1.0,0.0));
-    
     indices->push_back(0); indices->push_back(1); indices->push_back(2);
     indices->push_back(2); indices->push_back(1); indices->push_back(3);
      
     this->rectangle->setVertexArray(vertices.get());
-    this->rectangle->setNormalArray(normals.get());
-    this->rectangle->setNormalBinding(Geometry::BIND_OVERALL);
     this->rectangle->addPrimitiveSet(indices.get());
 }
 
