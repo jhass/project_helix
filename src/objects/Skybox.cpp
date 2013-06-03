@@ -25,13 +25,13 @@ void ph::Skybox::createRectangles() {
     this->back = new Rectangle(this->height, this->width);
     ref_ptr<MatrixTransform> rec_trans_back = new MatrixTransform();
     rec_trans_back->setMatrix( Matrix::translate(0.0, (-1.0)*this->height/2.0, 0.0f));
-    rec_trans_back->addChild(this->front.get());
+    rec_trans_back->addChild(this->back.get());
     this->addChild(rec_trans_back.get());
     
     // creating and placing left-Rectangle
     this->left = new Rectangle(this->height, this->width);
     ref_ptr<MatrixTransform> rec_trans_left = new MatrixTransform();
-    rec_trans_left->setMatrix(Matrix::translate(0.0f, this->height/2.0, 0.0f)*
+    rec_trans_left->setMatrix(Matrix::translate(0.0f, -this->height/2.0, 0.0f)*
                             Matrix::rotate(3*PI_2,Vec3(0.0,0.0,1.0)));
     rec_trans_left->addChild(this->left.get());    
     this->addChild(rec_trans_left.get());
@@ -39,7 +39,7 @@ void ph::Skybox::createRectangles() {
     // creating and placing right-Rectangle
     this->right = new Rectangle(this->height, this->width);
     ref_ptr<MatrixTransform> rec_trans_right = new MatrixTransform();
-    rec_trans_right->setMatrix(Matrix::translate(0.0f, (-1.0)*this->height/2.0, 0.0f)*
+    rec_trans_right->setMatrix(Matrix::translate(0.0f, this->height/2.0, 0.0f)*
                             Matrix::rotate(-PI_2,Vec3(0.0,0.0,1.0)));
     rec_trans_right->addChild(this->right.get());    
     this->addChild(rec_trans_right.get());
@@ -61,7 +61,16 @@ void ph::Skybox::createRectangles() {
     this->addChild(rec_trans_bottom.get());
 }
 
-void ph::Skybox::setTexture(const Position pos, const string filename) {
-    // Rechteck aus Enum bestimmen.
-    // Textur an Rechteck übergeben.
+void ph::Skybox::setTexture(const Position pos, const int textureNumber, const string filename) {
+    Rectangle* rec;
+    switch (pos) {
+    case FRONT: rec = this->front; break;
+    case BACK: rec = this->back; break;
+    case TOP: rec = this->top; break;
+    case BOTTOM: rec = this->bottom; break;
+    case LEFT: rec = this->left; break;
+    case RIGHT: rec = this->right;break;
+    }
+    
+    rec->setTexture(textureNumber,filename);
 }

@@ -30,7 +30,7 @@ namespace ph {
         public:
            enum Position {FRONT, BACK, LEFT, RIGHT, TOP, BOTTOM};
            Skybox(const int height, const int width);
-           void setTexture(const Position pos, const string filename);
+           void setTexture(const Position pos, const int textureNumber, const string filename);
     };
 }
 #endif

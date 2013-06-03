@@ -13,16 +13,17 @@ int main(void)
 {
     ref_ptr<Group> root = new Group;
 	// baue Geometry
-	ref_ptr<ph::Skybox> skybox = new ph::Skybox(33,97);
+	ref_ptr<ph::Skybox> skybox = new ph::Skybox(97,33);
 	skybox->getOrCreateStateSet()->setMode(GL_LIGHTING, StateAttribute::OFF);
+	skybox->setTexture(ph::Skybox::LEFT,0,"../Textures/EarthMap.jpg");
     root->addChild(skybox);
     //root->addChild(ph::getDebugAxes(42.0,0.0,0.0,0.0));
     
     // enables VertexNormals and FaceNormals
      ref_ptr<VertexNormals> vNormals = new VertexNormals(skybox.get());
      ref_ptr<SurfaceNormals> sNormals = new SurfaceNormals(skybox.get());
-     root->addChild(vNormals.get());
-     root->addChild(sNormals.get());
+    // root->addChild(vNormals.get());
+    // root->addChild(sNormals.get());
     
     // wenn man die Dreiecke mal sehen will:
     ref_ptr<PolygonMode> pm = new PolygonMode;
