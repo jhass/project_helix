@@ -14,49 +14,59 @@ ph::Skybox::Skybox(const int height, const int width) {
 
 void ph::Skybox::createRectangles() {
 
+    /* Rotationen werde so durchgeführt, dass man vom Mittelpunkt der Box aus jeweils korrekte
+       Sicht auf die Texturen hat, also (0,0) "unten links" ist und (1,1) "oben rechts" */
+
     // creating and placing front-Rectangle
     this->front = new Rectangle(this->height, this->width);
     ref_ptr<MatrixTransform> rec_trans_front = new MatrixTransform();
-    rec_trans_front->setMatrix( Matrix::translate(0.0f, this->height/2.0, 0.0f) );
+    // verschieben um hoehe/2 in y
+    rec_trans_front->setMatrix( Matrix::translate(0.0, this->height/2.0, 0.0));
     rec_trans_front->addChild(this->front.get());
     this->addChild(rec_trans_front.get());
     
     // creating and placing back-Rectangle
     this->back = new Rectangle(this->height, this->width);
     ref_ptr<MatrixTransform> rec_trans_back = new MatrixTransform();
-    rec_trans_back->setMatrix( Matrix::translate(0.0, (-1.0)*this->height/2.0, 0.0f));
+    // zuerst rotieren. pi um z, dann verschieben um -hoehe/2 in y
+    rec_trans_back->setMatrix( Matrix::rotate(PI,Vec3(0.0,0.0,1.0))*
+                        Matrix::translate(0.0, -this->height/2.0, 0.0));
     rec_trans_back->addChild(this->back.get());
     this->addChild(rec_trans_back.get());
     
     // creating and placing left-Rectangle
     this->left = new Rectangle(this->height, this->width);
     ref_ptr<MatrixTransform> rec_trans_left = new MatrixTransform();
-    rec_trans_left->setMatrix(Matrix::translate(0.0f, -this->height/2.0, 0.0f)*
-                            Matrix::rotate(3*PI_2,Vec3(0.0,0.0,1.0)));
+    // zuerst rotieren: pi/2 um z, dann verschieben um -hoehe/2 in x
+    rec_trans_left->setMatrix( Matrix::rotate(PI_2,Vec3(0.0,0.0,1.0))*
+                        Matrix::translate(-this->height/2.0, 0.0, 0.0));
     rec_trans_left->addChild(this->left.get());    
     this->addChild(rec_trans_left.get());
     
     // creating and placing right-Rectangle
     this->right = new Rectangle(this->height, this->width);
     ref_ptr<MatrixTransform> rec_trans_right = new MatrixTransform();
-    rec_trans_right->setMatrix(Matrix::translate(0.0f, this->height/2.0, 0.0f)*
-                            Matrix::rotate(-PI_2,Vec3(0.0,0.0,1.0)));
+    // zuerst rotieren: -pi/2 um z, dann verschieben um hoehe/2 in x
+    rec_trans_right->setMatrix( Matrix::rotate(-PI_2,Vec3(0.0,0.0,1.0))*
+                        Matrix::translate(this->height/2.0, 0.0, 0.0));
     rec_trans_right->addChild(this->right.get());    
     this->addChild(rec_trans_right.get());
     
     // creating and placing top-Rectangle
     this->top = new Rectangle(this->height, this->height);
     ref_ptr<MatrixTransform> rec_trans_top = new MatrixTransform();
-    rec_trans_top->setMatrix(Matrix::translate(0.0, this->width/2.0,0.0)*
-                            Matrix::rotate(PI_2,Vec3(1.0,0.0,0.0)));
+    // zuerst rotieren: pi/2 um x, dann verschieben um breite/2 in z
+    rec_trans_top->setMatrix( Matrix::rotate(PI_2,Vec3(1.0,0.0,0.0))*
+                        Matrix::translate(0.0, 0.0, this->width/2.0));
     rec_trans_top->addChild(this->top.get());    
     this->addChild(rec_trans_top.get());
     
     // creating and placing bottom-Rectangle
     this->bottom = new Rectangle(this->height, this->height);
     ref_ptr<MatrixTransform> rec_trans_bottom = new MatrixTransform();
-    rec_trans_bottom->setMatrix(Matrix::translate(0.0, (-1.0)*this->width/2.0,0.0)*
-                            Matrix::rotate(PI_2,Vec3(1.0,0.0,0.0)));
+    // zuerst rotieren: -pi/2 um x, dann verschieben um -breite/2 in z
+    rec_trans_bottom->setMatrix( Matrix::rotate(-PI_2,Vec3(1.0,0.0,0.0))*
+                        Matrix::translate(0.0, 0.0, -this->width/2.0));
     rec_trans_bottom->addChild(this->bottom.get());    
     this->addChild(rec_trans_bottom.get());
 }

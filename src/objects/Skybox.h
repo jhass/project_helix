@@ -17,12 +17,12 @@ namespace ph {
             int height;
             int width;
             // rectangles relative to the center of the skybox
-            ref_ptr<Rectangle> front; // rectangle in front of the middle
-            ref_ptr<Rectangle> back; // rectangle in back of the middle
-            ref_ptr<Rectangle> left; // rectangle left of the middle
-            ref_ptr<Rectangle> right; // rectangle right of the middle
-            ref_ptr<Rectangle> top; // rectangle over the middle
-            ref_ptr<Rectangle> bottom; // rectangle under the middle
+            ref_ptr<Rectangle> front; // rectangle in front of the middle (0.0, y, 0.0)
+            ref_ptr<Rectangle> back; // rectangle in back of the middle (0.0, -y, 0.0)
+            ref_ptr<Rectangle> left; // rectangle left of the middle (-x, 0.0, 0.0)
+            ref_ptr<Rectangle> right; // rectangle right of the middle (x, 0.0, 0.0)
+            ref_ptr<Rectangle> top; // rectangle over the middle (0.0, 0.0, z)
+            ref_ptr<Rectangle> bottom; // rectangle under the middle (0.0, 0.0, -z)
             ref_ptr<Group> skybox;
         
         void createRectangles();
