@@ -5,6 +5,8 @@
 
 #include <osg/Group>
 #include <osg/Geometry>
+#include <osg/Depth>
+#include <osgUtil/CullVisitor>
 
 #include "Rectangle.h"
 
@@ -12,7 +14,7 @@ using namespace std;
 using namespace osg;
 
 namespace ph {
-    class Skybox : public Group {
+    class Skybox : public Transform {
         private:
             int height;
             int width;
@@ -31,6 +33,8 @@ namespace ph {
            enum Position {FRONT, BACK, LEFT, RIGHT, TOP, BOTTOM};
            Skybox(const int height, const int width);
            void setTexture(const Position pos, const int textureNumber, const string filename);
+           virtual bool computeLocalToWorldMatrix( osg::Matrix& matrix, osg::NodeVisitor* nv ) const;
+           virtual bool computeWorldToLocalMatrix( osg::Matrix& matrix, osg::NodeVisitor* nv ) const;
     };
 }
 #endif

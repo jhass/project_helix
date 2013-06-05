@@ -8,6 +8,15 @@ ph::Skybox::Skybox(const int height, const int width) {
     this->height = height;
     this->width = width;
     
+    setReferenceFrame(Transform::ABSOLUTE_RF);
+    setCullingActive(false);
+    
+    osg::StateSet* stateSet = getOrCreateStateSet();
+    stateSet->setAttributeAndModes(new Depth(Depth::LEQUAL, 1.0f, 1.0f));
+    stateSet->setMode(GL_LIGHTING, StateAttribute::OFF);
+    stateSet->setMode(GL_CULL_FACE, StateAttribute::OFF);
+    //ss->setRenderBinDetails( 5, "RenderBin" );
+    
     // Anlegen der Rechtecke
     createRectangles();
 }
@@ -83,4 +92,28 @@ void ph::Skybox::setTexture(const Position pos, const int textureNumber, const s
     }
     
     rec->setTexture(textureNumber,filename);
+}
+
+bool ph::Skybox::computeLocalToWorldMatrix( Matrix& matrix, NodeVisitor* nv ) const
+{
+    if ( nv && nv->getVisitorType() == NodeVisitor::CULL_VISITOR )
+    {
+        osgUtil::CullVisitor* cv = static_cast<osgUtil::CullVisitor*>( nv );
+        matrix.preMult( Matrix::translate(cv->getEyeLocal()) );
+        return true;
+    }
+    else
+        return Transform::computeLocalToWorldMatrix( matrix, nv );
+}
+
+bool ph::Skybox::computeWorldToLocalMatrix( Matrix& matrix, NodeVisitor* nv ) const
+{
+    if ( nv && nv->getVisitorType() == NodeVisitor::CULL_VISITOR )
+    {
+        osgUtil::CullVisitor* cv = static_cast<osgUtil::CullVisitor*>( nv );
+        matrix.postMult( Matrix::translate(-cv->getEyeLocal()) );
+        return true;
+    }
+    else
+        return Transform::computeWorldToLocalMatrix( matrix, nv );
 }

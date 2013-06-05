@@ -13,10 +13,11 @@ using namespace osg;
 int main(void)
 {
     ref_ptr<Group> root = new Group;
+    
 	// baue Geometry
-	ref_ptr<ph::Skybox> skybox = new ph::Skybox(97,33);
+	ref_ptr<ph::Skybox> skybox = new ph::Skybox(50,50);
+
 	// Lichteffekte für die Skybox ausstellen
-	skybox->getOrCreateStateSet()->setMode(GL_LIGHTING, StateAttribute::OFF);
 	skybox->setTexture(ph::Skybox::FRONT,0,"../Textures/EarthMap.jpg");
 	skybox->setTexture(ph::Skybox::BACK,0,"../Textures/EarthMap.jpg");
 	skybox->setTexture(ph::Skybox::LEFT,0,"../Textures/EarthMap.jpg");
@@ -53,7 +54,7 @@ int main(void)
 	// Übergeben der neuen Kameraeinstellungen
 	viewer.getCamera()->setViewMatrixAsLookAt(eye, center, up);
 	// Kamera Manipulator ausstellen, sonst werden Einstellungen nicht übernommen
-	viewer.getCamera()->setAllowEventFocus(false);
+	//viewer.getCamera()->setAllowEventFocus(false);
 		
 	return viewer.run();
 }
