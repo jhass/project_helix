@@ -4,7 +4,7 @@
 #include "objects/Rotator.h"
 
 int main(void) {
-    ref_ptr<ph::Rotator> rotator = new ph::Rotator(-4, 4);
+    ref_ptr<ph::Rotator> rotator = new ph::Rotator(-20, 20);
     ref_ptr<Group> root = new Group();
 
    // sphere->setTexture(0, "../Textures/EarthMap.jpg");
