@@ -6,10 +6,12 @@ using namespace osgViewer;
 
 int main(void) {
 	Vec3d location =Vec3d(-100, -30, 40);
-    ref_ptr<ph::Nebula> nebula = new ph::Nebula(location);
+    ref_ptr<ph::Nebula> nebula = new ph::Nebula(location, "../resources/nebulainner.png",
+    											 10, 50);
 
-    Vec3d locationtwo =Vec3d(100, 30, -40);
-    ref_ptr<ph::Nebula> nebulatwo = new ph::Nebula(locationtwo);
+    Vec3d locationtwo =Vec3d(-100, -30, 40);
+    ref_ptr<ph::Nebula> nebulatwo = new ph::Nebula(locationtwo, "../resources/nebulaouter.png",
+    											 25, 75);
 
     ref_ptr<Group> root = new Group();
 

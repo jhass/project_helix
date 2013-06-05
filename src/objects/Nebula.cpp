@@ -11,9 +11,7 @@
 
 #include "Nebula.h"
 
-string ph::Nebula::texturePath = "../resources/nebulainner.png";
-
-void ph::Nebula::createRenderingAttributes(ref_ptr<ParticleSystem> ps) {
+void ph::Nebula::createRenderingAttributes(ref_ptr<ParticleSystem> ps, string texturePath) {
     //Creating the Blendfunction, whatever that may be.
     ref_ptr<BlendFunc> blendFunc = new BlendFunc();
     blendFunc->setFunction(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -33,7 +31,7 @@ void ph::Nebula::createRenderingAttributes(ref_ptr<ParticleSystem> ps) {
     ss->setRenderingHint(StateSet::TRANSPARENT_BIN);
 }
 
-void ph::Nebula::createParticles(ref_ptr<ParticleSystem> ps) {
+void ph::Nebula::createParticles(ref_ptr<ParticleSystem> ps, double innerRadius, double outerRadius) {
     Particle particle_template;
     particle_template.setShape(Particle::POINT);
     particle_template.setLifeTime(-1); //Never gets lifelong warranty.......
@@ -42,9 +40,9 @@ void ph::Nebula::createParticles(ref_ptr<ParticleSystem> ps) {
     double xd = 1;
     double yd = 1;  //Setting Dimensions
     double zd = 1;
-    double radius = 25;
+    double radius = outerRadius + innerRadius;
 
-    for (double r = 2; r < radius; r = r + (pow(r,-2) + 2) ) {
+    for (double r = innerRadius; r < radius; r = r + (pow(r,-2) + 2) ) {
         for (int i = 1; i <= r; i++) {
             for (int j = 1; j <= r; j++) {
                 theta = i * PI / r;
@@ -63,7 +61,7 @@ void ph::Nebula::createParticles(ref_ptr<ParticleSystem> ps) {
 }
 
 
-ph::Nebula::Nebula(Vec3d& location) {
+ph::Nebula::Nebula(Vec3d& location, string texturePath, double innerRadius, double outerRadius) {
     //Set the location of the Nebula
     ref_ptr<MatrixTransform> origin = new MatrixTransform();
     origin->setMatrix(Matrix::translate(location));
@@ -82,7 +80,7 @@ ph::Nebula::Nebula(Vec3d& location) {
     ps->getDefaultParticleTemplate().setLifeTime(-1);
     
     //Set the rendering attributes
-    createRenderingAttributes(ps);
+    createRenderingAttributes(ps, texturePath);
 
     //Glueing everything together, needs more Ducttape!
     updater->addParticleSystem(ps.get());
@@ -93,7 +91,7 @@ ph::Nebula::Nebula(Vec3d& location) {
     ps->createParticle(NULL);
 
     //Creating loads of Particles (Code secretly stolen from asteroid.cpp)
-    createParticles(ps);
+    createParticles(ps, innerRadius, outerRadius);
 
     origin->addChild(updater.get());
     this->addChild(origin.get());
