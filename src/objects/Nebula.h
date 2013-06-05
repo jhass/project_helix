@@ -15,11 +15,11 @@ namespace ph {
     class Nebula : public ProxyNode {
     
         private:
-            static string texturePath;
+            static void createParticles(ref_ptr<ParticleSystem> ps, double innerRadius, double outerRadius);
+            static void createRenderingAttributes(ref_ptr<ParticleSystem> ps, string texturePath);
             
         public:
-            Nebula(const Vec3d location);
+            Nebula(Vec3d& location, string texturePath, double innerRadius, double outerRadius);
     };
 }
-
 #endif
