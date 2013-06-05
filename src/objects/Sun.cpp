@@ -12,7 +12,6 @@ ph::Sun::Sun(const double radius, const int steps,
 }
 
 void ph::Sun::createLight(int lightNumber) {
-	
 	// Creating a white light source in the interior of the sphere
 	// creating a new light
     this->light = new Light;
@@ -22,6 +21,7 @@ void ph::Sun::createLight(int lightNumber) {
     // setPosition(x,y,z,sourcetype); sourcetype = {0.0 (global), 1.0 (local)}
     this->light->setPosition(Vec4(0.0,0.0,0.0,1.0));
     // setting parameter for diffuse light
+    //this->light->setDiffuse(Vec4(1.0,1.0,1.0,1.0));
     this->light->setDiffuse(Vec4(1.0,1.0,1.0,1.0));
     // setting parameter for specular light
     this->light->setSpecular(Vec4(1.0,1.0,1.0,1.0));
@@ -33,9 +33,6 @@ void ph::Sun::createLight(int lightNumber) {
     this->source = new LightSource;
     // giving the source a light
     this->source->setLight(light);
-    // switch the light on
-    this->source->setLocalStateSetModes(StateAttribute::ON);
-    this->source->getOrCreateStateSet()->setMode(GL_LIGHTING, StateAttribute::ON);
     this->addChild(this->source);
     
     // Creating Material for the Sun

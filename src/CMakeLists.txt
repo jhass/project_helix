@@ -51,7 +51,15 @@ add_executable( nebula
                 
 add_executable( rectangle
                 objects/Rectangle.cpp
-                runners/rectangle.cpp )                
+                runners/rectangle.cpp )
+target_link_libraries( rectangle normals )
+                
+add_executable( skybox
+                util.cpp
+                objects/Rectangle.cpp
+                objects/Skybox.cpp
+                runners/skybox.cpp )
+target_link_libraries( skybox normals )                                               
 
 macro( config_project PROJNAME LIBNAME )
     include_directories( ${${LIBNAME}_INCLUDE_DIR} )
@@ -69,7 +77,7 @@ find_package( GLUT )
 find_package( OpenGL )
 
 
-foreach( executable project_helix sphere torus asteroid sun rotator ship nebula rectangle)
+foreach( executable project_helix sphere torus asteroid sun rotator ship nebula rectangle skybox)
 
   config_project( ${executable} OPENTHREADS )
   config_project( ${executable} OSG )
