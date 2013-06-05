@@ -16,9 +16,11 @@ namespace ph {
     
         private:
             static string texturePath;
+            static void createParticles(ref_ptr<ParticleSystem> ps);
+            static void createRenderingAttributes(ref_ptr<ParticleSystem> ps);
             
         public:
-            Nebula(const Vec3d location);
+            Nebula(Vec3d& location);
     };
 }
 
