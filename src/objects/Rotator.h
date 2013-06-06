@@ -14,6 +14,7 @@ namespace ph {
         private:
             double startx;
             double endx;
+            int schritte;
             ref_ptr<Geometry> rotator;
 
             void compute();
@@ -22,7 +23,7 @@ namespace ph {
             void setIndicies();
           
         public:
-            Rotator(const int startx, const int endx);
+            Rotator(const int startx, const int endx, const int schritte);
             ~Rotator();
             void setTexture(const int textureNumber, const string filename);
     };

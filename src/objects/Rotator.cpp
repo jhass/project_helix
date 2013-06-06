@@ -12,10 +12,11 @@ normalen basteln
 */
 
 
-ph::Rotator::Rotator(const int startx, const int endx) {
+ph::Rotator::Rotator(const int startx, const int endx, const int schritte) {
     
     this->startx = startx;
     this->endx = endx;
+    this->schritte = schritte;
     this->rotator = new Geometry;
     this->addDrawable(this->rotator.get());
     this->compute();
@@ -44,25 +45,21 @@ void ph::Rotator::setVerticesAndNormals() {
     ref_ptr<Vec3Array> vertices = new Vec3Array();
     ref_ptr<Vec3Array> normals = new Vec3Array();
     Vec3d coords;
-    double x,y,zstrich, idouble4, idouble3, idouble2;
-    int ystrich,z;
-
+    double x,y,zstrich, idouble4, idouble3, idouble2, ystrich,z;
     
     
     for (int i = (int)startx; i <=(int)endx; i++) { // X-Achsenpunkte *50 -> Schritte x
     	    idouble4 = pow(i,4);
     	    idouble3 = pow(i,3);
             idouble2 = pow(i,2);
-          //  y=-idouble2+40000;
-          //  y=(-0.001*idouble4)+(1*idouble2)+10;
+  
 
-           y=(-0.003*idouble3)+50;
-          printf("y: %d\n",(int)y);
-            for (int j = 0; j <= 30;j++){ // einzelner Scheibenringe  von "hinten nach vorne" in 100 Teile zerlegt
+           y=(-0.0003*idouble2)+50;
+
+            for (int j = 0; j <= schritte;j++){ // einzelner Scheibenringe  von "hinten nach vorne" in 100 Teile zerlegt
                     
-                    ystrich=(int)((cos(180/30*j)*y)); 
-                   // printf("Ystrich %d\n",(int)ystrich);
-                    z=(int)(sin(180/30*j)*y);
+                    ystrich=(cos(2*PI/schritte*j)*y); 
+                    z=(sin(2*PI/schritte*j)*y);
              
                     coords=Vec3d(i,ystrich, z);
                     vertices->push_back(coords);
@@ -71,8 +68,7 @@ void ph::Rotator::setVerticesAndNormals() {
                             
             }                       
     }
-             //rotationskörper
-            printf("VERTICES %d", (int)vertices->size());
+
     this->rotator->setVertexArray(vertices.get());
     this->rotator->setNormalArray(normals.get());
     this->rotator->setNormalBinding(Geometry::BIND_PER_VERTEX);
@@ -83,16 +79,16 @@ void ph::Rotator::setIndicies() { //klappen noch nicht richtig!
     int gesamtbereich=(int)(fabs(startx)+fabs(endx));
     ref_ptr<DrawElementsUInt> indices = new DrawElementsUInt(GL_TRIANGLE_STRIP);
    
-  //  gesamtbereich=1; //als test
+//   gesamtbereich=2; //als test
     for (int i = 0; i < gesamtbereich ; i++) {
-        for (int j =0; j<=30 ; j++){
-            indices->push_back( (int)(i*( 30+1)+j )) ;
-            indices->push_back( (int)(( i +1)*(30+1)+j )) ;
+    	    
+        for (int j =0; j<=schritte ; j++){
+            indices->push_back( (int)(i*( schritte+1)+j )) ;
+            indices->push_back( (int)(( i +1)*(schritte+1)+j )) ;
         }
-     //   indices->push_back((int) (( i +1)*(30)+gesamtbereich)) ;//HIER HÄNGT ES
-     //   indices->push_back((int) (( i +1)*(30))) ;
+      
     }
-    printf("Indices %d", (int)indices->size());
+
     this->rotator->addPrimitiveSet(indices.get());
   
     
