@@ -18,12 +18,12 @@ int main(void)
 	ref_ptr<ph::Skybox> skybox = new ph::Skybox(50,50);
 
 	// Lichteffekte für die Skybox ausstellen
-	skybox->setTexture(ph::Skybox::FRONT,0,"../Textures/EarthMap.jpg");
-	skybox->setTexture(ph::Skybox::BACK,0,"../Textures/EarthMap.jpg");
-	skybox->setTexture(ph::Skybox::LEFT,0,"../Textures/EarthMap.jpg");
-	skybox->setTexture(ph::Skybox::RIGHT,0,"../Textures/EarthMap.jpg");
-	skybox->setTexture(ph::Skybox::TOP,0,"../Textures/EarthMap.jpg");
-	skybox->setTexture(ph::Skybox::BOTTOM,0,"../Textures/EarthMap.jpg");
+	skybox->setTexture(ph::Skybox::FRONT,0,"../resources/skybox.jpg");
+	skybox->setTexture(ph::Skybox::BACK,0,"../resources/skybox.jpg");
+	skybox->setTexture(ph::Skybox::LEFT,0,"../resources/skybox.jpg");
+	skybox->setTexture(ph::Skybox::RIGHT,0,"../resources/skybox.jpg");
+	skybox->setTexture(ph::Skybox::TOP,0,"../resources/skybox.jpg");
+	skybox->setTexture(ph::Skybox::BOTTOM,0,"../resources/skybox.jpg");
     root->addChild(skybox);
     root->addChild(ph::getDebugAxes(5.0,0.0,10.0,0.0));
     
