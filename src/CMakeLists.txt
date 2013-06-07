@@ -58,6 +58,8 @@ add_executable( skybox
                 util.cpp
                 objects/Rectangle.cpp
                 objects/Skybox.cpp
+                objects/Sun.cpp
+                objects/Sphere.cpp
                 runners/skybox.cpp )
 target_link_libraries( skybox normals )
 

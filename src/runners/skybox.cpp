@@ -1,10 +1,13 @@
 #include <osgViewer/Viewer>
 #include <osg/PolygonMode>
 #include <osg/Vec3>
+#include <osg/MatrixTransform>
 
 #include "3rdparty/osgToy/Normals.h"
 #include "objects/Rectangle.h"
 #include "objects/Skybox.h"
+#include "objects/Sun.h"
+#include "objects/Sphere.h"
 #include "util.h"
 
 using namespace osgToy;
@@ -15,7 +18,7 @@ int main(void)
     ref_ptr<Group> root = new Group;
     
 	// baue Geometry
-	ref_ptr<ph::Skybox> skybox = new ph::Skybox(50,50);
+	ref_ptr<ph::Skybox> skybox = new ph::Skybox(100,100);
 
 	// Lichteffekte für die Skybox ausstellen
 	skybox->setTexture(ph::Skybox::FRONT,0,"../resources/skybox.jpg");
@@ -25,7 +28,35 @@ int main(void)
 	skybox->setTexture(ph::Skybox::TOP,0,"../resources/skybox.jpg");
 	skybox->setTexture(ph::Skybox::BOTTOM,0,"../resources/skybox.jpg");
     root->addChild(skybox);
-    root->addChild(ph::getDebugAxes(5.0,0.0,10.0,0.0));
+    //root->addChild(ph::getDebugAxes(5.0,0.0,10.0,0.0));
+    
+    // Sphere(radius, Steps)
+    ref_ptr<ph::Sphere> sphere = new ph::Sphere(5, 200);
+    
+    // pushing sphere to the right
+    ref_ptr<MatrixTransform> spheretrans = new MatrixTransform();
+    spheretrans->setMatrix(Matrix::translate(Vec3(-25,50,0)));
+    //skybox->clampObjectToSkybox(spheretrans);
+    spheretrans->addChild(sphere.get());
+    ref_ptr<MatrixTransform> spheretrans2 = new MatrixTransform();
+    spheretrans2->setMatrix(Matrix::translate(Vec3(-25,25,0)));
+    spheretrans2->addChild(sphere.get());
+    root->addChild(spheretrans.get());
+    root->addChild(spheretrans2.get());
+    
+    // giving the sphere a texturefile
+    sphere->setTexture(0, "../Textures/EarthMap.jpg");
+    
+    // Sun(radius, Steps, GLLightNumber, red, green, blue)
+    ref_ptr<ph::Sun> sun = new ph::Sun(10.0, 200, 0, 0.9, 0.6, 0.0);
+    
+    // pushing sun to the left
+    ref_ptr<MatrixTransform> suntrans = new MatrixTransform();
+    suntrans->setMatrix(Matrix::translate(Vec3(100,100,0)));
+    skybox->clampObjectToSkybox(suntrans);
+    suntrans->addChild(sun.get());
+    //root->addChild(suntrans.get());
+    root->getOrCreateStateSet()->setMode(GL_LIGHT0, StateAttribute::ON);
     
     // enables VertexNormals and FaceNormals
      ref_ptr<VertexNormals> vNormals = new VertexNormals(skybox.get());
@@ -43,9 +74,9 @@ int main(void)
 	
 	// Hauptkamera manipulieren
 	// eye: Kameraposition(x,y,z)
-	Vec3 eye(0.0, 0.0, 0.0);
+	Vec3 eye(0.0, -40.0, 0.0);
 	// center: Punkte, auf den man schaut (x,y,z)
-	Vec3 center(1.0, 0.0, 0.0);
+	Vec3 center(0.0, -30.0, 0.0);
 	// up: natürliche Aufwärtsrichtung (x,y,z)
 	Vec3 up(0.0, 0.0, 1.0);
 	

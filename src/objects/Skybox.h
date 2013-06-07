@@ -7,6 +7,7 @@
 #include <osg/Geometry>
 #include <osg/Depth>
 #include <osgUtil/CullVisitor>
+#include <osg/MatrixTransform>
 
 #include "Rectangle.h"
 
@@ -33,6 +34,9 @@ namespace ph {
            enum Position {FRONT, BACK, LEFT, RIGHT, TOP, BOTTOM};
            Skybox(const int height, const int width);
            void setTexture(const Position pos, const int textureNumber, const string filename);
+           void clampObjectToSkybox(ref_ptr<MatrixTransform>& mt);
+           
+           // aus: OSG Cookbook, pp. 256ff, Funktionen für Funktionalität: Verschieben der Skybox 
            virtual bool computeLocalToWorldMatrix( osg::Matrix& matrix, osg::NodeVisitor* nv ) const;
            virtual bool computeWorldToLocalMatrix( osg::Matrix& matrix, osg::NodeVisitor* nv ) const;
     };

@@ -19,14 +19,9 @@ int main(void) {
     // Default ist NORMAL
     torus->setStyle(ph::Torus::FLAT);
     
-    // this will move soon
-    ref_ptr<Texture2D> texture = new Texture2D;
-    ref_ptr<Image> image = osgDB::readImageFile("../Textures/EarthMap.jpg");
-    texture->setWrap(Texture::WRAP_S, Texture::CLAMP_TO_EDGE);
-    texture->setImage(image.get());
+    // Textur setzen
+    torus->setTexture(0,"../Textures/EarthMap.jpg");
     
-    root->getOrCreateStateSet()->setTextureAttributeAndModes(0, texture.get());
-
     // Alternativ: normal Torus
     //ref_ptr<ph::Torus> torus = new ph::FlatTorus(6, 1.5, 75);
 
