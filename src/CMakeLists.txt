@@ -64,6 +64,7 @@ add_executable( skybox
 target_link_libraries( skybox normals )
 
 add_executable( planet
+                util.cpp
                 objects/Sphere.cpp
                 objects/Torus.cpp
                 runners/planet.cpp )  

@@ -3,26 +3,12 @@
 #include <osg/AnimationPath>
 #include <osg/MatrixTransform>
 
+
 #include "objects/Sphere.h"
 #include "objects/Torus.h"
+#include "util.h"
 
-osg::AnimationPath* createAnimationPath( float radius, float time )
-{
-    osg::ref_ptr<osg::AnimationPath> path = new osg::AnimationPath;
-    path->setLoopMode( osg::AnimationPath::LOOP );
-    
-    unsigned int numSamples = (int)time;
-    float delta_yaw = 2*PI/time;
-    float delta_time = time / (float)numSamples;
-    for ( unsigned int i=0; i<=numSamples; ++i )
-    {
-        float yaw = delta_yaw * (float)i;
-        osg::Vec3 pos( 0.0, 0.0, 0.0f );
-        osg::Quat rot( -yaw, osg::Z_AXIS );
-        path->insert( delta_time * (float)i, osg::AnimationPath::ControlPoint(pos,rot) );
-    }
-    return path.release();    
-}
+using namespace osg;
 
 int main(void) {
     // Sphere(radius, Steps)
@@ -44,7 +30,7 @@ int main(void) {
     planet->addChild(torus.get());
     
     osg::ref_ptr<osg::AnimationPathCallback> apcb = new osg::AnimationPathCallback;
-    apcb->setAnimationPath( createAnimationPath(5.0f, 60.0f) );
+    apcb->setAnimationPath( ph::createAnimationPath(60.0f, -2*PI, ph::sin_f, 5, ph::cos_f, 5, ph::lin_f, 0));
     planet->setUpdateCallback( apcb.get() );
 
     // enables PolygonMode

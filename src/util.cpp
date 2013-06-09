@@ -34,3 +34,50 @@ PositionAttitudeTransform* ph::getDebugAxes(double scale, double dx, double dy, 
     axes->addChild(osgDB::readNodeFile("../resources/axes.osgt"));
     return axes.release();
 }
+
+// Funktionszeiger für gängige Funktionstypen
+
+// f(x)= factor* sin(x)
+double ph::sin_f(const double factor, double x) {
+	return factor* sinf(x);
+}
+
+// f(x)= factor* cos(x)
+double ph::cos_f(const double factor, double x) {
+	return factor* cosf(x);
+}
+
+// f(x)= factor* x
+double ph::lin_f(const double factor, double x) {
+    return factor* x;
+}
+
+// f(x)= x^factor
+double ph::quad_f(const double factor, double x) {
+    return pow(x, factor);
+}    
+
+// Erstellt einen Animationspfad
+/* create AnimationPath(Zeit, Funktion für rotation,
+                        Funktion zur Bewegung in x, Funktionsfaktor in x,
+                        Funktion zur Bewegung in y, Funktionsfaktor in y,
+                        Funktion zur Bewegung in z, Funktionsfaktor in z)*/
+osg::AnimationPath* ph::createAnimationPath( float time, float func, 
+                                       double (*f_x) (double,double), double fac_x,
+                                       double (*f_y) (double,double), double fac_y,
+                                       double (*f_z) (double,double), double fac_z) {
+    osg::ref_ptr<osg::AnimationPath> path = new osg::AnimationPath;
+    path->setLoopMode( osg::AnimationPath::LOOP );
+    
+    unsigned int numSamples = (int)time;
+    float delta_rot = func/time;    
+    
+    for ( unsigned int i=0; i<=numSamples; ++i )
+    {
+        float yaw = delta_rot * (float)i;
+        Vec3 pos( (float)f_x(fac_x,yaw), (float)f_y(fac_y,yaw), (float)f_z(fac_z,yaw) );
+        osg::Quat rot( yaw, osg::Z_AXIS );
+        path->insert( (float)i, osg::AnimationPath::ControlPoint(pos,rot) );
+    }
+    return path.release();    
+}
