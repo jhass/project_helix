@@ -14,11 +14,15 @@ namespace ph {
     ref_ptr<Vec3Array> buildNormals(ref_ptr<Vec3Array> vertices, ref_ptr<DrawElementsUInt> indices);
     PositionAttitudeTransform* getDebugAxes(double scale, double dx, double dy, double dz);
     
+    enum AnimationMode {LOOP, SWING};
+    enum RotationAxis {POS_X_AXIS, POS_Y_AXIS, POS_Z_AXIS, NEG_X_AXIS, NEG_Y_AXIS, NEG_Z_AXIS};
+    
     double sin_f(const double factor, double x);
     double cos_f(const double factor, double x);
     double lin_f(const double factor, double x);
     double quad_f(const double factor, double x);
-    AnimationPath* createAnimationPath( float time, float func, 
+    AnimationPath* createAnimationPath( float time, float func,
+                                       ph::AnimationMode mode, ph::RotationAxis rAxis,
                                        double (*f_x) (double,double), double fac_x,
                                        double (*f_y) (double,double), double fac_y,
                                        double (*f_z) (double,double), double fac_z);

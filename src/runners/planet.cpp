@@ -30,7 +30,8 @@ int main(void) {
     planet->addChild(torus.get());
     
     osg::ref_ptr<osg::AnimationPathCallback> apcb = new osg::AnimationPathCallback;
-    apcb->setAnimationPath( ph::createAnimationPath(60.0f, -2*PI, ph::sin_f, 5, ph::cos_f, 5, ph::lin_f, 0));
+    apcb->setAnimationPath( ph::createAnimationPath(60.0f, 2*PI, ph::LOOP, ph::POS_Z_AXIS,
+     ph::sin_f, 0, ph::cos_f, 0, ph::lin_f, -20));
     planet->setUpdateCallback( apcb.get() );
 
     // enables PolygonMode
