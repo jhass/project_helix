@@ -63,8 +63,20 @@ add_executable( skybox
                 util.cpp
                 objects/Rectangle.cpp
                 objects/Skybox.cpp
+                objects/Sun.cpp
+                objects/Sphere.cpp
                 runners/skybox.cpp )
-target_link_libraries( skybox normals )                                               
+target_link_libraries( skybox normals )
+
+add_executable( planet
+                util.cpp
+                objects/Sphere.cpp
+                objects/Torus.cpp
+                runners/planet.cpp )  
+                                                             
+add_executable( station
+                objects/Chronos.cpp
+                runners/station.cpp )
 
 macro( config_project PROJNAME LIBNAME )
     include_directories( ${${LIBNAME}_INCLUDE_DIR} )
@@ -81,8 +93,8 @@ find_package( osgViewer )
 find_package( GLUT )
 find_package( OpenGL )
 
+foreach( executable project_helix sphere torus asteroid sun rotator fins ship nebula rectangle skybox planet station)
 
-foreach( executable project_helix sphere torus asteroid sun rotator fins ship nebula rectangle skybox)
 
   config_project( ${executable} OPENTHREADS )
   config_project( ${executable} OSG )

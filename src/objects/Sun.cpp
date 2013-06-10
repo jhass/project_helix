@@ -21,13 +21,12 @@ void ph::Sun::createLight(int lightNumber) {
     // setPosition(x,y,z,sourcetype); sourcetype = {0.0 (global), 1.0 (local)}
     this->light->setPosition(Vec4(0.0,0.0,0.0,1.0));
     // setting parameter for diffuse light
-    //this->light->setDiffuse(Vec4(1.0,1.0,1.0,1.0));
     this->light->setDiffuse(Vec4(1.0,1.0,1.0,1.0));
     // setting parameter for specular light
     this->light->setSpecular(Vec4(1.0,1.0,1.0,1.0));
     
     // atm we dont want ambient light
-    //this->light->setAmbient(Vec4(0.0,0.0,0.0,0.0));
+    //this->light->setAmbient(Vec4(1.0,1.0,1.0,1.0));
     
     // creating a new light source
     this->source = new LightSource;
@@ -41,10 +40,10 @@ void ph::Sun::createLight(int lightNumber) {
     this->material->setEmission(Material::FRONT_AND_BACK, Vec4(this->red,this->green,this->blue,1.0));
     
     // material parameters; perhaps we need some of them later
-    //this->material->setDiffuse(Material::FRONT_AND_BACK, Vec4(this->red,this->green,this->blue,1.0));
+    this->material->setDiffuse(Material::FRONT_AND_BACK, Vec4(this->red,this->green,this->blue,1.0));
     //this->material->setAmbient(Material::FRONT_AND_BACK, Vec4(this->red,this->green,this->blue,1.0));
     //this->material->setSpecular(Material::FRONT_AND_BACK, Vec4(this->red,this->green,this->blue,1.0));
-    //this->material->setShininess(Material::FRONT_AND_BACK, 1);
+    this->material->setShininess(Material::FRONT_AND_BACK, 1);
     
     //giving the material to the sphere
     this->getOrCreateStateSet()->setAttributeAndModes(this->material.get(),StateAttribute::ON);
