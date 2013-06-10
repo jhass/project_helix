@@ -39,7 +39,12 @@ add_executable( sun
 
 add_executable( rotator
                 objects/Rotator.cpp
+                objects/Fins.cpp
                 runners/rotator.cpp )
+
+add_executable( fins
+                objects/Fins.cpp
+                runners/fins.cpp )
 
 add_executable( ship
                 objects/Ship.cpp
@@ -77,7 +82,7 @@ find_package( GLUT )
 find_package( OpenGL )
 
 
-foreach( executable project_helix sphere torus asteroid sun rotator ship nebula rectangle skybox)
+foreach( executable project_helix sphere torus asteroid sun rotator fins ship nebula rectangle skybox)
 
   config_project( ${executable} OPENTHREADS )
   config_project( ${executable} OSG )
