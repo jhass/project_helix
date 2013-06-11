@@ -70,6 +70,7 @@ add_executable( planet
                 runners/planet.cpp )  
                                                              
 add_executable( station
+                objects/Ship.cpp
                 objects/Chronos.cpp
                 runners/station.cpp )
 
