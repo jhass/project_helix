@@ -57,22 +57,22 @@ void ph::Fins::setFins(int factor) {
     normals->push_back(Vec3(1*factor,2*factor,1)); //Oben
 
     
-    vertices->push_back(Vec3(1*factor,0,2*factor)); // Vorne
-    normals->push_back(Vec3(1*factor,1,2*factor)); // Vorne
+ //   vertices->push_back(Vec3(1*factor,0,2*factor)); // Vorne
+ //   normals->push_back(Vec3(1*factor,1,2*factor)); // Vorne
 
     
-    vertices->push_back(Vec3(1*factor,0,-2*factor)); // Hinten
-    normals->push_back(Vec3(1*factor,1,-2*factor)); // Hinten
+ //   vertices->push_back(Vec3(1*factor,0,-2*factor)); // Hinten
+ //   normals->push_back(Vec3(1*factor,1,-2*factor)); // Hinten
 
      
-    vertices->push_back(Vec3(1*factor,-2*factor,0)); //unten
-    normals->push_back(Vec3(1*factor,-2*factor,1)); //unten
+ //   vertices->push_back(Vec3(1*factor,-2*factor,0)); //unten
+ //   normals->push_back(Vec3(1*factor,-2*factor,1)); //unten
  
     
-    indices->push_back(2); indices->push_back(1); indices->push_back(0);
-    indices->push_back(0); indices->push_back(1); indices->push_back(3);
-    indices->push_back(4); indices->push_back(1); indices->push_back(0);
-    indices->push_back(0); indices->push_back(1); indices->push_back(5);
+    indices->push_back(0); indices->push_back(1); indices->push_back(2);
+ //   indices->push_back(0); indices->push_back(1); indices->push_back(3);
+ //   indices->push_back(4); indices->push_back(1); indices->push_back(0);
+ //   indices->push_back(5); indices->push_back(1); indices->push_back(0);
     
     this->fins->setVertexArray(vertices.get());
     this->fins->addPrimitiveSet(indices.get());
