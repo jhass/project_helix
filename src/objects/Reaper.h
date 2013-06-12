@@ -1,5 +1,5 @@
-#ifndef PH_CHRONOS_STATION_H
-#define PH_CHRONOS_STATION_H
+#ifndef PH_REAPER_H
+#define PH_REAPER_H
 
 #include <string>
 
@@ -9,13 +9,13 @@
 using namespace osg;
 
 namespace ph {
-    class Chronos : public Group {
+    class Reaper : public Group {
         private:
             static std::string fileLocation;
-            ref_ptr<Node> station;
+            ref_ptr<Node> reaper;
 
         public: 
-            Chronos();
+            Reaper();
     };
 }
 #endif

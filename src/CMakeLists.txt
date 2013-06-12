@@ -43,8 +43,7 @@ add_executable( rotator
                 runners/rotator.cpp )
 
 add_executable( fins
-                objects/Fins.cpp
-                runners/fins.cpp )
+                objects/Fins.cpp)
 
 add_executable( ship
                 objects/Ship.cpp
@@ -77,6 +76,7 @@ add_executable( planet
 add_executable( station
                 objects/Ship.cpp
                 objects/Chronos.cpp
+                objects/Reaper.cpp
                 runners/station.cpp )
 
 macro( config_project PROJNAME LIBNAME )
