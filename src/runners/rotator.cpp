@@ -12,7 +12,7 @@ int main(void) {
     ref_ptr<ph::Rotator> rotator = new ph::Rotator(-300, 408, 30);
     rotator->setTexture(0, "../Textures/rotator_tx.png");
     
-    ref_ptr<ph::Fins> fins1a = new ph::Fins(0,80);
+    ref_ptr<ph::Fins> fins1a = new ph::Fins(0,60);
     fins1a->setTexture(0, "../Textures/fin.png");
     
    
@@ -38,11 +38,11 @@ int main(void) {
 
     
     osg::ref_ptr<osg::MatrixTransform> transf = new osg::MatrixTransform;
-    transf->setMatrix(osg::Matrix::rotate(osg::DegreesToRadians(180.0), 0, 1, 0)*(osg::Matrix::translate(-200.0f, 0.0f, 0.0f)));
+    transf->setMatrix(osg::Matrix::rotate(osg::DegreesToRadians(180.0), 0, 1, 0)*(osg::Matrix::translate(-180.0f, 0.0f, 0.0f)));
     transf->addChild(fins1.get());
   
     osg::ref_ptr<osg::MatrixTransform> transf2 = new osg::MatrixTransform;
-    transf2->setMatrix(osg::Matrix::rotate(osg::DegreesToRadians(180.0), 0, 1, 0)*(osg::Matrix::translate(200.0f, 0.0f, 0.0f))*(osg::Matrix::scale(0.8f,0.8f,0.8f)));
+    transf2->setMatrix(osg::Matrix::rotate(osg::DegreesToRadians(180.0), 0, 1, 0)*(osg::Matrix::translate(220.0f, 0.0f, 0.0f))*(osg::Matrix::scale(0.8f,0.8f,0.8f)));
     transf2->addChild(fins1.get());
     
      	     
@@ -62,7 +62,7 @@ int main(void) {
 
     // wenn man die Dreiecke mal sehen will:
      ref_ptr<PolygonMode> pm = new PolygonMode;
-     //pm->setMode(PolygonMode::FRONT_AND_BACK, PolygonMode::LINE);
+    // pm->setMode(PolygonMode::FRONT_AND_BACK, PolygonMode::LINE);
      root->getOrCreateStateSet()->setAttribute(pm.get());
  
     
