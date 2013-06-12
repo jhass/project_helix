@@ -46,7 +46,7 @@ void ph::Rotator::setVerticesAndNormals() {
     ref_ptr<Vec3Array> normals = new Vec3Array();
     ref_ptr<Vec2Array> texcoords = new Vec2Array();
     Vec3d coords;
-    double x,y,zstrich, idouble4, idouble3, idouble2, ystrich,z;
+    double x,y,zstrich, idouble4, idouble3, idouble2, ystrich,z,yabl;
  int gesamtbereich=(int)(fabs(startx)+fabs(endx));
  int count=0;   
     for (int i = (int)startx; i <=(int)endx; i++) { // X-Achsenpunkte *50 -> Schritte x
@@ -57,18 +57,21 @@ void ph::Rotator::setVerticesAndNormals() {
   
 
            y=(-0.0003*idouble2)+50;
-
+           yabl=(-.0006*i);
             for (int j = 0; j <= schritte;j++){ // einzelner Scheibenringe  von "hinten nach vorne" in 100 Teile zerlegt
                     
                     ystrich=(cos(2*PI/schritte*j)*y); 
                     z=(sin(2*PI/schritte*j)*y);
                     coords=Vec3d(i,ystrich, z);
-           
+                    
+                    //z=-f(x)*f'(x)
+                    
                     vertices->push_back(coords);
                     x=(double)count/gesamtbereich;
                     double y_test=(double)j/schritte;
                     texcoords->push_back(Vec2d(x,y_test));
-                   
+                    
+                    coords = Vec3d(-(y)*yabl,ystrich,z);
                     coords.normalize();
                   
                     normals->push_back(coords); //Skript & Benni hilft bestimmt -- Vektor verschieben zum Schnittkreismittelpunkt
