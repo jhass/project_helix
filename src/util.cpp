@@ -67,13 +67,21 @@ double ph::pot_f(const double factor, double x) {
                         Animationsmodus, Rotationsachse,
                         Funktion zur Bewegung in x, Funktionsfaktor in x,
                         Funktion zur Bewegung in y, Funktionsfaktor in y,
-                        Funktion zur Bewegung in z, Funktionsfaktor in z)*/
+                        Funktion zur Bewegung in z, Funktionsfaktor in z)
+
+   Soll in eine Richtung keine Translation durchgeführt werden, muss entsprechende
+   Funktion mit NULL aufgerufen werden */
 osg::AnimationPath* ph::createAnimationPath( float time, float func,
                                        ph::AnimationMode mode, ph::RotationAxis rAxis,
                                        double (*f_x) (double,double), double fac_x,
                                        double (*f_y) (double,double), double fac_y,
                                        double (*f_z) (double,double), double fac_z) {
     osg::ref_ptr<osg::AnimationPath> path = new osg::AnimationPath;
+    
+    // Default: Keine Translation in entsprechende Richtung
+    if (f_x == NULL) {f_x = lin_f; fac_x = 0;}
+    if (f_y == NULL) {f_y = lin_f; fac_y = 0;}
+    if (f_z == NULL) {f_z = lin_f; fac_z = 0;}
     
     // Animationsmodus ermitteln
     switch (mode) {
