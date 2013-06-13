@@ -1,4 +1,5 @@
 #include <osgDB/ReadFile>
+#include <cmath>
 
 #include "util.h"
 
@@ -9,7 +10,9 @@ Vec3f* ph::computeNormal(Vec3f a, Vec3f b, Vec3f c) {
     return r;
 }
 
-ref_ptr<Vec3Array> ph::buildNormals(ref_ptr<Vec3Array> vertices, ref_ptr<DrawElementsUInt> indices) {
+ref_ptr<Vec3Array> ph::buildNormals(Vec3Array* _vertices, DrawElementsUInt* _indices) {
+    ref_ptr<Vec3Array> vertices = _vertices;
+    ref_ptr<DrawElementsUInt> indices = _indices;
     ref_ptr<Vec3Array> normals = new Vec3Array(indices->size()/3);
     Vec3f* normal;
   
@@ -68,7 +71,7 @@ double ph::pot_f(const double factor, double x) {
                         Funktion zur Bewegung in x, Funktionsfaktor in x,
                         Funktion zur Bewegung in y, Funktionsfaktor in y,
                         Funktion zur Bewegung in z, Funktionsfaktor in z)*/
-osg::AnimationPath* ph::createAnimationPath( float time, float func,
+osg::AnimationPath* ph::createAnimationPath(float time, float func,
                                        ph::AnimationMode mode, ph::RotationAxis rAxis,
                                        double (*f_x) (double,double), double fac_x,
                                        double (*f_y) (double,double), double fac_y,
