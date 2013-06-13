@@ -3,6 +3,7 @@
 #include <osg/Texture2D>
 #include <osg/Image>
 #include <osgDB/ReadFile>
+#include <osg/CullFace>
 
 #include "Rectangle.h"
 
@@ -26,7 +27,7 @@ void ph::Rectangle::compute() {
     vertices->push_back(Vec3((1/2.0)*height, 0.0, (1/2.0)*width));
     
     indices->push_back(0); indices->push_back(1); indices->push_back(2);
-    indices->push_back(2); indices->push_back(1); indices->push_back(3);
+    indices->push_back(1); indices->push_back(2); indices->push_back(3);
      
     this->rectangle->setVertexArray(vertices.get());
     this->rectangle->addPrimitiveSet(indices.get());
@@ -51,4 +52,7 @@ void ph::Rectangle::setTexture(const int textureNumber, const string filename) {
     texture->setWrap(Texture::WRAP_S, Texture::CLAMP_TO_EDGE);
     texture->setImage(image.get());
     this->getOrCreateStateSet()->setTextureAttributeAndModes(textureNumber, texture.get());
+    ref_ptr<CullFace> cull = new CullFace;
+    cull->setMode(CullFace::BACK);
+    this->getOrCreateStateSet()->setAttributeAndModes(cull.get());
 }
