@@ -7,6 +7,7 @@
 
 #include "Rectangle.h"
 
+// Rectangle (länge, breite)
 ph::Rectangle::Rectangle(const int height, const int width) {
     this->height = height;
     this->width = width;
@@ -16,6 +17,7 @@ ph::Rectangle::Rectangle(const int height, const int width) {
     compute();
 }
 
+// creating vertices/ normals / indices; simple rectangle build from two triangles
 void ph::Rectangle::compute() {
     ref_ptr<Vec3Array> vertices = new Vec3Array();
     ref_ptr<Vec3Array> normals = new Vec3Array();
@@ -33,6 +35,7 @@ void ph::Rectangle::compute() {
     this->rectangle->addPrimitiveSet(indices.get());
 }
 
+// creating texture coordinates
 void ph::Rectangle::setTextureCoordinates(int textureNumber) {
     ref_ptr<Vec2Array> texcoords = new Vec2Array;
 
@@ -44,6 +47,7 @@ void ph::Rectangle::setTextureCoordinates(int textureNumber) {
     this->rectangle->setTexCoordArray(textureNumber, texcoords.get());
 }
 
+// setting texture on rectangle
 void ph::Rectangle::setTexture(const int textureNumber, const string filename) {
     this->setTextureCoordinates(textureNumber);
 

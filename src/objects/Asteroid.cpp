@@ -9,6 +9,8 @@
 
 using namespace std;
 
+/* Asteriod (radius, Iterationsschritte horizontal, Iterationsschritte vertikal
+             Deformation in x, y, z) */
 ph::Asteroid::Asteroid(const double radius, const int lsteps, const int wsteps,
                        const int xi, const int yi, const int zi) {
     this->radius = radius;
@@ -31,6 +33,10 @@ void ph::Asteroid::compute() {
     this->setIndicies();
 }
 
+/* creating vertices/ normals / texturecoordinates analog to sphere
+   with random changes in radius with value +-10% of the radius;
+   in addition there is a deformation factor for x, y, z stretching or
+   compressing the object in the corresponding spatial direction */
 void ph::Asteroid::setCoordinates() {
     ref_ptr<Vec3Array> vertices = new Vec3Array();
     ref_ptr<Vec3Array> normals = new Vec3Array();
@@ -45,7 +51,9 @@ void ph::Asteroid::setCoordinates() {
             theta = i * PI / this->wsteps;
             phi = j * 2 * PI / (this->lsteps-1);
             int random = rand() % 20;
+            // random change of radius
 			double nradius = this->radius + (random -10) * this->radius/100;
+			// xd, yd, zd = deformation factors
             coords = Vec3d(
                 xd*nradius * cos(phi) * sin(theta), 
                 yd*nradius * sin(phi) * sin(theta), 
@@ -61,7 +69,7 @@ void ph::Asteroid::setCoordinates() {
     this->asteroid->setNormalBinding(Geometry::BIND_PER_VERTEX);
 }
 
-
+// creating indices analog to sphere
 void ph::Asteroid::setIndicies() {
     ref_ptr<DrawElementsUInt> indices = new DrawElementsUInt(GL_TRIANGLE_STRIP);
 
@@ -75,6 +83,7 @@ void ph::Asteroid::setIndicies() {
     this->asteroid->addPrimitiveSet(indices.get());
 }
 
+// creating texture coordinates
 void ph::Asteroid::setTextureCoordinates(int textureNumber) {
     ref_ptr<Vec2Array> texcoords = new Vec2Array;
 
@@ -87,6 +96,7 @@ void ph::Asteroid::setTextureCoordinates(int textureNumber) {
     this->asteroid->setTexCoordArray(textureNumber, texcoords.get());
 }
 
+//setting texture on asteroid
 void ph::Asteroid::setTexture(const int textureNumber, const string filename) {
     this->setTextureCoordinates(textureNumber);
 

@@ -6,6 +6,7 @@
 
 #include "Torus.h"
 
+// Torus(Radius zum Ursprung, Radius des Torus, Iterationsschritte)
 ph::Torus::Torus(const double iRadius, const double tRadius, const int iteration) {
     this->iRadius = iRadius; //radius from origin to the torus
     this->tRadius = tRadius; //radius of the torus
@@ -18,11 +19,13 @@ ph::Torus::Torus(const double iRadius, const double tRadius, const int iteration
     this->compute();
 }
 
+// setting Torusstyle = {FLAT, NORMAL}
 void ph::Torus::setStyle(const Style style) {
     this->style = style;
     this->compute();
 }
 
+// setting texture on torus
 void ph::Torus::setTexture(const int textureNumber, const string filename) {
     ref_ptr<Texture2D> texture = new Texture2D;
     ref_ptr<Image> image = osgDB::readImageFile(filename);
@@ -37,7 +40,7 @@ void ph::Torus::compute() {
     this->setIndicies();
 }
 
-
+// creating vertices / normals / texturecoordinates
 void ph::Torus::setCoordinates() {
     ref_ptr<Vec3Array> vertices = new Vec3Array();
     ref_ptr<Vec3Array> normals = new Vec3Array();
@@ -61,6 +64,9 @@ void ph::Torus::setCoordinates() {
     this->torus->setTexCoordArray(0, texcoords.get());
 }
 
+/* create vertex with x = (iRadius+ tRadius* cos(phi))* cos(theta)
+                      y = (iRadius+ tRadius* cos(phi))* sin(theta)
+                      z = tRadius* sin(phi) (Normal); tRadius = .5 (Flat) */
 Vec3d ph::Torus::calculateVertex(const double theta, const double phi) {
     double z = 0;
 
@@ -78,6 +84,7 @@ Vec3d ph::Torus::calculateVertex(const double theta, const double phi) {
     return coords;
 }
 
+// creating normals with correct spheric coordinates for torus
 Vec3d ph::Torus::calculateNormal(const double theta, const double phi) {
     Vec3d coords = Vec3d(
         (this->tRadius* cos(2*PI*phi))* cos(2*PI*theta), // x
@@ -90,7 +97,7 @@ Vec3d ph::Torus::calculateNormal(const double theta, const double phi) {
     return coords;
 }
 
-
+// creating indices
 void ph::Torus::setIndicies() {
     ref_ptr<DrawElementsUInt> indices = new DrawElementsUInt(GL_TRIANGLE_STRIP);
 

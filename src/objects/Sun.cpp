@@ -1,6 +1,7 @@
 #include "Sun.h"
 #include <iostream>
 
+// Sun(radius, Iterationsschritte, OpenGLLichtnummer [0,7], Lichtanteil rot, grün, blau)
 ph::Sun::Sun(const double radius, const int steps,
              const int lightNumber,const double red, const double green, const double blue) {
     this->sphere = new Sphere(radius, steps);
@@ -11,6 +12,7 @@ ph::Sun::Sun(const double radius, const int steps,
     this->createLight(lightNumber);
 }
 
+// creating light, setting lightoptions, creating surface material
 void ph::Sun::createLight(int lightNumber) {
 	// Creating a white light source in the interior of the sphere
 	// creating a new light

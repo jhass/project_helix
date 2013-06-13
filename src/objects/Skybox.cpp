@@ -83,6 +83,7 @@ void ph::Skybox::createRectangles() {
     this->addChild(rec_trans_bottom.get());
 }
 
+// setting texture on the rectangle given bei the Position enumeration
 void ph::Skybox::setTexture(const Position pos, const int textureNumber, const string filename) {
     Rectangle* rec;
     switch (pos) {
@@ -97,6 +98,7 @@ void ph::Skybox::setTexture(const Position pos, const int textureNumber, const s
     rec->setTexture(textureNumber,filename);
 }
 
+// clamping an object to the skybox
 void ph::Skybox::clampObjectToSkybox(ref_ptr<MatrixTransform>& mt) {
     this->addChild(mt.get());
 }

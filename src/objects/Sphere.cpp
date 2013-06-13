@@ -6,6 +6,7 @@
 
 #include "Sphere.h"
 
+// Sphere(radius, Iterationsschritte)
 ph::Sphere::Sphere(const double radius, const int steps) {
     this->radius = radius;
     this->steps = steps;
@@ -14,28 +15,21 @@ ph::Sphere::Sphere(const double radius, const int steps) {
     this->compute();
 }
 
-void ph::Sphere::setTexture(const int textureNumber, const string filename) {
-    this->setTextureCoordinates(textureNumber);
-
-    ref_ptr<Texture2D> texture = new Texture2D;
-    ref_ptr<Image> image = osgDB::readImageFile(filename);
-    texture->setWrap(Texture::WRAP_S, Texture::CLAMP_TO_EDGE);
-    texture->setImage(image.get());
-    this->getOrCreateStateSet()->setTextureAttributeAndModes(textureNumber, texture.get());
-}
-
 void ph::Sphere::compute() {
     this->setVerticesAndNormals();
     this->setIndicies();
 }
 
+// creating vertices / normals
 void ph::Sphere::setVerticesAndNormals() {
     ref_ptr<Vec3Array> vertices = new Vec3Array();
     ref_ptr<Vec3Array> normals = new Vec3Array();
     Vec3d coords;
     double theta, phi;
 
-    // i == stack (v), j == slice (h)
+    /* creating coordinates in spheric coordinates with
+        x = r* cos(phi)* sin(theta); y= r* sin(phi)* sin(theta)
+        z = r* cos(theta) */
     for (int i = 0; i <= this->steps; i++) {
         for (int j = 0; j < this->steps; j++) {
             theta = i * PI / this->steps;
@@ -56,6 +50,7 @@ void ph::Sphere::setVerticesAndNormals() {
     this->sphere->setNormalBinding(Geometry::BIND_PER_VERTEX);
 }
 
+// creating indices radial from bottom to top
 void ph::Sphere::setIndicies() {
     ref_ptr<DrawElementsUInt> indices = new DrawElementsUInt(GL_TRIANGLE_STRIP);
 
@@ -69,6 +64,7 @@ void ph::Sphere::setIndicies() {
     this->sphere->addPrimitiveSet(indices.get());
 }
 
+// creating texture coordinates
 void ph::Sphere::setTextureCoordinates(int textureNumber) {
     ref_ptr<Vec2Array> texcoords = new Vec2Array;
 
@@ -79,4 +75,15 @@ void ph::Sphere::setTextureCoordinates(int textureNumber) {
     }
 
     this->sphere->setTexCoordArray(textureNumber, texcoords.get());
+}
+
+// setting texture on sphere
+void ph::Sphere::setTexture(const int textureNumber, const string filename) {
+    this->setTextureCoordinates(textureNumber);
+
+    ref_ptr<Texture2D> texture = new Texture2D;
+    ref_ptr<Image> image = osgDB::readImageFile(filename);
+    texture->setWrap(Texture::WRAP_S, Texture::CLAMP_TO_EDGE);
+    texture->setImage(image.get());
+    this->getOrCreateStateSet()->setTextureAttributeAndModes(textureNumber, texture.get());
 }
