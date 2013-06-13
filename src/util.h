@@ -21,6 +21,7 @@ namespace ph {
     double cos_f(const double factor, double x);
     double lin_f(const double factor, double x);
     double quad_f(const double factor, double x);
+    double pot_f(const double factor, double x);
     AnimationPath* createAnimationPath( float time, float func,
                                        ph::AnimationMode mode, ph::RotationAxis rAxis,
                                        double (*f_x) (double,double), double fac_x,
