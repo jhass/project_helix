@@ -19,7 +19,7 @@ namespace ph {
             static void createRenderingAttributes(ref_ptr<ParticleSystem> ps, string texturePath);
             
         public:
-            Nebula(Vec3d& location, string texturePath, double innerRadius, double outerRadius);
+            Nebula(Vec3d location, string texturePath, double innerRadius, double outerRadius);
     };
 }
 #endif

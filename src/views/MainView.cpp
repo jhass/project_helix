@@ -5,6 +5,7 @@
 
 #include "MainView.h"
 
+using namespace osg;
 
 ph::MainView::MainView() {
     ref_ptr<Node> scene = new ph::MainScene();

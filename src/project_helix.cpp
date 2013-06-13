@@ -1,13 +1,47 @@
 #include "views/MainView.h"
+#include "views/CockpitView.h"
 #include "interactors/KeyboardEventHandler.h"
 
+#include <osgViewer/CompositeViewer>
+
 using namespace osg;
+using namespace osgViewer;
 
 int main(void) {
     srand(time(NULL)); // initialize pseudo random number generator
 
-    ref_ptr<ph::View> view = new ph::MainView();
-    ref_ptr<ph::KeyboardEventHandler> handler = new ph::KeyboardEventHandler(view.get());
+    ref_ptr<CompositeViewer> viewer = new CompositeViewer();
 
-    return view->run();
+    ref_ptr<ph::MainView> mainView = new ph::MainView();
+    ref_ptr<ph::CockpitView> cockpitView = new ph::CockpitView();
+    ref_ptr<ph::KeyboardEventHandler> handler = new ph::KeyboardEventHandler(mainView.get());
+
+    unsigned int width, height;
+    GraphicsContext::WindowingSystemInterface* wsi = GraphicsContext::getWindowingSystemInterface();
+    wsi->getScreenResolution(osg::GraphicsContext::ScreenIdentifier(0), width, height);
+
+    // setup window properties
+    ref_ptr<GraphicsContext::Traits> traits = new GraphicsContext::Traits;
+    traits->x = 0;
+    traits->y = 0;
+    traits->width = width;
+    traits->height = height;
+    traits->windowDecoration = false;
+    traits->doubleBuffer = true;
+    traits->sharedContext = 0;
+
+    ref_ptr<GraphicsContext> context = GraphicsContext::createGraphicsContext(traits.get());
+    mainView->getCamera()->setGraphicsContext(context.get());
+    cockpitView->getCamera()->setGraphicsContext(context.get());
+
+    mainView->getCamera()->setViewport(new Viewport(0, 0, width, height));
+    viewer->addView(mainView);
+
+    //                                                  x,           y 
+    cockpitView->getCamera()->setViewport(new Viewport(width-20-width/8, 20,
+    //                                                  width,    height
+                                                       width/8, width/8));
+    viewer->addView(cockpitView);    
+
+    return viewer->run();
 }

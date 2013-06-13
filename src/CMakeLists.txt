@@ -6,6 +6,7 @@ add_executable( project_helix
                 project_helix.cpp
 
                 views/MainView.cpp
+                views/CockpitView.cpp
                 
                 scenes/MainScene.cpp
                 

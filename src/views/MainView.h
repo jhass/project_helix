@@ -1,15 +1,15 @@
 #ifndef PH_MAIN_VIEW_H
 #define PH_MAIN_VIEW_H
 
-#include "View.h"
+#include <osgViewer/View>
 
 namespace ph {
-      class MainView : public ph::View {
+      class MainView : public osgViewer::View {
         public:
             MainView();
-            virtual void switchToMainPerspective();
-            virtual void switchToSecondPerspective();
-            virtual void switchToThirdPerspective();
+            void switchToMainPerspective();
+            void switchToSecondPerspective();
+            void switchToThirdPerspective();
     };
 }
 

@@ -3,7 +3,7 @@
 
 #include <osgGA/GUIEventHandler>
 
-#include "views/View.h"
+#include "views/MainView.h"
 
 using namespace osg;
 using namespace osgGA;
@@ -11,9 +11,9 @@ using namespace osgGA;
 namespace ph {
     class KeyboardEventHandler : public GUIEventHandler {
         private:
-            ref_ptr<ph::View> view;
+            ref_ptr<ph::MainView> view;
         public:
-            KeyboardEventHandler(View* view);
+            KeyboardEventHandler(ph::MainView* view);
             virtual bool handle(const GUIEventAdapter& eventAdapter, GUIActionAdapter& actionAdapter);
     };
 }
