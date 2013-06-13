@@ -8,6 +8,8 @@
 #include "objects/Sphere.h"
 #include "objects/Torus.h"
 
+#include "util.h"
+
 #include "MainScene.h"
 
 using namespace osg;
@@ -44,5 +46,5 @@ ph::MainScene::MainScene() {
     this->addChild(asttrans.get());
     this->addChild(ship.get());
     this->addChild(nebula.get());
-    // this->addChild(ph::getDebugAxes(10, 0, 0, 0));
+    // this->addChild(ph::getDebugAxes(1, 3.5, 0, 1.5));
 }

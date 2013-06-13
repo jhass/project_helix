@@ -1,6 +1,6 @@
 #include "KeyboardEventHandler.h"
 
-ph::KeyboardEventHandler::KeyboardEventHandler(View* view) : view(view) {
+ph::KeyboardEventHandler::KeyboardEventHandler(ph::MainView* view) : view(view) {
     this->view->addEventHandler(this);
 }
 
