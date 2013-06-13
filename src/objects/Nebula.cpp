@@ -61,7 +61,7 @@ void ph::Nebula::createParticles(ref_ptr<ParticleSystem> ps, double innerRadius,
 }
 
 
-ph::Nebula::Nebula(Vec3d& location, string texturePath, double innerRadius, double outerRadius) {
+ph::Nebula::Nebula(Vec3d location, string texturePath, double innerRadius, double outerRadius) {
     //Set the location of the Nebula
     ref_ptr<MatrixTransform> origin = new MatrixTransform();
     origin->setMatrix(Matrix::translate(location));
