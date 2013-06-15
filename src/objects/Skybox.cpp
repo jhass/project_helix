@@ -15,6 +15,7 @@ ph::Skybox::Skybox(const int height, const int width) {
     // Tiefenpuffer; Objekte verschwinden nicht einfach, wenn sich auf Rand
     // der Skybox treffen
     stateSet->setAttributeAndModes(new Depth(Depth::LEQUAL, 1.0f, 1.0f));
+    // Licht ausmachen
     stateSet->setMode(GL_LIGHTING, StateAttribute::OFF);
     // Culling für Flächen außerhalb der Skybox
     stateSet->setMode(GL_CULL_FACE, StateAttribute::OFF);

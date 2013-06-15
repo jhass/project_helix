@@ -1,9 +1,11 @@
 #ifndef PH_UTIL_H
+#define PH_UTIL_H
 
 #include <osg/Vec3>
 #include <osg/Array>
 #include <osg/PrimitiveSet>
 #include <osg/PositionAttitudeTransform>
+#include <osg/AnimationPath>
 
 using namespace osg;
 
