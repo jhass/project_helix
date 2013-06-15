@@ -56,6 +56,12 @@ MatrixTransform* ph::createPlanet() {
     planet->setMatrix( Matrix::translate(0.0, 800.0, 0.0));
     planet->addChild( sphere.get());
     
+    // Creating Animation; Rotation of the planet
+    osg::ref_ptr<osg::AnimationPathCallback> animation_planet = new osg::AnimationPathCallback;
+    animation_planet->setAnimationPath( ph::createAnimationPath(60.0f, 2*PI, ph::LOOP, ph::POS_Z_AXIS,
+     NULL, 0, 0, NULL, 0, 800, NULL, 0, 0));
+    planet->setUpdateCallback( animation_planet.get() );
+    
     return planet.release();
 }
 
@@ -181,6 +187,16 @@ MatrixTransform* ph::createAsteroidField(double x, double y, double z) {
     trans_field->addChild(trans_flat_01.get());
     trans_field->addChild(trans_flat_02.get());
     trans_field->addChild(trans_flat_03.get());
+    
+    // Creating animation; Rotation of some asteroids
+    osg::ref_ptr<osg::AnimationPathCallback> ani_flat_01 = new osg::AnimationPathCallback;
+    ani_flat_01->setAnimationPath( ph::createAnimationPath(60.0f, 2*PI, ph::LOOP, ph::POS_Y_AXIS,
+     NULL, 0, 76, NULL, 0, 3, NULL, 0, -2));
+    trans_flat_01->setUpdateCallback( ani_flat_01.get() );
+    osg::ref_ptr<osg::AnimationPathCallback> ani_flat_03 = new osg::AnimationPathCallback;
+    ani_flat_03->setAnimationPath( ph::createAnimationPath(60.0f, 2*PI, ph::LOOP, ph::POS_Y_AXIS,
+     NULL, 0, -22, NULL, 0, 7, NULL, 0, -2));
+    trans_flat_03->setUpdateCallback( ani_flat_03.get() );
     
     // giving the asteroids a texture
     asteroid_main_fine->setTexture(0, "../Textures/phobos.jpg");
