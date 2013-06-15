@@ -76,6 +76,19 @@ add_executable( station
                 objects/Chronos.cpp
                 objects/Reaper.cpp
                 runners/station.cpp )
+                
+add_executable( scene
+                util.cpp
+                scenes/scene_utils.cpp
+                objects/Skybox.cpp
+                objects/Rectangle.cpp
+                objects/Sun.cpp
+                objects/Sphere.cpp
+                objects/Ship.cpp
+                objects/Chronos.cpp
+                objects/Reaper.cpp
+                objects/Asteroid.cpp
+                scenes/scene.cpp)                
 
 macro( config_project PROJNAME LIBNAME )
     include_directories( ${${LIBNAME}_INCLUDE_DIR} )
@@ -92,7 +105,7 @@ find_package( osgViewer )
 find_package( GLUT )
 find_package( OpenGL )
 
-foreach( executable project_helix sphere torus asteroid sun rotator ship nebula rectangle skybox planet station)
+foreach( executable project_helix sphere torus asteroid sun rotator ship nebula rectangle skybox planet station scene)
 
 
   config_project( ${executable} OPENTHREADS )
