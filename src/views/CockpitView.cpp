@@ -8,7 +8,7 @@
 using namespace osg;
 
 ph::CockpitView::CockpitView() {
-    ref_ptr<Node> scene = new ph::MainScene();
+    ref_ptr<MainScene> scene = new ph::MainScene();
     this->setSceneData(scene.get());
 
     this->getCamera()->setProjectionMatrixAsFrustum(-0.35, 0.35, -0.26, 0.26, 1.0, 10000);
@@ -19,4 +19,6 @@ ph::CockpitView::CockpitView() {
         Vec3d(4, 0, 1),  // center
         Vec3d(0, 0, 1)   // up
     );
+
+    // this->getCamera()->setUpdateCallback(scene->ship_callback.get());
 }

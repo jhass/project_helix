@@ -3,12 +3,15 @@
 
 #include <osg/Group>
 
+#include <animation/ShipNodeCallback.h>
+
 using namespace osg;
 
 namespace ph {
     class MainScene : public Group {
         public:
             MainScene();
+            ref_ptr<ph::ShipNodeCallback> ship_callback;
     };
 }
 

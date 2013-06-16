@@ -18,6 +18,8 @@ add_executable( project_helix
                 
                 interactors/KeyboardEventHandler.cpp
 
+                animation/ShipNodeCallback.cpp
+
                 util.cpp )
 
 add_executable( sphere

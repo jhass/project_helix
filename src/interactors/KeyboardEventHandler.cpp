@@ -17,6 +17,12 @@ bool ph::KeyboardEventHandler::handle(const GUIEventAdapter& eventAdapter, GUIAc
                 case GUIEventAdapter::KEY_3:
                     this->view->switchToThirdPerspective();
                     break;
+                case GUIEventAdapter::KEY_A:
+                    this->view->yawShipLeft();
+                    break;
+                case GUIEventAdapter::KEY_D:
+                    this->view->yawShipRight();
+                    break;
             }
             return true;
         default:

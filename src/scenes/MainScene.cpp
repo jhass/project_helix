@@ -8,6 +8,8 @@
 #include "objects/Sphere.h"
 #include "objects/Torus.h"
 
+#include <animation/ShipNodeCallback.h>
+
 #include "util.h"
 
 #include "MainScene.h"
@@ -16,6 +18,8 @@ using namespace osg;
 
 ph::MainScene::MainScene() {
     ref_ptr<Node> ship = new ph::Ship();
+    ship_callback = new ph::ShipNodeCallback;
+    ship->setUpdateCallback(ship_callback.get());
     
     //Parameterliste: Verschiebungsvektor-Pointer
     ref_ptr<Node> nebula = new ph::Nebula(Vec3d(-100,-30,40), "../resources/nebulainner.png", 10, 50); //hinter, rechts, drüber
