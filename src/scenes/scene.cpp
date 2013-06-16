@@ -23,6 +23,11 @@ int main(void) {
     //Creating SHIP
     ref_ptr<MatrixTransform> ship = ph::createShip(ph::STATION,-20.0,-500.0,0.0);
     root->addChild(ship.get());
+    ref_ptr<MatrixTransform> turian_ship = ph::createShip(ph::TURIAN,-800.0,0.0,0.0);
+    osg::ref_ptr<osg::AnimationPathCallback> turian_path = new osg::AnimationPathCallback;
+    turian_path->setAnimationPath( ph::createTurianFlightPath(-800.0,0.0,0.0));
+    turian_ship->setUpdateCallback( turian_path.get() );
+    root->addChild(turian_ship.get());
     
     //Creting ASTEROID FIELD
     ref_ptr<MatrixTransform> asteroid = ph::createAsteroidField(20.0,-600.0,0.0);

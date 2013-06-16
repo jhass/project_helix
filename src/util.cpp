@@ -40,50 +40,55 @@ PositionAttitudeTransform* ph::getDebugAxes(double scale, double dx, double dy, 
 
 // Funktionszeiger für gängige Funktionstypen
 
-// f(x)= factor* sin(x); mit 2*PI für Kreisbewegungen
-double ph::sin_f(const double factor, double x) {
-	return factor* sinf(2*PI*x);
+// f(x)= factor* sin(x)+ x0; mit 2*PI für Kreisbewegungen
+double ph::sin_f(const double factor, double x, double x0) {
+	return factor* sinf(2*PI*x)+ x0;
 }
 
-// f(x)= factor* cos(x); mit 2*PI für Kreisbewegungen
-double ph::cos_f(const double factor, double x) {
-	return factor* cosf(2*PI*x);
+// f(x)= factor* cos(x)+ x0; mit 2*PI für Kreisbewegungen
+double ph::cos_f(const double factor, double x, double x0) {
+	return factor* cosf(2*PI*x)+ x0;
 }
 
-// f(x)= factor* x
-double ph::lin_f(const double factor, double x) {
-    return factor* x;
+// f(x)= factor* x +x0
+double ph::lin_f(const double factor, double x, double x0) {
+    return factor* x+ x0;
 }
 
-// f(x)= x^factor
-double ph::quad_f(const double factor, double x) {
-    return pow(x, factor);
+// f(x)= x^factor+ x0
+double ph::quad_f(const double factor, double x, double x0) {
+    return pow(x, factor) + x0;
 }  
 
-// f(x)= factor^x
-double ph::pot_f(const double factor, double x) {
-    return pow(factor, x);
-}  
+// f(x)= factor^x+ x0
+double ph::pot_f(const double factor, double x, double x0) {
+    return pow(factor, x)+ x0;
+}
+
+// f(x)= const
+double ph::const_f(const double factor, double x, double x0) {
+    return x0;
+}
 
 // Erstellt einen Animationspfad
 /* create AnimationPath(Zeit, Funktion für rotation,
                         Animationsmodus, Rotationsachse,
-                        Funktion zur Bewegung in x, Funktionsfaktor in x,
-                        Funktion zur Bewegung in y, Funktionsfaktor in y,
-                        Funktion zur Bewegung in z, Funktionsfaktor in z)
+                        Funktion zur Bewegung in x, Funktionsfaktor in x, Position x0
+                        Funktion zur Bewegung in y, Funktionsfaktor in y, Position y0
+                        Funktion zur Bewegung in z, Funktionsfaktor in z, Postion z0)
    Soll in eine Richtung keine Translation durchgeführt werden, muss entsprechende
    Funktion mit NULL aufgerufen werden */
 osg::AnimationPath* ph::createAnimationPath(float time, float func,
-                                       ph::AnimationMode mode, ph::RotationAxis rAxis,
-                                       double (*f_x) (double,double), double fac_x,
-                                       double (*f_y) (double,double), double fac_y,
-                                       double (*f_z) (double,double), double fac_z) {
+                                   ph::AnimationMode mode, ph::RotationAxis rAxis,
+                                   double (*f_x) (double,double,double), double fac_x, double x0,
+                                   double (*f_y) (double,double,double), double fac_y, double y0,
+                                   double (*f_z) (double,double,double), double fac_z, double z0) {
     osg::ref_ptr<osg::AnimationPath> path = new osg::AnimationPath;
     
     // Default: Keine Translation in entsprechende Richtung
-    if (f_x == NULL) {f_x = lin_f; fac_x = 0;}
-    if (f_y == NULL) {f_y = lin_f; fac_y = 0;}
-    if (f_z == NULL) {f_z = lin_f; fac_z = 0;}
+    if (f_x == NULL) {f_x = const_f;}
+    if (f_y == NULL) {f_y = const_f;}
+    if (f_z == NULL) {f_z = const_f;}
     
     // Animationsmodus ermitteln
     switch (mode) {
@@ -113,7 +118,7 @@ osg::AnimationPath* ph::createAnimationPath(float time, float func,
     {
         float yaw = delta_rot * (float)i;
         float d_pos = delta_pos * (float)i;
-        Vec3 pos( (float)f_x(fac_x,d_pos), (float)f_y(fac_y,d_pos), (float)f_z(fac_z,d_pos) );
+        Vec3 pos( (float)f_x(fac_x,d_pos,x0), (float)f_y(fac_y,d_pos,y0), (float)f_z(fac_z,d_pos,z0) );
         osg::Quat rot(yaw, tAxis);
         path->insert( (float)i, osg::AnimationPath::ControlPoint(pos,rot) );
     }

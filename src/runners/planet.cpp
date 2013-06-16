@@ -32,7 +32,7 @@ int main(void) {
     
     osg::ref_ptr<osg::AnimationPathCallback> apcb = new osg::AnimationPathCallback;
     apcb->setAnimationPath( ph::createAnimationPath(60.0f, 2*PI, ph::LOOP, ph::POS_Z_AXIS,
-     ph::sin_f, 5, ph::cos_f, 5, ph::lin_f, -20));
+     ph::sin_f, 5, 0, ph::cos_f, 5, 0, ph::lin_f, -20, 0));
     planet->setUpdateCallback( apcb.get() );
 
     // enables PolygonMode

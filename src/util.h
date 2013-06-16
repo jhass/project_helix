@@ -17,16 +17,17 @@ namespace ph {
     enum AnimationMode {LOOP, SWING};
     enum RotationAxis {POS_X_AXIS, POS_Y_AXIS, POS_Z_AXIS, NEG_X_AXIS, NEG_Y_AXIS, NEG_Z_AXIS};
     
-    double sin_f(const double factor, double x);
-    double cos_f(const double factor, double x);
-    double lin_f(const double factor, double x);
-    double quad_f(const double factor, double x);
-    double pot_f(const double factor, double x);
+    double sin_f(const double factor, double x, double x0);
+    double cos_f(const double factor, double x, double x0);
+    double lin_f(const double factor, double x, double x0);
+    double quad_f(const double factor, double x, double x0);
+    double pot_f(const double factor, double x, double x0);
+    double const_f(const double factor, double x, double x0);
     AnimationPath* createAnimationPath( float time, float func,
                                        ph::AnimationMode mode, ph::RotationAxis rAxis,
-                                       double (*f_x) (double,double), double fac_x,
-                                       double (*f_y) (double,double), double fac_y,
-                                       double (*f_z) (double,double), double fac_z);
+                                       double (*f_x) (double,double,double), double fac_x, double x0,
+                                       double (*f_y) (double,double,double), double fac_y, double y0,
+                                       double (*f_z) (double,double,double), double fac_z, double z0);
 }
 
 #endif

@@ -56,6 +56,12 @@ MatrixTransform* ph::createPlanet() {
     planet->setMatrix( Matrix::translate(0.0, 800.0, 0.0));
     planet->addChild( sphere.get());
     
+    // Creating Animation; Rotation of the planet
+    osg::ref_ptr<osg::AnimationPathCallback> animation_planet = new osg::AnimationPathCallback;
+    animation_planet->setAnimationPath( ph::createAnimationPath(60.0f, 2*PI, ph::LOOP, ph::POS_Z_AXIS,
+     NULL, 0, 0, NULL, 0, 800, NULL, 0, 0));
+    planet->setUpdateCallback( animation_planet.get() );
+    
     return planet.release();
 }
 
@@ -182,6 +188,16 @@ MatrixTransform* ph::createAsteroidField(double x, double y, double z) {
     trans_field->addChild(trans_flat_02.get());
     trans_field->addChild(trans_flat_03.get());
     
+    // Creating animation; Rotation of some asteroids
+    osg::ref_ptr<osg::AnimationPathCallback> ani_flat_01 = new osg::AnimationPathCallback;
+    ani_flat_01->setAnimationPath( ph::createAnimationPath(60.0f, 2*PI, ph::LOOP, ph::POS_Y_AXIS,
+     NULL, 0, 76, NULL, 0, 3, NULL, 0, -2));
+    trans_flat_01->setUpdateCallback( ani_flat_01.get() );
+    osg::ref_ptr<osg::AnimationPathCallback> ani_flat_03 = new osg::AnimationPathCallback;
+    ani_flat_03->setAnimationPath( ph::createAnimationPath(60.0f, 2*PI, ph::LOOP, ph::POS_Y_AXIS,
+     NULL, 0, -22, NULL, 0, 7, NULL, 0, -2));
+    trans_flat_03->setUpdateCallback( ani_flat_03.get() );
+    
     // giving the asteroids a texture
     asteroid_main_fine->setTexture(0, "../Textures/phobos.jpg");
     asteroid_flat_crude->setTexture(0, "../Textures/ceres.jpg");
@@ -192,3 +208,60 @@ MatrixTransform* ph::createAsteroidField(double x, double y, double z) {
     
     return trans_field.release();
 }        
+
+// Creates the flight path of our turian spacecraft
+AnimationPath* ph::createTurianFlightPath(double x0, double y0, double z0) {
+    
+    ref_ptr<AnimationPath> path = new AnimationPath;
+    path->setLoopMode( osg::AnimationPath::NO_LOOPING );
+    
+    double start_time = 60.0;
+    double rotation_time = 30.0;
+    double return_time = 60.0;
+    double start_distance = 800.0;
+    double return_distance = 800.0;
+    double new_x0 = x0, new_y0 = y0;
+    
+    unsigned int numSamples = (int)start_time;
+    
+    // Iterationsschritte bestimmen
+    float delta_rot = (3*PI)/(4*rotation_time); // Rotation um func in time
+    float delta_pos = 1 / start_time; // Bewegung um factor* func in time
+ 
+    // Pfad für ersten Teilweg zusammensetzen   
+    for ( unsigned int i=0; i<=numSamples; ++i )
+    {
+        float d_pos = delta_pos * (float)i;
+        new_x0 = (float)lin_f(start_distance,d_pos,x0);
+        Vec3 pos( new_x0, 0, 0 );
+        path->insert( (float)i, AnimationPath::ControlPoint(pos) );
+    }
+    
+    numSamples = (int) rotation_time;
+    
+    // Pfad für die Rotation zusammensetzen
+    for ( unsigned int i=0; i<=numSamples; ++i )
+    {
+        float yaw = delta_rot * (float)i;
+        Vec3 pos( new_x0, 0, 0 );
+        Quat rot(yaw, Vec3(0.0, 0.0, -1.0));
+        path->insert( (float)(start_time+i), AnimationPath::ControlPoint(pos,rot) );
+    }
+    
+    delta_pos = 1 / return_time;
+    numSamples = (int) return_time;
+    x0= new_x0; y0= new_y0;
+    
+    // Pfad für den Rückweg zusammensetzen
+    for ( unsigned int i=0; i<=numSamples; ++i )
+    {
+        float d_pos = delta_pos * (float)i;
+        new_x0 = (float)lin_f(-return_distance,d_pos,x0);
+        new_y0 = (float)lin_f(-return_distance/2,d_pos,y0);
+        Vec3 pos( new_x0, new_y0, 0 );
+        Quat rot(3*PI/4, Vec3(0.0, 0.0, -1.0));
+        path->insert( (float)(start_time+rotation_time+i), AnimationPath::ControlPoint(pos,rot) );
+    }
+    
+    return path.release();
+ }
