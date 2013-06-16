@@ -3,6 +3,7 @@
 
 #include <osg/NodeCallback>
 #include <osg/Vec3d>
+#include <osg/Quat>
 
 #include "objects/Ship.h"
 
@@ -12,9 +13,12 @@ namespace ph {
 	class ShipNodeCallback : public NodeCallback {
 		public:
 			virtual void operator()(Node* node, NodeVisitor* nv);
+			void yawLeft();
+			void yawRight();
 
 		private:
 			static Vec3d direction;
+			static double pitch, yaw, roll;
 	};
 }
 #endif
