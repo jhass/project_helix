@@ -19,6 +19,8 @@ namespace ph {
 
         public: 
             Ship();
+            ref_ptr<MatrixTransform> rotate;
+            ref_ptr<MatrixTransform> translate;
     };
 }
 

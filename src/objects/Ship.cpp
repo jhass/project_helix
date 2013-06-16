@@ -1,3 +1,6 @@
+#include <cmath>
+
+#include <osg/Matrix>
 #include <osg/MatrixTransform>
 #include <osg/Point>
 #include <osg/PointSprite>
@@ -51,22 +54,18 @@ ParticleSystem* ph::Ship::createParticleSystem(Group* _parent) {
     ref_ptr<RadialShooter> myshooter = new RadialShooter();
     myshooter->setThetaRange(-1.7,-1.4); // Neigung z-x-ebene gegen UZS
     myshooter->setPhiRange(-0.2,0.2); //Neigung x-y-ebene gegen UZS
-    myshooter->setInitialSpeedRange(3,6); //Geschwindigkeit
+    myshooter->setInitialSpeedRange(5,15); //Geschwindigkeit
     
     //Emmiter
     ref_ptr<ModularEmitter> emitter = new ModularEmitter();
     emitter->setParticleSystem( ps.get() );
     emitter->setCounter( rrc.get() );
     emitter->setShooter(myshooter.get());    
-    
-    //Acceleration operations
-    ref_ptr<AccelOperator> accel = new AccelOperator();
-    accel->setAcceleration(Vec3d(-10,0,0)); //Bremsvektor
-    
+        
     //??
     ref_ptr<ModularProgram> program = new ModularProgram();
     program->setParticleSystem( ps.get() );
-    program->addOperator( accel.get() );
+
     
     //Rendering stuff2
     ref_ptr<Geode> geode = new Geode();
@@ -79,8 +78,16 @@ ParticleSystem* ph::Ship::createParticleSystem(Group* _parent) {
 }
  
 ph::Ship::Ship() {
+
+    rotate = new MatrixTransform();
+    rotate->setMatrix(Matrix::rotate(0,Vec3d(0,0,0)));
+    translate = new MatrixTransform();
+    translate->setMatrix(Matrix::translate(Vec3d(0,0,0)));
+
+    translate->addChild(rotate.get());
+
     //Loading the model of the ship + adding it as a Child
-    this->addChild(osgDB::readNodeFile(fileLocation));
+    rotate->addChild(osgDB::readNodeFile(fileLocation));
 
     //Moving the origin of particles
     ref_ptr<MatrixTransform> mt = new MatrixTransform();
@@ -92,6 +99,8 @@ ph::Ship::Ship() {
     updater->addParticleSystem(ps);
 
     //Adding particlesystem and updater to ship's node
-    this->addChild(updater.get());
-    this->addChild(mt.get());
+    rotate->addChild(updater.get());
+    rotate->addChild(mt.get());
+
+    this->addChild(translate.get());
 }

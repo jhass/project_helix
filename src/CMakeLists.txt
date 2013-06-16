@@ -45,6 +45,7 @@ add_executable( rotator
 
 add_executable( ship
                 objects/Ship.cpp
+                animation/ShipNodeCallback.cpp
                 runners/ship.cpp )
 
 add_executable( nebula
