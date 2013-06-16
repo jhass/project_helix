@@ -52,7 +52,7 @@ double ph::cos_f(const double factor, double x, double x0) {
 
 // f(x)= factor* x +x0
 double ph::lin_f(const double factor, double x, double x0) {
-    return factor* x;
+    return factor* x+ x0;
 }
 
 // f(x)= x^factor+ x0
