@@ -1,4 +1,15 @@
 #include <osg/MatrixTransform>
+#include <osg/Texture2D>
+#include <osg/Point>
+#include <osg/PointSprite>
+#include <osgGA/StateSetManipulator>
+#include <osgParticle/ParticleSystemUpdater>
+#include <osgParticle/ModularEmitter>
+#include <osgParticle/ModularProgram>
+#include <osgParticle/AccelOperator>
+#include <osgParticle/RadialShooter>
+#include <osg/BlendFunc>
+#include <osgDB/ReadFile>
 
 #include "util.h"
 #include "scene_utils.h"
@@ -10,8 +21,8 @@
 #include "objects/Asteroid.h"
 
 // Creating Skybox with Texture and two suns clamped to the skybox
-ph::Skybox* ph::createSkybox() {
-    int skybox_height = 1000, skybox_width = 1000;
+ph::Skybox* ph::createSkybox(int skybox_height, int skybox_width) {
+
     // ref-Pointer anlegen
 	ref_ptr<ph::Skybox> skybox = new ph::Skybox(skybox_height,skybox_width);
 
@@ -45,7 +56,7 @@ ph::Skybox* ph::createSkybox() {
 }
 
 // Creating a planet with given texture
-MatrixTransform* ph::createPlanet() {
+MatrixTransform* ph::createPlanet(double x, double y, double z) {
     ref_ptr<MatrixTransform> planet = new MatrixTransform;
     // Sphere(radius, Steps)
     ref_ptr<ph::Sphere> sphere = new ph::Sphere(500, 200);
@@ -53,13 +64,13 @@ MatrixTransform* ph::createPlanet() {
     // giving the sphere a texturefile
     sphere->setTexture(0, "../Textures/EarthMap.jpg");
     
-    planet->setMatrix( Matrix::translate(0.0, 800.0, 0.0));
+    planet->setMatrix( Matrix::translate(x, y, z));
     planet->addChild( sphere.get());
     
     // Creating Animation; Rotation of the planet
     osg::ref_ptr<osg::AnimationPathCallback> animation_planet = new osg::AnimationPathCallback;
     animation_planet->setAnimationPath( ph::createAnimationPath(60.0f, 2*PI, ph::LOOP, ph::POS_Z_AXIS,
-     NULL, 0, 0, NULL, 0, 800, NULL, 0, 0));
+     NULL, 0, x, NULL, 0, y, NULL, 0, z));
     planet->setUpdateCallback( animation_planet.get() );
     
     return planet.release();
@@ -265,3 +276,104 @@ AnimationPath* ph::createTurianFlightPath(double x0, double y0, double z0) {
     
     return path.release();
  }
+ 
+ // Creates a comet with a particle tail
+Group* ph::createComet(double x, double y, double z) { 
+    ref_ptr<ph::Asteroid> asteroid = new ph::Asteroid(12, 20, 20, 1, 1, 1);
+    asteroid->setTexture(0, "../Textures/phobos.jpg");
+    
+    // getting the big asteroids to its place
+    ref_ptr<MatrixTransform> trans_asteroid = new MatrixTransform;
+    trans_asteroid->setMatrix(Matrix::translate(x, y, z));
+    trans_asteroid->addChild(asteroid.get());
+    
+    // creating animation path
+    // Creating Animation; Rotation of the planet
+    osg::ref_ptr<osg::AnimationPathCallback> animation_asteroid = new osg::AnimationPathCallback;
+    animation_asteroid->setAnimationPath( ph::createAnimationPath(600.0f, 20*PI, ph::LOOP, ph::NEG_X_AXIS,
+     NULL, 0, x, lin_f, 2000, y, NULL, 0, z));
+    trans_asteroid->setUpdateCallback( animation_asteroid.get() );
+    
+    //Moving the origin of particles
+    ref_ptr<MatrixTransform> mt = new MatrixTransform();
+    mt->setMatrix( Matrix::translate(x, y-5, z) );
+
+    //Creating the particlesystem at the point defined above
+    ref_ptr<ParticleSystem> ps = createParticleSystem(mt.get());
+    ref_ptr<ParticleSystemUpdater> updater = new ParticleSystemUpdater();
+    updater->addParticleSystem(ps);
+    
+    // Creating Animation; Rotation of the planet
+    osg::ref_ptr<osg::AnimationPathCallback> animation_particle = new osg::AnimationPathCallback;
+    animation_particle->setAnimationPath( ph::createAnimationPath(600.0f, 0, ph::LOOP, ph::NO_AXIS,
+     NULL, 0, x, lin_f, 2000, y, NULL, 0, z));
+    mt->setUpdateCallback( animation_particle.get() );
+    
+    ref_ptr<Group> node = new Group();
+    
+    node->addChild(trans_asteroid.get());
+    node->addChild(updater.get());
+    node->addChild(mt.get());
+    
+    return node.release();
+}
+
+// Creating particle system for Comet
+ParticleSystem* ph::createParticleSystem(Group* _parent) {
+    ref_ptr<Group> parent = _parent;
+    ref_ptr<ParticleSystem> ps = new ParticleSystem();
+    ps->getDefaultParticleTemplate().setShape(Particle::POINT);
+    
+    ref_ptr<BlendFunc> blendFunc = new BlendFunc();
+    blendFunc->setFunction(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    // Texture erzeugen
+    ref_ptr<Texture2D> texture = new Texture2D;
+
+    texture->setImage( osgDB::readImageFile("../resources/particle.rgb") );
+    
+    // StateSetattribute setzen
+    ref_ptr<StateSet> ss = ps->getOrCreateStateSet();
+    ss->setAttributeAndModes(blendFunc.get());
+    // Texture übergeben
+    ss->setTextureAttributeAndModes(0, texture.get());
+    // Point-Atrribut setzen
+    ref_ptr<Point> attribute = new Point(30.0f);
+    ss->setAttribute(attribute);
+    ref_ptr<PointSprite> sprite = new PointSprite;
+    ss->setTextureAttributeAndModes(0, sprite);
+    // Lichteffekte auf Partikel ausmachen
+    ss->setMode( GL_LIGHTING, StateAttribute::OFF);
+    // Rendering einstellen
+    ss->setRenderingHint( StateSet::TRANSPARENT_BIN );
+    
+    //Rng
+    ref_ptr<RandomRateCounter> rrc = new RandomRateCounter();
+    rrc->setRateRange( 100, 1000 );
+    
+    //makeshooter
+    ref_ptr<RadialShooter> myshooter = new RadialShooter();
+    myshooter->setThetaRange(-2.5,-0.5); // Streuung z-x-ebene gegen UZS
+    myshooter->setPhiRange(0.5,2.5); //Streuung x-y-ebene gegen UZS
+    myshooter->setInitialSpeedRange(5,20); //Geschwindigkeit
+    
+    //Emmiter
+    ref_ptr<ModularEmitter> emitter = new ModularEmitter();
+    emitter->setParticleSystem( ps.get() );
+    emitter->setCounter( rrc.get() );
+    emitter->setShooter(myshooter.get());    
+        
+    //??
+    ref_ptr<ModularProgram> program = new ModularProgram();
+    program->setParticleSystem( ps.get() );
+
+    
+    //Rendering stuff2
+    ref_ptr<Geode> geode = new Geode();
+    geode->addDrawable( ps.get() );
+    
+    parent->addChild( emitter.get() );
+    parent->addChild( program.get() );
+    parent->addChild( geode.get() );
+    return ps.release();
+}

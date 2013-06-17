@@ -9,18 +9,18 @@ int main(void) {
     ref_ptr<Group> root = new Group;
     
     // Creating SKYBOX with SUNS
-    ref_ptr<ph::Skybox> skybox = ph::createSkybox();
+    ref_ptr<ph::Skybox> skybox = ph::createSkybox(1000,1000);
     
     root->addChild(skybox.get());
     // activation light of the suns
     root->getOrCreateStateSet()->setMode(GL_LIGHT0, StateAttribute::ON);
     root->getOrCreateStateSet()->setMode(GL_LIGHT1, StateAttribute::ON);
     
-    //Creating PLANET
-    ref_ptr<MatrixTransform> planet = ph::createPlanet();
+    // Creating PLANET
+    ref_ptr<MatrixTransform> planet = ph::createPlanet(0,800,0);
     root->addChild(planet.get());
     
-    //Creating SHIP
+    // Creating SHIP
     ref_ptr<MatrixTransform> ship = ph::createShip(ph::STATION,-20.0,-500.0,0.0);
     root->addChild(ship.get());
     ref_ptr<MatrixTransform> turian_ship = ph::createShip(ph::TURIAN,-800.0,0.0,0.0);
@@ -29,9 +29,14 @@ int main(void) {
     turian_ship->setUpdateCallback( turian_path.get() );
     root->addChild(turian_ship.get());
     
-    //Creting ASTEROID FIELD
+    // Creating ASTEROID FIELD
     ref_ptr<MatrixTransform> asteroid = ph::createAsteroidField(20.0,-600.0,0.0);
     root->addChild(asteroid.get());
+    
+    // Creating COMET
+    ref_ptr<Group> comet = ph::createComet(200.0,-500.0,0.0);
+    root->addChild(comet.get());
+    
     
     osgViewer::Viewer viewer;
 	viewer.setSceneData( root.get() );
