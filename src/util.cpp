@@ -105,6 +105,7 @@ osg::AnimationPath* ph::createAnimationPath(float time, float func,
     case NEG_X_AXIS: tAxis = Vec3(-1.0, 0.0, 0.0); break;
     case NEG_Y_AXIS: tAxis = Vec3(0.0, -1.0, 0.0); break;
     case NEG_Z_AXIS: tAxis = Vec3(0.0, 0.0, -1.0); break;
+    case NO_AXIS: tAxis = Vec3(0.0, 0.0, 0.0); break;
     }    
         
     unsigned int numSamples = (int)time;

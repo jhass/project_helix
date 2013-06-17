@@ -15,7 +15,7 @@ namespace ph {
     PositionAttitudeTransform* getDebugAxes(double scale, double dx, double dy, double dz);
     
     enum AnimationMode {LOOP, SWING};
-    enum RotationAxis {POS_X_AXIS, POS_Y_AXIS, POS_Z_AXIS, NEG_X_AXIS, NEG_Y_AXIS, NEG_Z_AXIS};
+    enum RotationAxis {POS_X_AXIS, POS_Y_AXIS, POS_Z_AXIS, NEG_X_AXIS, NEG_Y_AXIS, NEG_Z_AXIS, NO_AXIS};
     
     double sin_f(const double factor, double x, double x0);
     double cos_f(const double factor, double x, double x0);
