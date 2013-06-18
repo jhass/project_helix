@@ -54,7 +54,7 @@ void ph::Torus::setCoordinates() {
             theta = (double) i / iteration;
             vertices->push_back(calculateVertex(theta, phi));
             normals->push_back(calculateNormal(theta, phi));
-            texcoords->push_back(Vec2(theta, phi));
+            texcoords->push_back(Vec2(phi, theta));
         }
     }
     
