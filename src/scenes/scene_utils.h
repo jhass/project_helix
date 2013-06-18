@@ -23,6 +23,9 @@ namespace ph {
     
     Group* createComet(double x, double y, double z); 
     ParticleSystem* createParticleSystem(Group* _parent);
+    
+    StateSet* createTorusTexture(Geode* model);
+    Vec4* applyColor(Vec4* data, int pos, int upper, Vec4 colorindex);
 }
 
 #endif

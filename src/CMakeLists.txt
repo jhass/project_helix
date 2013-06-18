@@ -87,6 +87,7 @@ add_executable( scene
                 objects/Rectangle.cpp
                 objects/Sun.cpp
                 objects/Sphere.cpp
+                objects/Torus.cpp
                 objects/Ship.cpp
                 objects/Chronos.cpp
                 objects/Reaper.cpp

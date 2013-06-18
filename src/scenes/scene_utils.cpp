@@ -1,5 +1,7 @@
 #include <osg/MatrixTransform>
+#include <osg/Texture1D>
 #include <osg/Texture2D>
+#include <osg/Material>
 #include <osg/Point>
 #include <osg/PointSprite>
 #include <osgGA/StateSetManipulator>
@@ -15,6 +17,7 @@
 #include "scene_utils.h"
 #include "objects/Skybox.h"
 #include "objects/Sun.h"
+#include "objects/Torus.h"
 #include "objects/Ship.h"
 #include "objects/Chronos.h"
 #include "objects/Reaper.h"
@@ -64,8 +67,16 @@ MatrixTransform* ph::createPlanet(double x, double y, double z) {
     // giving the sphere a texturefile
     sphere->setTexture(0, "../Textures/EarthMap.jpg");
     
+    // Torus(innerRadius, torusRadius, lengthSteps, widthSteps)
+    ref_ptr<ph::Torus> torus = new ph::Torus(650, 75, 100);
+
+    // NORMAL is Default
+    torus->setStyle(ph::Torus::FLAT);
+    torus->setStateSet(ph::createTorusTexture(torus));
+       
     planet->setMatrix( Matrix::translate(x, y, z));
     planet->addChild( sphere.get());
+    planet->addChild(torus.get());
     
     // Creating Animation; Rotation of the planet
     osg::ref_ptr<osg::AnimationPathCallback> animation_planet = new osg::AnimationPathCallback;
@@ -287,8 +298,7 @@ Group* ph::createComet(double x, double y, double z) {
     trans_asteroid->setMatrix(Matrix::translate(x, y, z));
     trans_asteroid->addChild(asteroid.get());
     
-    // creating animation path
-    // Creating Animation; Rotation of the planet
+    // creating animation path for comet
     osg::ref_ptr<osg::AnimationPathCallback> animation_asteroid = new osg::AnimationPathCallback;
     animation_asteroid->setAnimationPath( ph::createAnimationPath(600.0f, 20*PI, ph::LOOP, ph::NEG_X_AXIS,
      NULL, 0, x, lin_f, 2000, y, NULL, 0, z));
@@ -303,12 +313,13 @@ Group* ph::createComet(double x, double y, double z) {
     ref_ptr<ParticleSystemUpdater> updater = new ParticleSystemUpdater();
     updater->addParticleSystem(ps);
     
-    // Creating Animation; Rotation of the planet
+    // Creating Animation; Movement of the particles
     osg::ref_ptr<osg::AnimationPathCallback> animation_particle = new osg::AnimationPathCallback;
     animation_particle->setAnimationPath( ph::createAnimationPath(600.0f, 0, ph::LOOP, ph::NO_AXIS,
      NULL, 0, x, lin_f, 2000, y, NULL, 0, z));
     mt->setUpdateCallback( animation_particle.get() );
     
+    // Parent node to separate asteroid and his animation from the particle animation
     ref_ptr<Group> node = new Group();
     
     node->addChild(trans_asteroid.get());
@@ -376,4 +387,120 @@ ParticleSystem* ph::createParticleSystem(Group* _parent) {
     parent->addChild( program.get() );
     parent->addChild( geode.get() );
     return ps.release();
+}
+
+//creates 1d texture based on osgtexture1d code example
+StateSet* ph::createTorusTexture(Geode* model) {
+    Image* image = new Image;
+    int pixels = 1000;
+    
+    // image anlegen mit pixels x 1 x 1 und RGBA dargestellt durch Vec4
+    image->allocateImage(pixels,1,1,GL_RGBA,GL_FLOAT);
+    image->setInternalTextureFormat(GL_RGBA);
+    
+    // creating colors
+    vector<Vec4> colorBands;
+    colorBands.push_back(Vec4(0.0,0.0,0.0,1.0));
+    colorBands.push_back(Vec4(0.1,0.1,0.1,1.0));
+    colorBands.push_back(Vec4(0.2,0.2,0.2,1.0));
+    colorBands.push_back(Vec4(0.3,0.3,0.3,1.0));
+    colorBands.push_back(Vec4(1.0,1.0,1.0,1.0));
+    
+    float band_size = colorBands.size();
+    float delta = band_size / (float) pixels;
+    int pos = 0, count = 0;
+    
+    /* creating image data (% Pixel; symmetrical)
+       10 % dark grey; 3% black; 5% light grey;
+       2% black; 10% light grey; 2% black;
+       5% light grey; 3% black; 5% light grey
+       5% dark grey*/
+    Vec4* dataPoints = (Vec4*)image->data();
+    for (int k=1; k <=2; k++) {
+        for(int i=0; i<pixels/10; i++) {
+            Vec4 color = colorBands[1];
+            *dataPoints++ = color;
+        }
+        
+        pos+= count;
+        for(int i=pos; i<(pos+3*pixels/100); i++) {
+            Vec4 color = colorBands[0];
+            *dataPoints++ = color;
+            count = i;
+        }
+        
+        pos += count;
+        for(int i=pos; i<(pos+pixels/20); i++) {
+            Vec4 color = colorBands[3];
+            *dataPoints++ = color;
+            count = i;
+        }
+        
+        pos+= count;
+        for(int i=pos; i<(pos+2*pixels/100); i++) {
+            Vec4 color = colorBands[0];
+            *dataPoints++ = color;
+            count = i;
+        }
+        
+        pos += count;
+        for(int i=pos; i<(pos+pixels/10); i++) {
+            Vec4 color = colorBands[3];
+            *dataPoints++ = color;
+            count = i;
+        }
+        
+        pos+= count;
+        for(int i=pos; i<(pos+2*pixels/100); i++) {
+            Vec4 color = colorBands[0];
+            *dataPoints++ = color;
+            count = i;
+        }
+        
+        pos += count;
+        for(int i=pos; i<(pos+pixels/20); i++) {
+            Vec4 color = colorBands[2];
+            *dataPoints++ = color;
+            count = i;
+        }
+
+        pos+= count;
+        for(int i=pos; i<(pos+3*pixels/100); i++) {
+            Vec4 color = colorBands[0];
+            *dataPoints++ = color;
+            count = i;
+        }  
+        
+        pos += count;
+        for(int i=pos; i<(pos+pixels/20); i++) {
+            Vec4 color = colorBands[3];
+            *dataPoints++ = color;
+            count = i;
+        }
+        
+       pos += count;
+       for(int i=pos; i<(pos+pixels/20); i++) {
+            Vec4 color = colorBands[1];
+            *dataPoints++ = color;
+            count = i;
+        }
+        pos += count;
+    }
+    
+    Texture1D* texture = new Texture1D;
+    texture->setWrap(Texture1D::WRAP_T, Texture::MIRROR);
+    texture->setFilter(Texture1D::MIN_FILTER, Texture::NEAREST);
+    texture->setImage(image);
+    
+    Material* material = new Material;
+    StateSet* stateSet = new StateSet;
+    
+    stateSet->setTextureAttribute(0,texture, StateAttribute::OVERRIDE);
+    stateSet->setTextureMode(0,GL_TEXTURE_1D, StateAttribute::ON| StateAttribute::OVERRIDE);
+    stateSet->setTextureMode(0,GL_TEXTURE_2D, StateAttribute::OFF| StateAttribute::OVERRIDE);
+    stateSet->setTextureMode(0,GL_TEXTURE_3D, StateAttribute::OFF| StateAttribute::OVERRIDE);
+    
+    stateSet->setAttribute(material, StateAttribute::OVERRIDE);
+    
+    return stateSet;
 }
