@@ -15,6 +15,10 @@ ph::MainView::MainView() {
     this->switchToMainPerspective();
 }
 
+ph::MainScene* ph::MainView::getScene() {
+    return scene.get();
+}
+
 void ph::MainView::switchToMainPerspective() {
     this->getCamera()->setViewMatrixAsLookAt(
         Vec3d(-20, -140, 120), // eye

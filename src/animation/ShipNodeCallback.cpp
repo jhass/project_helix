@@ -32,6 +32,14 @@ void ph::ShipNodeCallback::operator()(Node* node, NodeVisitor* nv) {
 	shipNode->translate->setMatrix(translation);
 	traverse(node, nv);
 	pitch = yaw = roll = 0;
+
+	// Update camera
+	Vec3d eye = translation.getTrans()+Vec3d(0, 0, 1);
+	shipNode->camera->setViewMatrixAsLookAt(
+		 eye, // eye
+         eye+direction,  // center
+         Vec3d(0, 0, 1)   // up
+    );
 }
 
 void ph::ShipNodeCallback::yawLeft() {

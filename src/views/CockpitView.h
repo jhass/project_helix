@@ -3,10 +3,12 @@
 
 #include <osgViewer/View>
 
+#include "scenes/MainScene.h"
+
 namespace ph {
     class CockpitView : public osgViewer::View {
         public:
-            CockpitView();
+            CockpitView(MainScene* scene);
     };
 }
 

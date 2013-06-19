@@ -11,6 +11,7 @@ namespace ph {
             ref_ptr<MainScene> scene;
         public:
             MainView();
+            MainScene* getScene();
             void switchToMainPerspective();
             void switchToSecondPerspective();
             void switchToThirdPerspective();
