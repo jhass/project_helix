@@ -1,8 +1,6 @@
 #include "KeyboardEventHandler.h"
 
-ph::KeyboardEventHandler::KeyboardEventHandler(ph::MainView* view) : view(view) {
-    this->view->addEventHandler(this);
-}
+ph::KeyboardEventHandler::KeyboardEventHandler(ph::MainView* view) : view(view) {}
 
 bool ph::KeyboardEventHandler::handle(const GUIEventAdapter& eventAdapter, GUIActionAdapter& actionAdapter) {
     switch (eventAdapter.getEventType()) {

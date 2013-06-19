@@ -38,8 +38,8 @@ int main(void) {
     //osg::ref_ptr<osg::AnimationPathCallback> apcb = new osg::AnimationPathCallback;
     //apcb->setAnimationPath( createAnimationPath(50.0f, 6.0f) );
     //root->setUpdateCallback( apcb.get() );
-    ship->setUpdateCallback(new ph::ShipNodeCallback);
-
+    // ship->setUpdateCallback(new ph::ShipNodeCallback);
+    
     viewer.setSceneData(ship.get());
     return viewer.run();
 }

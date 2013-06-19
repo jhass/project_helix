@@ -17,6 +17,8 @@ namespace ph {
             void switchToThirdPerspective();
             void yawShipLeft();
             void yawShipRight();
+            void pitchShipUp();
+            void pitchShipDown();
     };
 }
 

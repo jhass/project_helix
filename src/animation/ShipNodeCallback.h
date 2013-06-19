@@ -15,9 +15,11 @@ namespace ph {
 			virtual void operator()(Node* node, NodeVisitor* nv);
 			void yawLeft();
 			void yawRight();
+            void pitchUp();
+            void pitchDown();
 
 		private:
-			static Vec3d direction;
+			static Vec3d direction, up;
 			static double pitch, yaw, roll;
 	};
 }

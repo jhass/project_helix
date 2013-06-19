@@ -15,6 +15,7 @@ int main(void) {
     ref_ptr<ph::MainView> mainView = new ph::MainView();
     ref_ptr<ph::CockpitView> cockpitView = new ph::CockpitView(mainView->getScene());
     ref_ptr<ph::KeyboardEventHandler> handler = new ph::KeyboardEventHandler(mainView.get());
+    cockpitView->addEventHandler(handler.get());
 
     unsigned int width, height;
     GraphicsContext::WindowingSystemInterface* wsi = GraphicsContext::getWindowingSystemInterface();
@@ -31,17 +32,17 @@ int main(void) {
     traits->sharedContext = 0;
 
     ref_ptr<GraphicsContext> context = GraphicsContext::createGraphicsContext(traits.get());
-    mainView->getCamera()->setGraphicsContext(context.get());
     cockpitView->getCamera()->setGraphicsContext(context.get());
+    mainView->getCamera()->setGraphicsContext(context.get());
 
-    mainView->getCamera()->setViewport(new Viewport(0, 0, width, height));
-    viewer->addView(mainView);
+    cockpitView->getCamera()->setViewport(new Viewport(0, 0, width, height));
+    viewer->addView(cockpitView);    
 
     //                                                  x,           y 
-    cockpitView->getCamera()->setViewport(new Viewport(width-20-width/8, 20,
+    mainView->getCamera()->setViewport(new Viewport(width-20-width/8, 20,
     //                                                  width,    height
-                                                       width/8, width/8));
-    viewer->addView(cockpitView);    
+                                                    width/8, width/8));
+    viewer->addView(mainView);
 
     return viewer->run();
 }

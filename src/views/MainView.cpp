@@ -52,3 +52,11 @@ void ph::MainView::yawShipLeft() {
 void ph::MainView::yawShipRight() {
     scene->ship_callback->yawRight();   
 }
+
+void ph::MainView::pitchShipUp() {
+    scene->ship_callback->pitchUp();
+}
+
+void ph::MainView::pitchShipDown() {
+    scene->ship_callback->pitchDown();
+}
