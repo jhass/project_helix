@@ -80,7 +80,7 @@ MatrixTransform* ph::createPlanet(double x, double y, double z) {
     
     // Creating Animation; Rotation of the planet
     osg::ref_ptr<osg::AnimationPathCallback> animation_planet = new osg::AnimationPathCallback;
-    animation_planet->setAnimationPath( ph::createAnimationPath(60.0f, 2*PI, ph::LOOP, ph::POS_Z_AXIS,
+    animation_planet->setAnimationPath( ph::createAnimationPath(600.0f, 2*PI, ph::LOOP, ph::POS_Z_AXIS,
      NULL, 0, x, NULL, 0, y, NULL, 0, z));
     planet->setUpdateCallback( animation_planet.get() );
     
@@ -102,10 +102,9 @@ MatrixTransform* ph::createShip(ph::ShipType type, double x, double y, double z)
     return trans_ship.release();
 }
 
-// Creating an asteroid field and position(x,y,z)
-MatrixTransform* ph::createAsteroidField(double x, double y, double z) {
-    ref_ptr<MatrixTransform> trans_field = new MatrixTransform;
-    trans_field->setMatrix(Matrix::translate(x,y,z));
+// Creating an asteroid field
+Group* ph::createAsteroidField() {
+    ref_ptr<Group> trans_field = new Group;
     
     // asteroid_standard(radius, lengthSteps, widthSteps, deformationfactor in x,y,z)
     // Big main asteroids
@@ -229,7 +228,41 @@ MatrixTransform* ph::createAsteroidField(double x, double y, double z) {
     asteroid_small_fine->setTexture(0, "../Textures/phobos.jpg");
     
     return trans_field.release();
-}        
+} 
+
+// Extends the created asteroid field by creating copies of one existing field
+// and moving them to different directions based on pos(x,y,z)
+MatrixTransform* ph::extendAsteroidField(double x, double y, double z) {
+    ref_ptr<Group> asteroid_field = ph::createAsteroidField();
+    ref_ptr<MatrixTransform> asteroid_copy_01 = new MatrixTransform;
+    asteroid_copy_01->setMatrix(Matrix::translate(0.0,0.0,30));
+    asteroid_copy_01->addChild(asteroid_field.get());
+    ref_ptr<MatrixTransform> asteroid_copy_02 = new MatrixTransform;
+    asteroid_copy_02->setMatrix(Matrix::translate(120.0,0.0,0.0));
+    asteroid_copy_02->addChild(asteroid_field.get());
+    ref_ptr<MatrixTransform> asteroid_copy_03 = new MatrixTransform;
+    asteroid_copy_03->setMatrix(Matrix::rotate(PI,Vec3(0.0,1.0,0.0)));
+    asteroid_copy_03->addChild(asteroid_field.get());
+    ref_ptr<MatrixTransform> asteroid_copy_04 = new MatrixTransform;
+    asteroid_copy_04->setMatrix(Matrix::rotate(PI,Vec3(1.0,0.0,0.0))*Matrix::translate(-120.0,0.0,0.0));
+    asteroid_copy_04->addChild(asteroid_field.get());
+    ref_ptr<MatrixTransform> asteroid_copy_05 = new MatrixTransform;
+    asteroid_copy_05->setMatrix(Matrix::rotate(PI,Vec3(0.0,0.0,1.0))*Matrix::translate(120.0,0.0,30));
+    asteroid_copy_05->addChild(asteroid_field.get());
+    ref_ptr<MatrixTransform> asteroid_copy_06 = new MatrixTransform;
+    asteroid_copy_06->setMatrix(Matrix::rotate(PI,Vec3(0.0,0.0,1.0))*Matrix::translate(-120.0,0.0,30));
+    asteroid_copy_06->addChild(asteroid_field.get());
+    
+    ref_ptr<MatrixTransform> root = new MatrixTransform;
+    root->setMatrix(Matrix::translate(x,y,z));
+    root->addChild(asteroid_copy_06.get());
+    root->addChild(asteroid_copy_05.get());
+    root->addChild(asteroid_copy_04.get());
+    root->addChild(asteroid_copy_03.get());
+    root->addChild(asteroid_copy_02.get());
+    root->addChild(asteroid_copy_01.get());
+    return root.release();
+}       
 
 // Creates the flight path of our turian spacecraft
 AnimationPath* ph::createTurianFlightPath(double x0, double y0, double z0) {
@@ -255,7 +288,7 @@ AnimationPath* ph::createTurianFlightPath(double x0, double y0, double z0) {
     {
         float d_pos = delta_pos * (float)i;
         new_x0 = (float)lin_f(start_distance,d_pos,x0);
-        Vec3 pos( new_x0, 0, 0 );
+        Vec3 pos( new_x0, y0, z0 );
         path->insert( (float)i, AnimationPath::ControlPoint(pos) );
     }
     
@@ -265,7 +298,7 @@ AnimationPath* ph::createTurianFlightPath(double x0, double y0, double z0) {
     for ( unsigned int i=0; i<=numSamples; ++i )
     {
         float yaw = delta_rot * (float)i;
-        Vec3 pos( new_x0, 0, 0 );
+        Vec3 pos( new_x0, y0, z0 );
         Quat rot(yaw, Vec3(0.0, 0.0, -1.0));
         path->insert( (float)(start_time+i), AnimationPath::ControlPoint(pos,rot) );
     }
@@ -280,7 +313,7 @@ AnimationPath* ph::createTurianFlightPath(double x0, double y0, double z0) {
         float d_pos = delta_pos * (float)i;
         new_x0 = (float)lin_f(-return_distance,d_pos,x0);
         new_y0 = (float)lin_f(-return_distance/2,d_pos,y0);
-        Vec3 pos( new_x0, new_y0, 0 );
+        Vec3 pos( new_x0, new_y0, z0 );
         Quat rot(3*PI/4, Vec3(0.0, 0.0, -1.0));
         path->insert( (float)(start_time+rotation_time+i), AnimationPath::ControlPoint(pos,rot) );
     }
@@ -292,6 +325,7 @@ AnimationPath* ph::createTurianFlightPath(double x0, double y0, double z0) {
 Group* ph::createComet(double x, double y, double z) { 
     ref_ptr<ph::Asteroid> asteroid = new ph::Asteroid(12, 20, 20, 1, 1, 1);
     asteroid->setTexture(0, "../Textures/phobos.jpg");
+    double delta_x = 800.0, delta_y = 2000.0;
     
     // getting the big asteroids to its place
     ref_ptr<MatrixTransform> trans_asteroid = new MatrixTransform;
@@ -301,7 +335,7 @@ Group* ph::createComet(double x, double y, double z) {
     // creating animation path for comet
     osg::ref_ptr<osg::AnimationPathCallback> animation_asteroid = new osg::AnimationPathCallback;
     animation_asteroid->setAnimationPath( ph::createAnimationPath(600.0f, 20*PI, ph::LOOP, ph::NEG_X_AXIS,
-     NULL, 0, x, lin_f, 2000, y, NULL, 0, z));
+     lin_f, delta_x, x, lin_f, delta_y, y, NULL, 0, z));
     trans_asteroid->setUpdateCallback( animation_asteroid.get() );
     
     //Moving the origin of particles
@@ -316,7 +350,7 @@ Group* ph::createComet(double x, double y, double z) {
     // Creating Animation; Movement of the particles
     osg::ref_ptr<osg::AnimationPathCallback> animation_particle = new osg::AnimationPathCallback;
     animation_particle->setAnimationPath( ph::createAnimationPath(600.0f, 0, ph::LOOP, ph::NO_AXIS,
-     NULL, 0, x, lin_f, 2000, y, NULL, 0, z));
+     lin_f, delta_x, x, lin_f, delta_y, y, NULL, 0, z));
     mt->setUpdateCallback( animation_particle.get() );
     
     // Parent node to separate asteroid and his animation from the particle animation

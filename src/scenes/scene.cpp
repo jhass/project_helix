@@ -21,20 +21,21 @@ int main(void) {
     root->addChild(planet.get());
     
     // Creating SHIP
-    ref_ptr<MatrixTransform> ship = ph::createShip(ph::STATION,-20.0,-500.0,0.0);
+    ref_ptr<MatrixTransform> ship = ph::createShip(ph::STATION,-20.0, 80.0,100.0);
+    ship->setMatrix(Matrix::rotate(-PI_2,Vec3(0,0,1))*ship->getMatrix());
     root->addChild(ship.get());
-    ref_ptr<MatrixTransform> turian_ship = ph::createShip(ph::TURIAN,-800.0,0.0,0.0);
+    ref_ptr<MatrixTransform> turian_ship = ph::createShip(ph::TURIAN,-850.0,80.0,100.0);
     osg::ref_ptr<osg::AnimationPathCallback> turian_path = new osg::AnimationPathCallback;
-    turian_path->setAnimationPath( ph::createTurianFlightPath(-800.0,0.0,0.0));
+    turian_path->setAnimationPath( ph::createTurianFlightPath(-850.0,80.0,100.0));
     turian_ship->setUpdateCallback( turian_path.get() );
     root->addChild(turian_ship.get());
     
     // Creating ASTEROID FIELD
-    ref_ptr<MatrixTransform> asteroid = ph::createAsteroidField(20.0,-600.0,0.0);
+    ref_ptr<MatrixTransform> asteroid = ph::extendAsteroidField(20.0,-600.0,0.0);
     root->addChild(asteroid.get());
     
     // Creating COMET
-    ref_ptr<Group> comet = ph::createComet(200.0,-500.0,0.0);
+    ref_ptr<Group> comet = ph::createComet(200.0,-1000.0,200.0);
     root->addChild(comet.get());
     
     

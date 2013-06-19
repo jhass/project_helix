@@ -17,7 +17,8 @@ namespace ph {
     
     MatrixTransform* createPlanet(double x, double y, double z);
     MatrixTransform* createShip(ShipType type, double x, double y, double z);
-    MatrixTransform* createAsteroidField(double x, double y, double z);
+    Group* createAsteroidField();
+    MatrixTransform* extendAsteroidField(double x, double y, double z);
     
     AnimationPath* createTurianFlightPath(double x0, double y0, double z0);
     
