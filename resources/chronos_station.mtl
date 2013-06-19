@@ -31,7 +31,7 @@ d 1.000000
 illum 2
 map_Kd cerberus.jpg
 
-newmtl ship_hull_metal-hull.jpg
+newmtl ship_hull_grey_color
 Ns 96.078431
 Ka 0.000000 0.000000 0.000000
 Kd 0.640000 0.640000 0.640000
