@@ -39,9 +39,9 @@ int main(void) {
     viewer->addView(cockpitView);    
 
     //                                                  x,           y 
-    mainView->getCamera()->setViewport(new Viewport(width-20-width/8, 20,
+    mainView->getCamera()->setViewport(new Viewport(width-20-width/6, 20,
     //                                                  width,    height
-                                                    width/8, width/8));
+                                                    width/6, width/6));
     viewer->addView(mainView);
 
     return viewer->run();

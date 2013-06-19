@@ -21,25 +21,25 @@ ph::MainScene* ph::MainView::getScene() {
 
 void ph::MainView::switchToMainPerspective() {
     this->getCamera()->setViewMatrixAsLookAt(
-        Vec3d(-20, -140, 120), // eye
-        Vec3d(0, 0, 0),  // center
+        Vec3d(-800, -1000, 300), // eye
+        Vec3d(200, -200, 0),  // center
         Vec3d(0, 0, 1)   // up
     );
 }
 
 void ph::MainView::switchToSecondPerspective() {
     this->getCamera()->setViewMatrixAsLookAt(
-        Vec3d(60, 0, 40), // eye
-        Vec3d(0, 0, 0),  // center
-        Vec3d(0, 0, 1)   // up
+        Vec3d(-60, -120, 100), // eye
+        Vec3d(-20, 80, 100),  // center
+        Vec3d(1, 0, 1)   // up
     );
 }
 
 
 void ph::MainView::switchToThirdPerspective() {
     this->getCamera()->setViewMatrixAsLookAt(
-        Vec3d(-60, 0, -20), // eye
-        Vec3d(0, 0, 0),  // center
+        Vec3d(600, 1000, 200), // eye
+        Vec3d(600, 0, 0),  // center
         Vec3d(0, 0, 1)   // up
     );   
 }
