@@ -9,12 +9,18 @@ add_executable( project_helix
                 views/CockpitView.cpp
                 
                 scenes/MainScene.cpp
+                scenes/scene_utils.cpp
                 
                 objects/Ship.cpp 
                 objects/Nebula.cpp
                 objects/Asteroid.cpp
                 objects/Sphere.cpp
                 objects/Torus.cpp
+                objects/Skybox.cpp
+                objects/Sun.cpp
+                objects/Chronos.cpp
+                objects/Reaper.cpp
+                objects/Rectangle.cpp
                 
                 interactors/KeyboardEventHandler.cpp
 

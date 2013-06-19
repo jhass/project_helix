@@ -13,39 +13,41 @@
 
 using namespace osg;
 
-ph::MainScene::MainScene() {
-    ship = new ph::Ship();
-    ship_callback = new ph::ShipNodeCallback;
+#include "scene_utils.h"
+#include "util.h"
+
+ph::MainScene::MainScene() {   
+    // Creating SKYBOX with SUNS
+    ref_ptr<ph::Skybox> skybox = ph::createSkybox(1000,1000);
+    
+    this->addChild(skybox.get());
+    // activation light of the suns
+    this->getOrCreateStateSet()->setMode(GL_LIGHT0, StateAttribute::ON);
+    this->getOrCreateStateSet()->setMode(GL_LIGHT1, StateAttribute::ON);
+    
+    // Creating PLANET
+    ref_ptr<MatrixTransform> planet = ph::createPlanet(0,800,0);
+    this->addChild(planet.get());
+    
+    // Creating SHIP
+    ref_ptr<MatrixTransform> station = ph::createShip(ph::STATION,-20.0, 80.0,100.0);
+    station->setMatrix(Matrix::rotate(-PI_2,Vec3(0,0,1))*station->getMatrix());
+    this->addChild(station.get());
+
+    ship = new ph::Ship;
+    ref_ptr<MatrixTransform> trans_ship = new MatrixTransform;
+    trans_ship->setMatrix( Matrix::translate(-850, 80, 100));
+
+    ship_callback = new ShipNodeCallback;
     ship->setUpdateCallback(ship_callback.get());
-    
-    //Parameterliste: Verschiebungsvektor-Pointer
-    ref_ptr<Node> nebula = new ph::Nebula(Vec3d(-100,-30,40), "../resources/nebulainner.png", 10, 50); //hinter, rechts, drüber
-    
-    //Parameterliste: radius,length,height,deformation x,y,z
-    ref_ptr<ph::Asteroid> asteroid = new ph::Asteroid(2, 20, 20, 2, 1, 1);
-    asteroid->setTexture(0, "../Textures/EarthMap.jpg"); //Wird beim Zoomen Blau? WTF?
-    ref_ptr<MatrixTransform> asttrans = new MatrixTransform();
-    asttrans->setMatrix(Matrix::translate(Vec3d(200,0,50))); //vor, -, drüber
-    asttrans->addChild(asteroid.get());
-
-    //Parameterliste: Radius, Auflösung, Auflösung
-    ref_ptr<ph::Sphere> planet = new ph::Sphere(1000, 200);
-    planet->setTexture(0, "../Textures/EarthMap.jpg"); //Auch Blau?
-    ref_ptr<MatrixTransform> plantrans = new MatrixTransform();
-    plantrans->setMatrix(Matrix::translate(Vec3d(0,1200,-100)));
-    plantrans->addChild(planet.get());
-
-    //Parameterliste: Radius zur mitte, Breite(wtf?), Auflösung?, Auflösung?
-    ref_ptr<ph::Torus> torus = new ph::Torus(1600, 300, 100);
-    torus->setTexture(0, "../Textures/EarthMap.jpg");
-    ref_ptr<MatrixTransform> torustrans = new MatrixTransform();
-    torustrans->setMatrix(Matrix::translate(Vec3d(0,1200,-100)));
-    torustrans->addChild(torus.get());
-
-    this->addChild(torustrans.get());
-    this->addChild(plantrans.get());
-    this->addChild(asttrans.get());
     this->addChild(ship.get());
-    this->addChild(nebula.get());
+    
+    // Creating ASTEROID FIELD
+    ref_ptr<MatrixTransform> asteroid = ph::extendAsteroidField(20.0,-600.0,0.0);
+    this->addChild(asteroid.get());
+    
+    // Creating COMET
+    ref_ptr<Group> comet = ph::createComet(200.0,-1000.0,200.0);
+    this->addChild(comet.get());
     // this->addChild(ph::getDebugAxes(1, 3.5, 0, 1.5));
 }
