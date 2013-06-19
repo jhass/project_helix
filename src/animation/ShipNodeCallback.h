@@ -19,7 +19,7 @@ namespace ph {
             void pitchDown();
 
 		private:
-			static Vec3d direction, up;
+			static Vec3d direction, up, x_axis, y_axis, z_axis;
 			static double pitch, yaw, roll;
 	};
 }

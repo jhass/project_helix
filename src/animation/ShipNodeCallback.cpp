@@ -9,10 +9,13 @@
 using namespace std;
 
 Vec3d ph::ShipNodeCallback::direction = Vec3d(0.3,0,0);
-Vec3d ph::ShipNodeCallback::up = Vec3d(0,0,1);
+Vec3d ph::ShipNodeCallback::up        = Vec3d(0,0,1);
+Vec3d ph::ShipNodeCallback::x_axis    = Vec3d(1,0,0);
+Vec3d ph::ShipNodeCallback::y_axis    = Vec3d(0,1,0);
+Vec3d ph::ShipNodeCallback::z_axis    = Vec3d(0,0,1);
 double ph::ShipNodeCallback::pitch = 0;
-double ph::ShipNodeCallback::yaw = 0;
-double ph::ShipNodeCallback::roll = 0;
+double ph::ShipNodeCallback::yaw   = 0;
+double ph::ShipNodeCallback::roll  = 0;
 
 
 
@@ -20,7 +23,7 @@ void ph::ShipNodeCallback::operator()(Node* node, NodeVisitor* nv) {
 	ref_ptr<ph::Ship> shipNode = dynamic_cast<ph::Ship*>(node); //You don't want the long way.
 
 	//Rotate direction for translation
-	Quat q = Quat(roll, Vec3d(1,0,0), pitch, Vec3d(0,1,0), yaw, Vec3d(0,0,1));
+	Quat q = Quat(roll, x_axis, pitch, y_axis, yaw, z_axis);
 	direction = q * direction;
 	up = q * up;
 
@@ -32,16 +35,21 @@ void ph::ShipNodeCallback::operator()(Node* node, NodeVisitor* nv) {
 	//Translate Ship
 	Matrix translation = Matrix::translate(shipNode->translate->getMatrix().getTrans() + direction);
 	shipNode->translate->setMatrix(translation);
-	traverse(node, nv);
-	pitch = yaw = roll = 0;
 
 	// Update camera
 	Vec3d eye = translation.getTrans()+up;
 	shipNode->camera->setViewMatrixAsLookAt(
-		 eye, // eye
+		 eye,            // eye
          eye+direction,  // center
-         up   // up
+         up              // up
     );
+
+    x_axis = q * x_axis;
+    y_axis = q * y_axis;
+    z_axis = q * z_axis;
+	pitch = yaw = roll = 0;
+	
+	traverse(node, nv);
 }
 
 void ph::ShipNodeCallback::yawLeft() {
