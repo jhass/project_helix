@@ -6,6 +6,7 @@
 #include <osg/Vec3d>
 #include <osg/ProxyNode>
 #include <osgParticle/ParticleSystem>
+#include <osg/MatrixTransform>
 
 using namespace std;
 using namespace osg;
@@ -19,8 +20,10 @@ namespace ph {
 
         public: 
             Ship();
+            // void addNode(Node* node);
             ref_ptr<MatrixTransform> rotate;
             ref_ptr<MatrixTransform> translate;
+            ref_ptr<Camera> camera;
     };
 }
 

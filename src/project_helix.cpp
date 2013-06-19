@@ -13,7 +13,7 @@ int main(void) {
     ref_ptr<CompositeViewer> viewer = new CompositeViewer();
 
     ref_ptr<ph::MainView> mainView = new ph::MainView();
-    ref_ptr<ph::CockpitView> cockpitView = new ph::CockpitView();
+    ref_ptr<ph::CockpitView> cockpitView = new ph::CockpitView(mainView->getScene());
     ref_ptr<ph::KeyboardEventHandler> handler = new ph::KeyboardEventHandler(mainView.get());
 
     unsigned int width, height;

@@ -1,7 +1,6 @@
 #include <cmath>
 
 #include <osg/Matrix>
-#include <osg/MatrixTransform>
 #include <osg/Point>
 #include <osg/PointSprite>
 #include <osg/Texture2D>
@@ -103,4 +102,10 @@ ph::Ship::Ship() {
     rotate->addChild(mt.get());
 
     this->addChild(translate.get());
+
+    camera = new Camera;
 }
+
+// void ph::Ship::Ship::addNode(Node* node) {
+    // rotate->addChild(node);
+// }

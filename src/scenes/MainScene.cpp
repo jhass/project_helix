@@ -2,13 +2,10 @@
 #include <osg/Texture2D>
 #include <osgDB/ReadFile>
 
-#include "objects/Ship.h"
 #include "objects/Nebula.h"
 #include "objects/Asteroid.h"
 #include "objects/Sphere.h"
 #include "objects/Torus.h"
-
-#include <animation/ShipNodeCallback.h>
 
 #include "util.h"
 
@@ -17,7 +14,7 @@
 using namespace osg;
 
 ph::MainScene::MainScene() {
-    ref_ptr<Node> ship = new ph::Ship();
+    ship = new ph::Ship();
     ship_callback = new ph::ShipNodeCallback;
     ship->setUpdateCallback(ship_callback.get());
     
