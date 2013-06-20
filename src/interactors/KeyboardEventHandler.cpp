@@ -27,6 +27,16 @@ bool ph::KeyboardEventHandler::handle(const GUIEventAdapter& eventAdapter, GUIAc
                 case GUIEventAdapter::KEY_S:
                     this->view->pitchShipUp();
                     break;
+                case GUIEventAdapter::KEY_Shift_L:
+                    this->view->shipTurboOn();
+                    break;
+            }
+            return true;
+        case GUIEventAdapter::KEYUP:
+            switch (eventAdapter.getKey()) {
+                case GUIEventAdapter::KEY_Shift_L:
+                    this->view->shipTurboOff();
+                    break;
             }
             return true;
         default:

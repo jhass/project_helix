@@ -60,3 +60,11 @@ void ph::MainView::pitchShipUp() {
 void ph::MainView::pitchShipDown() {
     scene->ship_callback->pitchDown();
 }
+
+void ph::MainView::shipTurboOn() {
+    scene->ship_callback->turboOn();
+}
+
+void ph::MainView::shipTurboOff() {
+    scene->ship_callback->turboOff();
+}

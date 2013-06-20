@@ -41,7 +41,7 @@ int main(void) {
     //                                                  x,           y 
     mainView->getCamera()->setViewport(new Viewport(width-20-width/4, 20,
     //                                                  width,    height
-                                                    width/4, width/4));
+                                                    width/4, height/4));
     viewer->addView(mainView);
 
     return viewer->run();

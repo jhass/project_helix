@@ -13,6 +13,7 @@ Vec3d ph::ShipNodeCallback::up        = Vec3d(0,0,1);
 Vec3d ph::ShipNodeCallback::x_axis    = Vec3d(1,0,0);
 Vec3d ph::ShipNodeCallback::y_axis    = Vec3d(0,1,0);
 Vec3d ph::ShipNodeCallback::z_axis    = Vec3d(0,0,1);
+double ph::ShipNodeCallback::speed = 1;
 double ph::ShipNodeCallback::pitch = 0;
 double ph::ShipNodeCallback::yaw   = 0;
 double ph::ShipNodeCallback::roll  = 0;
@@ -33,7 +34,7 @@ void ph::ShipNodeCallback::operator()(Node* node, NodeVisitor* nv) {
 	shipNode->rotate->setMatrix(rotation);
 	
 	//Translate Ship
-	Matrix translation = Matrix::translate(shipNode->translate->getMatrix().getTrans() + direction);
+	Matrix translation = Matrix::translate(shipNode->translate->getMatrix().getTrans() + direction*speed);
 	shipNode->translate->setMatrix(translation);
 
 	// Update camera
@@ -66,4 +67,12 @@ void ph::ShipNodeCallback::pitchUp() {
 
 void ph::ShipNodeCallback::pitchDown() {
 	pitch -=  PI/60;
+}
+
+void ph::ShipNodeCallback::turboOn() {
+	speed = 160;
+}
+
+void ph::ShipNodeCallback::turboOff() {
+	speed = 1;
 }

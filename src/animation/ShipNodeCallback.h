@@ -17,10 +17,12 @@ namespace ph {
 			void yawRight();
             void pitchUp();
             void pitchDown();
+            void turboOn();
+            void turboOff();
 
 		private:
 			static Vec3d direction, up, x_axis, y_axis, z_axis;
-			static double pitch, yaw, roll;
+			static double pitch, yaw, roll, speed;
 	};
 }
 #endif
