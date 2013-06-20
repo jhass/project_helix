@@ -383,7 +383,7 @@ ParticleSystem* ph::createParticleSystem(Group* _parent) {
     // Texture übergeben
     ss->setTextureAttributeAndModes(0, texture.get());
     // Point-Atrribut setzen
-    ref_ptr<Point> attribute = new Point(30.0f);
+    ref_ptr<Point> attribute = new Point(6.0f);
     ss->setAttribute(attribute);
     ref_ptr<PointSprite> sprite = new PointSprite;
     ss->setTextureAttributeAndModes(0, sprite);

@@ -38,7 +38,7 @@ ParticleSystem* ph::Ship::createParticleSystem(Group* _parent) {
     ref_ptr<StateSet> ss = ps->getOrCreateStateSet();
     ss->setAttributeAndModes(blendFunc.get());
     ss->setTextureAttributeAndModes(0, texture.get());
-    ref_ptr<Point> attribute = new Point(20.0f);
+    ref_ptr<Point> attribute = new Point(3.0f);
     ss->setAttribute(attribute);
     ref_ptr<PointSprite> sprite = new PointSprite;
     ss->setTextureAttributeAndModes(0, sprite);
