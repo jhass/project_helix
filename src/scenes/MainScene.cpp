@@ -50,5 +50,10 @@ ph::MainScene::MainScene() {
     // Create comet
     ref_ptr<Group> comet = ph::createComet(200, -1000, 200);
     this->addChild(comet.get());
+    
+    // Create Cuboid
+    ref_ptr<MatrixTransform> cuboid = ph::createCuboid(0,-200,15);
+    this->addChild(cuboid.get());
+    
     this->addChild(ph::getDebugAxes(20, 0, 0, 0));
 }

@@ -12,6 +12,7 @@
 #include <osgParticle/RadialShooter>
 #include <osg/BlendFunc>
 #include <osgDB/ReadFile>
+#include <osg/ShapeDrawable>
 
 #include "util.h"
 #include "scene_utils.h"
@@ -47,7 +48,7 @@ ph::Skybox* ph::createSkybox(int skybox_height, int skybox_width) {
     suntrans_or->addChild(sun_orange.get());
     
     // Sun(radius, Steps, GLLightNumber, red, green, blue)
-    ref_ptr<ph::Sun> sun_violet = new ph::Sun(50.0, 200, 0, 0.9, 0.0, 0.6);
+    ref_ptr<ph::Sun> sun_violet = new ph::Sun(50.0, 200, 1, 0.9, 0.0, 0.6);
     
     // translating sun and adding it so skybox
     ref_ptr<MatrixTransform> suntrans_vl = new MatrixTransform();
@@ -68,7 +69,7 @@ MatrixTransform* ph::createPlanet(double x, double y, double z) {
     sphere->setTexture(0, "../Textures/EarthMap.jpg");
     
     // Torus(innerRadius, torusRadius, lengthSteps, widthSteps)
-    ref_ptr<ph::Torus> torus = new ph::Torus(650, 75, 100);
+    ref_ptr<ph::Torus> torus = new ph::Torus(650, 75, 200);
 
     // NORMAL is Default
     torus->setStyle(ph::Torus::FLAT);
@@ -262,7 +263,41 @@ MatrixTransform* ph::extendAsteroidField(double x, double y, double z) {
     root->addChild(asteroid_copy_02.get());
     root->addChild(asteroid_copy_01.get());
     return root.release();
-}       
+}   
+
+// Creates a black, reflecting Cuboid
+MatrixTransform* ph::createCuboid(double x, double y, double z) {
+    ref_ptr<MatrixTransform> root = new MatrixTransform;
+
+    ref_ptr<Geode> cuboid = new Geode;
+    cuboid->addDrawable(new ShapeDrawable(new Box(Vec3(0,0,0),1,3,0.25)));
+    
+    // Creating Material for the Cuboid
+    ref_ptr<Material> material = new Material;
+    // material emits giving light (R,G,B,x)
+    material->setEmission(Material::FRONT_AND_BACK, Vec4(0,0,0,1.0));
+    
+    // material parameters
+    material->setDiffuse(Material::FRONT_AND_BACK, Vec4(0.1,0.1,0.1,1.0));
+    material->setAmbient(Material::FRONT_AND_BACK, Vec4(0,0,0,1.0));
+    material->setSpecular(Material::FRONT_AND_BACK, Vec4(1,1,1,1));
+    material->setShininess(Material::FRONT_AND_BACK, 30);
+    
+    // giving the material to the cuboid
+    cuboid->getOrCreateStateSet()->setAttributeAndModes(material.get(),StateAttribute::ON);
+    
+    // translating cuboid to startposition
+    root->setMatrix(Matrix::translate(x,y,z));
+    
+    // animating cuboid flight path
+    osg::ref_ptr<osg::AnimationPathCallback> ani_cuboid = new osg::AnimationPathCallback;
+    ani_cuboid->setAnimationPath( ph::createAnimationPath(1800, 0, ph::LOOP, ph::NO_AXIS,
+     NULL, 0, x, lin_f, 400-y, y, NULL, 0, z));
+    root->setUpdateCallback( ani_cuboid.get() );
+    
+    root->addChild(cuboid.get());
+    return root.release();
+}
 
 // Creates the flight path of our turian spacecraft
 AnimationPath* ph::createTurianFlightPath(double x0, double y0, double z0) {
@@ -372,7 +407,7 @@ ParticleSystem* ph::createParticleSystem(Group* _parent) {
     ref_ptr<BlendFunc> blendFunc = new BlendFunc();
     blendFunc->setFunction(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    // Texture erzeugen
+    // Create texture
     ref_ptr<Texture2D> texture = new Texture2D;
 
     texture->setImage( osgDB::readImageFile("../resources/particle.rgb") );
@@ -535,6 +570,12 @@ StateSet* ph::createTorusTexture(Geode* model) {
     stateSet->setTextureMode(0,GL_TEXTURE_3D, StateAttribute::OFF| StateAttribute::OVERRIDE);
     
     stateSet->setAttribute(material, StateAttribute::OVERRIDE);
+    material->setDiffuse(Material::FRONT_AND_BACK, Vec4(0.1,0.1,0.1,1.0));
+    material->setAmbient(Material::FRONT_AND_BACK, Vec4(1,1,1,1.0));
+    material->setSpecular(Material::FRONT_AND_BACK, Vec4(1,1,1,1));
+    material->setShininess(Material::FRONT_AND_BACK, 30);
     
     return stateSet;
 }
+
+
