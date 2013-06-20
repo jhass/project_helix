@@ -23,7 +23,7 @@ namespace ph {
             void setIndicies();
           
         public:
-            Rotator(const int startx, const int endx, const int schritte);
+            Rotator(const double startx, const double endx, const int schritte);
             ~Rotator();
             void setTexture(const int textureNumber, const string filename);
     };

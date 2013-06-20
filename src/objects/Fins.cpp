@@ -7,7 +7,7 @@
 //Position sinnlos, da viewer das ignoriert
 
 
-ph::Fins::Fins(const int position, const int factor) {
+ph::Fins::Fins(const int position, const double factor) {
     
     this->position = position;
     this->factor = factor;
@@ -36,7 +36,7 @@ void ph::Fins::compute() {
 
 }
 
-void ph::Fins::setFins(int factor) {
+void ph::Fins::setFins(double factor) {
 	
     ref_ptr<Vec3Array> vertices = new Vec3Array();
      ref_ptr<Vec3Array> normals = new Vec3Array();

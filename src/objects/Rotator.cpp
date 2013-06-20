@@ -18,7 +18,7 @@
 
 
 
-ph::Rotator::Rotator(const int startx, const int endx, const int schritte) {
+ph::Rotator::Rotator(const double startx, const double endx, const int schritte) {
     
     this->startx = startx;
     this->endx = endx;
@@ -54,17 +54,20 @@ void ph::Rotator::setVerticesAndNormals() {
     ref_ptr<Vec2Array> texcoords = new Vec2Array();
     Vec3d coords;
     double x,y,zstrich, idouble4, idouble3, idouble2, ystrich,z,yabl;
- int gesamtbereich=(int)(fabs(startx)+fabs(endx));
+ double gesamtbereich=(fabs(startx)+fabs(endx));
+ double teilex=gesamtbereich*schritte;
  int count=0;   
-    for (int i = (int)startx; i <=(int)endx; i++) { 
-    	   
+   
+
+ for (double i = startx; i <=endx; i=i+0.1) { 
+    	  // printf("%f\n",i);
     	    idouble4 = pow(i,4);
     	    idouble3 = pow(i,3);
             idouble2 = pow(i,2);
   
           
-           y=(-0.0003*idouble2)+50;
-           yabl=(-.0006*i);
+           y=(-0.125*idouble2)+.4;
+           yabl=(-.25*i);
 
             for (int j = 0; j <= schritte;j++){ // einzelner Scheibenringe  von "hinten nach vorne" in 100 Teile zerlegt
                     
@@ -75,7 +78,8 @@ void ph::Rotator::setVerticesAndNormals() {
                     //z=-f(x)*f'(x)
                     
                     vertices->push_back(coords);
-                    x=(double)count/gesamtbereich;
+                   // printf("%f\n",x);
+                    x=(double)count/(gesamtbereich*10);
                     double y_test=(double)j/schritte;
                     texcoords->push_back(Vec2d(x,y_test));
                     
@@ -97,11 +101,11 @@ void ph::Rotator::setVerticesAndNormals() {
 
 void ph::Rotator::setIndicies() { 
 
-    int gesamtbereich=(int)(fabs(startx)+fabs(endx));
+    double gesamtbereich=(fabs(startx)+fabs(endx));
     ref_ptr<DrawElementsUInt> indices = new DrawElementsUInt(GL_TRIANGLE_STRIP);
    
 
-    for (int i = 0; i < gesamtbereich ; i++) {
+    for (double i = 0; i < (gesamtbereich*10)-1; i++) {
     	    
         for (int j =0; j<=schritte ; j++){
             indices->push_back( (int)(i*( schritte+1)+j )) ;

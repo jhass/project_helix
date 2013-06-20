@@ -13,17 +13,17 @@ namespace ph {
     class Fins : public Geode {
         private:
             int position;
-            int factor;
+            double factor;
             ref_ptr<Geometry> fins;
 
             void compute();
             void setVerticesAndNormals();
             void setTextureCoordinates(int textureNumber);
             void setIndicies();
-            void setFins(int factor);
+            void setFins(double factor);
           
         public:
-            Fins(const int position, const int factor);
+            Fins(const int position, const double factor);
             ~Fins();
             void setTexture(const int textureNumber, const string filename);
     };

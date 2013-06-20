@@ -49,7 +49,10 @@ add_executable( sun
 add_executable( rotator
                 objects/Rotator.cpp
                 objects/Fins.cpp
-                runners/rotator.cpp )
+                runners/rotator.cpp
+                util.cpp
+                objects/Sphere.cpp
+                objects/Ship.cpp)
 
 add_executable( ship
                 objects/Ship.cpp
