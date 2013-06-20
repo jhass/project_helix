@@ -28,7 +28,7 @@ namespace ph {
             ref_ptr<Rectangle> bottom; // rectangle under the middle (0.0, 0.0, -z)
             ref_ptr<Group> skybox;
         
-        void createRectangles();
+            void createRectangles();
         
         public:
            enum Position {FRONT, BACK, LEFT, RIGHT, TOP, BOTTOM};
