@@ -3,6 +3,7 @@
 #include <ctime>
 
 #include <osg/Texture2D>
+#include <osg/Material>
 #include <osgDB/ReadFile>
 
 #include "Asteroid.h"
@@ -104,5 +105,19 @@ void ph::Asteroid::setTexture(const int textureNumber, const string filename) {
     ref_ptr<Image> image = osgDB::readImageFile(filename);
     texture->setWrap(Texture::WRAP_S, Texture::CLAMP_TO_EDGE);
     texture->setImage(image.get());
+    
+    // Creating Material for the Cuboid
+    ref_ptr<Material> material = new Material;
+    // material emits giving light (R,G,B,x)
+    material->setEmission(Material::FRONT_AND_BACK, Vec4(0.5,0.5,0.5,1));
+    
+    // material parameters; perhaps we need some of them later
+    material->setDiffuse(Material::FRONT_AND_BACK, Vec4(0.5,0.5,0.5,1.0));
+    material->setAmbient(Material::FRONT_AND_BACK, Vec4(0.5,0.5,0.5,1.0));
+    material->setSpecular(Material::FRONT_AND_BACK, Vec4(1,1,1,1));
+    material->setShininess(Material::FRONT_AND_BACK, 30);
+    
+    //giving the material to the sphere
+    this->getOrCreateStateSet()->setAttributeAndModes(material.get(),StateAttribute::ON);
     this->getOrCreateStateSet()->setTextureAttributeAndModes(textureNumber, texture.get());
 }
