@@ -6,25 +6,29 @@ bool ph::KeyboardEventHandler::handle(const GUIEventAdapter& eventAdapter, GUIAc
     switch (eventAdapter.getEventType()) {
         case GUIEventAdapter::KEYDOWN:
             switch (eventAdapter.getKey()) {
-                case GUIEventAdapter::KEY_1:
+                case '1':
                     this->view->switchToMainPerspective();
                     break;
-                case GUIEventAdapter::KEY_2:
+                case '2':
                     this->view->switchToSecondPerspective();
                     break;
-                case GUIEventAdapter::KEY_3:
+                case '3':
                     this->view->switchToThirdPerspective();
                     break;
-                case GUIEventAdapter::KEY_A:
+                case 'A':
+                case 'a':
                     this->view->yawShipLeft();
                     break;
-                case GUIEventAdapter::KEY_D:
+                case 'D':
+                case 'd':
                     this->view->yawShipRight();
                     break;
-                case GUIEventAdapter::KEY_W:
+                case 'W':
+                case 'w':
                     this->view->pitchShipDown();
                     break;
-                case GUIEventAdapter::KEY_S:
+                case 'S':
+                case 's':
                     this->view->pitchShipUp();
                     break;
                 case GUIEventAdapter::KEY_Shift_L:
