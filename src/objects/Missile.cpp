@@ -96,7 +96,7 @@ using namespace osg;
     
     ref_ptr<MatrixTransform> planet = new MatrixTransform;
     
-    planet->setMatrix(Matrix::translate(-1.75,0.0,0.0));
+    planet->setMatrix(Matrix::translate(-1.8,0.0,0.0));
     sphere->setTexture(0,"../Textures/rocketeng.jpeg"); //mit durch Material ergänzen
     planet->addChild(sphere.get());
     
@@ -124,6 +124,7 @@ using namespace osg;
     root->addChild(planet.get());
     root->addChild(mtx.get());
    
+    this->addChild(root.get());
     
     
   /*  
@@ -135,9 +136,7 @@ using namespace osg;
 
     */
     
-   ref_ptr<osg::Group> endroot = new Group();
-   endroot->addChild(root.get());
-
+   
    
    
 
