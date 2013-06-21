@@ -18,7 +18,7 @@ using namespace osg;
 
 ph::MainScene::MainScene() {   
     // Create SKYBOX with SUNS
-    ref_ptr<ph::Skybox> skybox = ph::createSkybox(1000, 1000);
+    ref_ptr<ph::Skybox> skybox = ph::createSkybox(4000, 4000);
     this->addChild(skybox.get());
 
     // Activate light of the suns
@@ -56,9 +56,14 @@ ph::MainScene::MainScene() {
     this->addChild(cuboid.get());
     
     // Create Reaper Spaceship
-    ref_ptr<MatrixTransform> reaper = ph::createShip(ph::REAPER, 750, 0, 150);
-    reaper->setMatrix(Matrix::rotate(PI_2, Vec3(0, 0, 1)) * reaper->getMatrix());
-    this->addChild(reaper.get());
+    ref_ptr<MatrixTransform> reaper = ph::createShip(ph::REAPER, 0, 0, 0);
+    reaper->setMatrix(Matrix::rotate(PI_2+PI/10,Vec3(0,0,1)));
+    ref_ptr<MatrixTransform> reaper_node = new MatrixTransform;
+    reaper_node->addChild(reaper.get());
+    ref_ptr<osg::AnimationPathCallback> ani_reaper = new osg::AnimationPathCallback;
+    ani_reaper->setAnimationPath(ph::createReaperFlightPath(2000,40,500,80,-300,90));
+    reaper_node->setUpdateCallback(ani_reaper.get());
+    this->addChild(reaper_node.get());
     
     
     this->addChild(ph::getDebugAxes(20, 0, 0, 0));
