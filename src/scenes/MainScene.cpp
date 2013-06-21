@@ -188,7 +188,7 @@ void ph::MainScene::createReaper() {
     ref_ptr<MatrixTransform> reaper_node = new MatrixTransform;
     reaper_node->addChild(reaper.get());
     ref_ptr<osg::AnimationPathCallback> ani_reaper = new osg::AnimationPathCallback;
-    ani_reaper->setAnimationPath(reaper->createFlightPath(2000,40,500,80,-300,90));
+    ani_reaper->setAnimationPath(reaper->createFlightPath(2500,40,-1000,700,80,-1000,-400,90,0));
     reaper_node->setUpdateCallback(ani_reaper.get());
     main->addChild(reaper_node.get());
 
