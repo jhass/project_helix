@@ -52,8 +52,8 @@ void ph::MainScene::createSkyboxAndSuns() {
     ref_ptr<ph::Skybox> skybox = new ph::Skybox(height, width);
 
     // Texturen für die Rechtecke festlegen
-    for (ph::Skybox::Position s = ph::Skybox::FRONT; s <= ph::Skybox::BOTTOM; s++) {
-        skybox->setTexture(s,  0, "../resources/skybox.jpg");
+    for (int s = ph::Skybox::FRONT; s <= ph::Skybox::BOTTOM; s++) {
+        skybox->setTexture((ph::Skybox::Position) s,  0, "../resources/skybox.jpg");
     }
     
     // Sun(radius, Steps, GLLightNumber, red, green, blue)
