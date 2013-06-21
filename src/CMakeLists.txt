@@ -5,28 +5,34 @@ include_directories( . .. )
 add_executable( project_helix
                 project_helix.cpp
 
+                # views
                 views/MainView.cpp
                 views/CockpitView.cpp
                 
+                # scenes
                 scenes/MainScene.cpp
                 
-                objects/Ship.cpp 
-                objects/Nebula.cpp
-                objects/Asteroid.cpp
+                # basic objects
+                objects/Rectangle.cpp
                 objects/Sphere.cpp
                 objects/Torus.cpp
+                objects/Nebula.cpp
+                
+                # external objects
+                objects/Chronos.cpp
+                objects/Ship.cpp 
+                objects/Reaper.cpp
+                
+                # composed objects
+                objects/Asteroid.cpp
+                objects/AsteroidField.cpp
+                objects/Comet.cpp
+                objects/PlanetRing.cpp
                 objects/Skybox.cpp
                 objects/Sun.cpp
-                objects/Chronos.cpp
-                objects/Reaper.cpp
-                objects/Rectangle.cpp
-                objects/Nebula.cpp
-                objects/PlanetRing.cpp
-                objects/Comet.cpp
-                objects/AsteroidField.cpp
                 
+                # user interaction
                 interactors/KeyboardEventHandler.cpp
-
                 animation/ShipNodeCallback.cpp
 
                 util.cpp )
