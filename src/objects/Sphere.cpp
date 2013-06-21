@@ -3,6 +3,7 @@
 #include <osg/Texture2D>
 #include <osg/Image>
 #include <osgDB/ReadFile>
+#include <osg/CullFace>
 
 #include "Sphere.h"
 
@@ -86,4 +87,8 @@ void ph::Sphere::setTexture(const int textureNumber, const string filename) {
     texture->setWrap(Texture::WRAP_S, Texture::CLAMP_TO_EDGE);
     texture->setImage(image.get());
     this->getOrCreateStateSet()->setTextureAttributeAndModes(textureNumber, texture.get());
+    ref_ptr<CullFace> cull = new CullFace;
+    // Effect is instant traveling through the planet; BACK = no texture if u are inside the sphere
+    cull->setMode(CullFace::FRONT);
+    this->getOrCreateStateSet()->setAttributeAndModes(cull.get());
 }
