@@ -44,7 +44,7 @@ ParticleSystem* createParticleSystem(Group* _parent) {
     // Texture erzeugen
     ref_ptr<Texture2D> texture = new Texture2D;
 
-    texture->setImage( osgDB::readImageFile("../resources/particle.rgb") );
+    texture->setImage( osgDB::readImageFile("../resources/particle_2.rgb") );
     
     // StateSetattribute setzen
     ref_ptr<StateSet> ss = ps->getOrCreateStateSet();
@@ -63,7 +63,7 @@ ParticleSystem* createParticleSystem(Group* _parent) {
     
     //Rng
     ref_ptr<RandomRateCounter> rrc = new RandomRateCounter();
-    rrc->setRateRange( 50, 500 ); //Reichweite des Partikelstrahls
+    rrc->setRateRange( 50, 500 ); //Anzahl der Partikel/Sekunde
     
     //makeshooter
     ref_ptr<RadialShooter> myshooter = new RadialShooter();
@@ -172,7 +172,6 @@ ph::Missile::Missile() {
     ref_ptr<ParticleSystemUpdater> updater = new ParticleSystemUpdater();
     updater->addParticleSystem(ps);
    
-   // 
    
     
     ref_ptr<Group> node = new Group();
@@ -192,14 +191,14 @@ ph::Missile::Missile() {
     this->addChild(root.get());
     
     
-  /*  
+   /* 
     osg::ref_ptr<osg::AnimationPathCallback> apcb = new osg::AnimationPathCallback;
     apcb->setAnimationPath( ph::createAnimationPath(10.0f, 2*PI, ph::LOOP, ph::NEG_Z_AXIS,
     ph::sin_f, 20,0 ,ph::cos_f, 20,0, ph::lin_f, -00,0));
     root->setUpdateCallback( apcb.get() );
 
-
-    */
+*/
+    
     
    
    
