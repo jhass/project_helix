@@ -46,25 +46,25 @@ void ph::MainView::switchToThirdPerspective() {
 
 
 void ph::MainView::yawShipLeft() {
-    scene->ship_callback->yawLeft();
+    scene->ship->callback->yawLeft();
 }
 
 void ph::MainView::yawShipRight() {
-    scene->ship_callback->yawRight();   
+    scene->ship->callback->yawRight();   
 }
 
 void ph::MainView::pitchShipUp() {
-    scene->ship_callback->pitchUp();
+    scene->ship->callback->pitchUp();
 }
 
 void ph::MainView::pitchShipDown() {
-    scene->ship_callback->pitchDown();
+    scene->ship->callback->pitchDown();
 }
 
 void ph::MainView::shipTurboOn() {
-    scene->ship_callback->turboOn();
+    scene->ship->callback->turboOn();
 }
 
 void ph::MainView::shipTurboOff() {
-    scene->ship_callback->turboOff();
+    scene->ship->callback->turboOff();
 }

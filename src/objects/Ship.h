@@ -8,6 +8,8 @@
 #include <osgParticle/ParticleSystem>
 #include <osg/MatrixTransform>
 
+#include "animation/ShipNodeCallback.h"
+
 using namespace std;
 using namespace osg;
 using namespace osgParticle;
@@ -26,6 +28,7 @@ namespace ph {
             ref_ptr<MatrixTransform> rotate;
             ref_ptr<MatrixTransform> translate;
             ref_ptr<Camera> camera;
+            ref_ptr<ph::ShipNodeCallback> callback;
     };
 }
 

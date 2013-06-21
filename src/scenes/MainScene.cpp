@@ -39,9 +39,6 @@ ph::MainScene::MainScene() {
     ref_ptr<MatrixTransform> trans_ship = new MatrixTransform;
     trans_ship->setMatrix(Matrix::translate(-850, 80, 100));
     this->addChild(ship.get());
-
-    ship_callback = new ShipNodeCallback;
-    ship->setUpdateCallback(ship_callback.get());
     
     // Create asteroid field 
     ref_ptr<MatrixTransform> asteroid = ph::extendAsteroidField(20, -600, 0);

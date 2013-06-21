@@ -4,6 +4,8 @@
 #include <osg/MatrixTransform>
 #include <osg/Quat>
 
+#include "objects/Ship.h"
+
 #include "ShipNodeCallback.h"
 
 using namespace std;

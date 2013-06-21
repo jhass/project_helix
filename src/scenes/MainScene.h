@@ -13,7 +13,6 @@ namespace ph {
         public:
             MainScene();
             ref_ptr<ph::Ship> ship;
-            ref_ptr<ph::ShipNodeCallback> ship_callback;
     };
 }
 

@@ -67,7 +67,7 @@ ParticleSystem* ph::Ship::createParticleSystem(Group* _parent) {
     //Adding the Particlesystem to a Geode so it will be drawn
     ref_ptr<Geode> geode = new Geode();
     geode->addDrawable( ps.get() );
-    
+
     parent->addChild( emitter.get() );
     parent->addChild( program.get() );
     parent->addChild( geode.get() );
@@ -104,6 +104,10 @@ ph::Ship::Ship() {
 
     //Setting up the Camera
     camera = new Camera;
+
+    // Setup animation callback
+    callback = new ShipNodeCallback;
+    this->setUpdateCallback(callback.get());
 
 }
 

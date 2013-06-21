@@ -1,11 +1,9 @@
-#ifndef SHIP_NODE_CALLBACK
-#define SHIP_NODE_CALLBACK
+#ifndef PH_SHIP_NODE_CALLBACK_H
+#define PH_SHIP_NODE_CALLBACK_H
 
 #include <osg/NodeCallback>
 #include <osg/Vec3d>
 #include <osg/Quat>
-
-#include "objects/Ship.h"
 
 using namespace osg;
 
