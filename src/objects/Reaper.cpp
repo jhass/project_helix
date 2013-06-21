@@ -17,35 +17,40 @@ ph::Reaper::Reaper() {
 }
 
 void ph::Reaper::transformAndAnimate(const Matrix& matrix,
-                                     double start_x, double end_x,
-                                     double start_y, double end_y,
-                                     double start_z, double end_z) {
+                                     double start_x, double mid_x, double end_x,
+                                     double start_y, double mid_y, double end_y,
+                                     double start_z, double mid_z, double end_z) {
     this->transform->setMatrix(matrix);
     ref_ptr<AnimationPathCallback> animation = new osg::AnimationPathCallback;
-    animation->setAnimationPath(createFlightPath(start_x, end_x, start_y, end_y, start_z, end_z));
+    animation->setAnimationPath(createFlightPath(start_x, mid_x, end_x,
+                                                 start_y, mid_y, end_y,
+                                                 start_z, mid_z, end_z));
     this->setUpdateCallback(animation.get());
 }
 
-AnimationPath* ph::Reaper::createFlightPath(double start_x, double end_x,
-                                            double start_y, double end_y,
-                                            double start_z, double end_z) {
+AnimationPath* ph::Reaper::createFlightPath(double start_x, double mid_x, double end_x,
+                                     double start_y, double mid_y, double end_y,
+                                     double start_z, double mid_z, double end_z) {
     
     ref_ptr<AnimationPath> path = new AnimationPath;
-    path->setLoopMode( osg::AnimationPath::LOOP);//NO_LOOPING );
+    path->setLoopMode( osg::AnimationPath::NO_LOOPING );
     
-    double start_time = 15.0;
-    double rotation_time = 10.0;
-    double return_time = 60.0;
+    double time_speed = 1; // for illustrational use only
+    double start_time = 300.0/ time_speed;
+    double rotation_time = 10.0/ time_speed;
+    double wait_time = 15.0/ time_speed;
+    double return_time = 300.0/ time_speed;
     double new_x0 = 0, new_y0 = 0, new_z0 = 0;
-    double dx = end_x - start_x;
-    double dy = end_y - start_y;
-    double dz = end_z - start_z;
+    double dx = mid_x - start_x;
+    double dy = mid_y - start_y;
+    double dz = mid_z - start_z;
     double time;
     
     unsigned int numSamples = (int)start_time;
     
     // Iterationsschritte bestimmen
-    float delta_rot = 3*PI_2/(4*rotation_time); // Rotation um func in time
+    float rot_angle = 3*PI_2/4;
+    float delta_rot = rot_angle/rotation_time; // Rotation um func in time
     float delta_pos = 1 / start_time; // Bewegung um factor* func in time
  
     // Pfad für ersten Teilweg zusammensetzen   
@@ -61,43 +66,65 @@ AnimationPath* ph::Reaper::createFlightPath(double start_x, double end_x,
     
     numSamples = (int) rotation_time;
     time = start_time;
-    AnimationPath::ControlPoint* cp = new AnimationPath::ControlPoint;
     
-    // Pfad für die Rotation zusammensetzen
+    // Rotate to fire position
     for ( unsigned int i=0; i<=numSamples; ++i )
     {
         float yaw = delta_rot * (float)i;
         Vec3 pos( new_x0, new_y0, new_z0 );
         Quat rot(yaw, Vec3(0, 1, 0));
-        *cp = AnimationPath::ControlPoint(pos,rot);
-        path->insert( (float)(time+i), *cp);
+        path->insert( (float)(time+i), AnimationPath::ControlPoint(pos,rot));
     }
     time += rotation_time;
-    
-    
-    /* This still does not work ...
-    // Pfad für die Rotation zusammensetzen
+
+    // Wait
+    for ( unsigned int i=0; i<=numSamples; ++i )
+    {
+        Vec3 pos( new_x0, new_y0, new_z0 );
+        Quat rot(rot_angle, Vec3(0, 1, 0));
+        path->insert( (float)(time+i), AnimationPath::ControlPoint(pos,rot));
+    }  
+    time += wait_time;  
+
+    // Return to previous position
     for ( unsigned int i=0; i<=numSamples; ++i )
     {
         float yaw = delta_rot * (float)i;
-        Vec3 pos( cp->getPosition() );
-        Quat rot(yaw, Vec3(0, 1, 0));
-        path->insert( (float)(time+i), AnimationPath::ControlPoint(pos,cp->getRotation()-rot) );
+        Vec3 pos( new_x0, new_y0, new_z0 );
+        Quat rot(rot_angle-yaw, Vec3(0, 1, 0));
+        path->insert( (float)(time+i), AnimationPath::ControlPoint(pos,rot) );
     }
+    time +=rotation_time;
+    rot_angle = PI/8;
+    delta_rot = rot_angle/rotation_time;
+    
+    // Rotate to new position
+    for ( unsigned int i=0; i<=numSamples; ++i )
+    {
+        float yaw = delta_rot * (float)i;
+        Vec3 pos( new_x0, new_y0, new_z0 );
+        Quat rot(yaw, Vec3(0, 0, 1));
+        path->insert( (float)(time+i), AnimationPath::ControlPoint(pos,rot));
+    }
+    
+    time += rotation_time;
     delta_pos = 1 / return_time;
     numSamples = (int) return_time;
-    dx= new_x0; dy= new_y0;
+    dx = end_x - mid_x;
+    dy = end_y - mid_y;
+    dz = end_z - mid_z;
     
     // Pfad für den Rückweg zusammensetzen
     for ( unsigned int i=0; i<=numSamples; ++i )
     {
         float d_pos = delta_pos * (float)i;
-        new_x0 = (float)lin_f(-return_distance_x,d_pos,0);
-        new_y0 = (float)lin_f(-return_distance_x/2,d_pos,0);
-        Vec3 pos( new_x0, new_y0, 0 );
-        Quat rot(3*PI/4, Vec3(0.0, 0.0, -1.0));
-        //path->insert( (float)(start_time+rotation_time+i), AnimationPath::ControlPoint(pos,rot) );
-    }*/
+        new_x0 = (float)lin_f(dx,d_pos,mid_x);
+        new_y0 = (float)lin_f(dy,d_pos,mid_y);
+        new_z0 = (float)lin_f(dz,d_pos,mid_z);
+        Vec3 pos( new_x0, new_y0, new_z0 );
+        Quat rot(rot_angle, Vec3(0,0,1));
+        path->insert( (float)(time+i), AnimationPath::ControlPoint(pos,rot) );
+    }
     
     return path.release();
  }
