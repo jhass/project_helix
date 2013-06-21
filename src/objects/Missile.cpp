@@ -166,7 +166,7 @@ ph::Missile::Missile() {
      //Creating the particlesystem at the point defined above
     
     ref_ptr<osg::MatrixTransform> mtx = new osg::MatrixTransform;
-    mtx->setMatrix(Matrix::rotate(PI_2,Vec3(0,1,0))*Matrix::translate(-5.0,0.0,0.0));  //um 5 ans Heck der Missile verschieben
+    mtx->setMatrix(Matrix::translate(-5.0,0.0,0.0));  //um 5 ans Heck der Missile verschieben
     
     ref_ptr<ParticleSystem> ps = createParticleSystem(root.get());
     ref_ptr<ParticleSystemUpdater> updater = new ParticleSystemUpdater();
