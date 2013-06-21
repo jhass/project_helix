@@ -12,7 +12,6 @@ namespace ph {
     class Sun : public Group {
         private:
             ref_ptr<Light> light; // light- and sourceelement of the sun
-            ref_ptr<LightSource> source;
             ref_ptr<Material> material; // material of the sphere
             ref_ptr<Sphere> sphere;
             double red;
@@ -24,6 +23,7 @@ namespace ph {
         public:
             Sun(const double radius, const int steps,
              const int lightNumber,const double red, const double blue, const double green);
+            ref_ptr<LightSource> source;
     };
 }
 

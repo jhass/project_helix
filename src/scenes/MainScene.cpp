@@ -3,6 +3,7 @@
 #include <osgDB/ReadFile>
 #include <osgParticle/ParticleSystemUpdater>
 #include <osg/ShapeDrawable>
+#include <osgShadow/ParallelSplitShadowMap>
 
 #include "objects/Skybox.h"
 #include "objects/Sun.h"
@@ -22,7 +23,15 @@
 
 using namespace osg;
 
-ph::MainScene::MainScene() {   
+    ref_ptr<Group> ph::MainScene::main = new Group;
+    ref_ptr<osgShadow::ShadowedScene> ph::MainScene::ss = new osgShadow::ShadowedScene;
+
+
+ph::MainScene::MainScene() {
+    ref_ptr<osgShadow::ParallelSplitShadowMap> sm = new osgShadow::ParallelSplitShadowMap;
+    ss->setShadowTechnique(sm.get());
+    ss->addChild(main.get());
+
     createSkyboxAndSuns();
     createPlanet();
     createStation();
@@ -32,15 +41,16 @@ ph::MainScene::MainScene() {
     createCuboid();
     createReaper();   
     createNebula();
+    main->addChild(ph::getDebugAxes(20, 0, 0, 0));
 
-    this->addChild(ph::getDebugAxes(20, 0, 0, 0));
+    this->addChild(ss.get());
 }
 
 Node* ph::MainScene::addTransformedNode(Node* node, const Matrix& matrix) {
     ref_ptr<MatrixTransform> transform = new MatrixTransform;
     transform->setMatrix(matrix);
     transform->addChild(node);
-    this->addChild(transform.get());
+    main->addChild(transform.get());
     return transform.release();
 }
 
@@ -75,10 +85,15 @@ void ph::MainScene::createSkyboxAndSuns() {
     suntrans_vl->addChild(sun_violet.get());
 
     // Activate light of the suns
-    this->getOrCreateStateSet()->setMode(GL_LIGHT0, StateAttribute::ON);
-    this->getOrCreateStateSet()->setMode(GL_LIGHT1, StateAttribute::ON);
-    
-    this->addChild(skybox.get());
+    main->getOrCreateStateSet()->setMode(GL_LIGHT0, StateAttribute::ON);
+    main->getOrCreateStateSet()->setMode(GL_LIGHT1, StateAttribute::ON);
+
+    //Quick fix of lights position, would probabply take some serious work to get it pretty.
+    sun_orange->source->getLight()->setPosition(Vec4(800, width, 0,1));
+    sun_violet->source->getLight()->setPosition(Vec4(height, 800, 0,1));
+    ss->addChild(sun_orange->source.get());
+    ss->addChild(sun_violet->source.get());
+    main->addChild(skybox.get());
 }
 
 void ph::MainScene::createPlanet() {
@@ -110,7 +125,7 @@ void ph::MainScene::createPlanet() {
     );
     planet->setUpdateCallback(animation_planet.get() );
     
-    this->addChild(planet.get());
+    main->addChild(planet.get());
 }
 
 void ph::MainScene::createStation() {
@@ -122,7 +137,7 @@ void ph::MainScene::createStation() {
 
 void ph::MainScene::createShip() {
     ship = new ph::Ship;
-    this->addChild(ship.get());
+    main->addChild(ship.get());
 }
 
 
@@ -133,7 +148,7 @@ void ph::MainScene::createAsteroidField() {
 void ph::MainScene::createComet() { 
     ref_ptr<ph::Comet> comet = new ph::Comet(12, 20, 20, 1, 1, 1);
     comet->translateAndAnimate(200, -1000, 200);
-    this->addChild(comet.get());
+    main->addChild(comet.get());
 }
 
 void ph::MainScene::createCuboid() {
@@ -175,14 +190,14 @@ void ph::MainScene::createReaper() {
     ref_ptr<osg::AnimationPathCallback> ani_reaper = new osg::AnimationPathCallback;
     ani_reaper->setAnimationPath(reaper->createFlightPath(2000,40,500,80,-300,90));
     reaper_node->setUpdateCallback(ani_reaper.get());
-    this->addChild(reaper_node.get());
+    main->addChild(reaper_node.get());
 
     // ref_ptr<ph::Reaper> reaper = new ph::Reaper();
     // reaper->transformAndAnimate(Matrix::rotate(PI_2+PI/10,Vec3(0,0,1)),
                                 // 2000, 40, 500, 80, -300, 90);
-    // this->addChild(reaper.get());
+    // main->addChild(reaper.get());
 }
 
 void ph::MainScene::createNebula() {
-    this->addChild(new ph::Nebula(Vec3d(1800, 500, -300), "../resources/nebulainner.png", 50, 75));
+    main->addChild(new ph::Nebula(Vec3d(1800, 500, -300), "../resources/nebulainner.png", 50, 75));
 }

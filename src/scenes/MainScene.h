@@ -5,12 +5,16 @@
 
 #include "objects/Ship.h"
 #include <animation/ShipNodeCallback.h>
+#include <osgShadow/ShadowedScene>
+#include <osgShadow/ShadowMap>
 
 using namespace osg;
 
 namespace ph {
     class MainScene : public Group {
         private:
+            static ref_ptr<osgShadow::ShadowedScene> ss;
+            static ref_ptr<Group> main;
             Node* addTransformedNode(Node* node, const Matrix& matrix);
             void createSkyboxAndSuns();
             void createPlanet();
