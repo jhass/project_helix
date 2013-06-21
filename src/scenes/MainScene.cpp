@@ -43,6 +43,9 @@ ph::MainScene::MainScene() {
     // Create asteroid field 
     ref_ptr<MatrixTransform> asteroid = ph::extendAsteroidField(20, -600, 0);
     this->addChild(asteroid.get());
+
+    // Create nebula
+    this->addChild(new ph::Nebula(Vec3d(1800, 500, -300), "../resources/nebulainner.png", 50, 75));
     
     // Create comet
     ref_ptr<Group> comet = ph::createComet(200, -1000, 200);

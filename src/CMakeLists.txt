@@ -21,6 +21,7 @@ add_executable( project_helix
                 objects/Chronos.cpp
                 objects/Reaper.cpp
                 objects/Rectangle.cpp
+                objects/Nebula.cpp
                 
                 interactors/KeyboardEventHandler.cpp
 

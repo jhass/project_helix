@@ -41,13 +41,13 @@ void ph::Nebula::createParticles(ref_ptr<ParticleSystem> ps, double innerRadius,
     double zd = 1;
     double radius = outerRadius + innerRadius;
 
-    for (double r = innerRadius; r < radius; r = r + (pow(r,-2) + 2) ) {
+    for (double r = innerRadius; r < radius; r = r + r ) {
         for (int i = 1; i <= r; i++) {
             for (int j = 1; j <= r; j++) {
                 theta = i * PI / r;
                 phi = j * 2 * PI / (r-1);
-                double random = rand() % 100;
-                double nradius = r + (random) * r/100;
+                double random = rand() % 50;
+                double nradius = r + (random) * r/50;
                 particle_template.setPosition(Vec3d(
                     (rand()%(int)(radius/4))+(xd*nradius*cos(phi)*sin(theta)), 
                     (rand()%(int)(radius/4))+(yd*nradius*sin(phi)*sin(theta)), 
