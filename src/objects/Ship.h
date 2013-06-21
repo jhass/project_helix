@@ -13,6 +13,8 @@ using namespace osg;
 using namespace osgParticle;
 
 namespace ph {
+    /*A ship loaded from a given model with an exhaust-particlesystem. Can interact with ShipNodeCallback
+    to animate the ship. Has a Camera that will follow on animation.*/
     class Ship : public ProxyNode {
         private:
             static string fileLocation;

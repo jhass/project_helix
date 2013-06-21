@@ -10,19 +10,22 @@
 using namespace osg;
 
 namespace ph {
-	class ShipNodeCallback : public NodeCallback {
-		public:
-			virtual void operator()(Node* node, NodeVisitor* nv);
-			void yawLeft();
-			void yawRight();
+    /* An UpdateCallback for the ship. Moves the Ship forward and rotates it PI/60 when one of the functions is called.
+    Repeats each frame, so a vertical synchronisation is recommended. Turbo increases the speed, doesn't simulate
+    acceleration */
+    class ShipNodeCallback : public NodeCallback {
+        public:
+            virtual void operator()(Node* node, NodeVisitor* nv);
+            void yawLeft();
+            void yawRight();
             void pitchUp();
             void pitchDown();
             void turboOn();
             void turboOff();
 
-		private:
-			static Vec3d direction, up, x_axis, y_axis, z_axis;
-			static double pitch, yaw, roll, speed;
-	};
+        private:
+            static Vec3d direction, up, x_axis, y_axis, z_axis;
+            static double pitch, yaw, roll, speed;
+    };
 }
 #endif

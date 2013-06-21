@@ -12,6 +12,7 @@ using namespace osg;
 using namespace osgParticle;
 
 namespace ph {
+    /* A nebula/cloud made from a lot of stationary particles */
     class Nebula : public ProxyNode {
     
         private:
