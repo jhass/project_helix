@@ -17,7 +17,6 @@
 #include "objects/AsteroidField.h"
 
 #include "util.h"
-#include "scene_utils.h"
 
 #include "MainScene.h"
 
@@ -169,17 +168,19 @@ void ph::MainScene::createCuboid() {
 }
 
 void ph::MainScene::createReaper() {
-    // Create Reaper Spaceship
-    ref_ptr<MatrixTransform> reaper = new MatrixTransform;
-    reaper->setMatrix(Matrix::rotate(PI_2+PI/10,Vec3(0,0,1)));
+    ref_ptr<ph::Reaper> reaper = new ph::Reaper;
+    reaper->transform->setMatrix(Matrix::rotate(PI_2+PI/10,Vec3(0,0,1)));
     ref_ptr<MatrixTransform> reaper_node = new MatrixTransform;
     reaper_node->addChild(reaper.get());
     ref_ptr<osg::AnimationPathCallback> ani_reaper = new osg::AnimationPathCallback;
-    ani_reaper->setAnimationPath(ph::createReaperFlightPath(2000,40,500,80,-300,90));
+    ani_reaper->setAnimationPath(reaper->createFlightPath(2000,40,500,80,-300,90));
     reaper_node->setUpdateCallback(ani_reaper.get());
     this->addChild(reaper_node.get());
-    reaper->addChild(new ph::Reaper);
-    this->addChild(reaper.get());
+
+    // ref_ptr<ph::Reaper> reaper = new ph::Reaper();
+    // reaper->transformAndAnimate(Matrix::rotate(PI_2+PI/10,Vec3(0,0,1)),
+                                // 2000, 40, 500, 80, -300, 90);
+    // this->addChild(reaper.get());
 }
 
 void ph::MainScene::createNebula() {

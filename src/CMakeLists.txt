@@ -9,7 +9,6 @@ add_executable( project_helix
                 views/CockpitView.cpp
                 
                 scenes/MainScene.cpp
-                scenes/scene_utils.cpp
                 
                 objects/Ship.cpp 
                 objects/Nebula.cpp
