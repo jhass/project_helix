@@ -24,7 +24,6 @@ namespace ph {
           
         public:
             Rotator(const double startx, const double endx, const int schritte);
-            ~Rotator();
             void setTexture(const int textureNumber, const string filename);
     };
 }

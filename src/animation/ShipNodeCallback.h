@@ -3,7 +3,6 @@
 
 #include <osg/NodeCallback>
 #include <osg/Vec3d>
-#include <osg/Quat>
 
 using namespace osg;
 

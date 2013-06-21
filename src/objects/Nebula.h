@@ -5,7 +5,7 @@
 
 #include <osg/Vec3d>
 #include <osg/ProxyNode>
-#include <osgParticle/Particle>
+#include <osgParticle/ParticleSystem>
 
 using namespace std;
 using namespace osg;

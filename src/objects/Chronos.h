@@ -4,14 +4,15 @@
 #include <string>
 
 #include <osg/Node>
-#include <osg/Geode>
+#include <osg/Group>
 
+using namespace std;
 using namespace osg;
 
 namespace ph {
     class Chronos : public Group {
         private:
-            static std::string fileLocation;
+            static string fileLocation;
             ref_ptr<Node> station;
 
         public: 

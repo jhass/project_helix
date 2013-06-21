@@ -4,10 +4,9 @@
 #include <string>
 
 #include <osg/Group>
-#include <osg/Geometry>
 #include <osg/Depth>
 #include <osgUtil/CullVisitor>
-#include <osg/MatrixTransform>
+#include <osg/Transform>
 
 #include "Rectangle.h"
 

@@ -1,5 +1,4 @@
 #include "Sun.h"
-#include <iostream>
 
 // Sun(radius, Iterationsschritte, OpenGLLichtnummer [0,7], Lichtanteil rot, grün, blau)
 ph::Sun::Sun(const double radius, const int steps,

@@ -1,12 +1,11 @@
+#include <cmath>
+
 #include <osg/Texture2D>
 #include <osgDB/ReadFile>
-#include <cmath>
+
 #include "Fins.h"
 
-
 //Position sinnlos, da viewer das ignoriert
-
-
 ph::Fins::Fins(const int position, const double factor) {
     
     this->position = position;

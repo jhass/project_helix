@@ -1,12 +1,12 @@
 #include <cmath>
+#include <cstdlib>
+
 #include <osg/MatrixTransform>
 #include <osg/Point>
 #include <osg/PointSprite>
 #include <osg/Texture2D>
 #include <osg/BlendFunc>
 #include <osgDB/ReadFile>
-#include <osgGA/StateSetManipulator>
-#include <osgParticle/ParticleSystem>
 #include <osgParticle/ParticleSystemUpdater>
 
 #include "Nebula.h"

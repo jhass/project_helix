@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include <osg/Geode>
+#include <osg/Group>
 #include <osg/Node>
 
 using namespace osg;
@@ -13,15 +13,9 @@ namespace ph {
     
 	class Missile : public Group {
         private:
-          
-            ref_ptr<Node> missile;
-
-  
-          
+            ref_ptr<Node> missile;          
         public:
             Missile();
-            ~Missile();
-           
     };
 }
 

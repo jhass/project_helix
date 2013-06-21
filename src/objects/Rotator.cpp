@@ -1,21 +1,9 @@
-#include <osg/Texture2D>
-#include <osgDB/ReadFile>
 #include <cmath>
 
-#include "Rotator.h"
-
-#include <osg/MatrixTransform>
-#include <osg/Point>
-#include <osg/PointSprite>
-#include <osg/BlendFunc>
 #include <osg/Texture2D>
-#include <osgGA/StateSetManipulator>
-#include <osgParticle/ParticleSystemUpdater>
-#include <osgParticle/ModularEmitter>
-#include <osgParticle/ModularProgram>
-#include <osgParticle/AccelOperator>
-#include <osgParticle/RadialShooter>
+#include <osgDB/ReadFile>
 
+#include "Rotator.h"
 
 
 ph::Rotator::Rotator(const double startx, const double endx, const int schritte) {
@@ -26,10 +14,6 @@ ph::Rotator::Rotator(const double startx, const double endx, const int schritte)
     this->rotator = new Geometry;
     this->addDrawable(this->rotator.get());
     this->compute();
-}
-
-ph::Rotator::~Rotator() {
-    this->rotator.release();
 }
 
 void ph::Rotator::setTexture(const int textureNumber, const string filename) {

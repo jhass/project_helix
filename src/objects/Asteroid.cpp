@@ -1,6 +1,5 @@
 #include <cmath>
 #include <cstdlib>
-#include <ctime>
 
 #include <osg/Texture2D>
 #include <osg/Material>
@@ -44,7 +43,6 @@ void ph::Asteroid::setCoordinates() {
     ref_ptr<Vec2Array> texcoords = new Vec2Array;
 
     Vec3d coords; // current vertex coordinates
-    srand( time(NULL) );
     double theta, phi;
 
     for (int i = 0; i <= this->wsteps; i++) {

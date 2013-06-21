@@ -1,7 +1,4 @@
-#include <cmath>
-
 #include <osg/Matrix>
-#include <osg/MatrixTransform>
 #include <osg/Quat>
 
 #include "objects/Ship.h"
