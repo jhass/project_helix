@@ -12,6 +12,7 @@
 #include "objects/Torus.h"
 #include "objects/Chronos.h"
 #include "objects/Reaper.h"
+#include "objects/PlanetRing.h"
 
 #include "util.h"
 #include "scene_utils.h"
@@ -85,15 +86,12 @@ void ph::MainScene::createPlanet() {
     sphere->setTexture(0, "../Textures/mars_map.jpg");
     
     // Torus(innerRadius, torusRadius, lengthSteps, widthSteps)
-    ref_ptr<ph::Torus> torus = new ph::Torus(650, 75, 200);
+    ref_ptr<ph::PlanetRing> ring = new ph::PlanetRing(650, 75, 200);
 
-    // NORMAL is Default
-    torus->setStyle(ph::Torus::FLAT);
-    torus->setStateSet(ph::createTorusTexture(torus));
        
     planet->setMatrix(Matrix::translate(x, y, z));
     planet->addChild(sphere.get());
-    planet->addChild(torus.get());
+    planet->addChild(ring.get());
     
     // Creating Animation; Rotation of the planet
     osg::ref_ptr<osg::AnimationPathCallback> animation_planet = new osg::AnimationPathCallback;

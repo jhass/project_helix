@@ -22,6 +22,7 @@ add_executable( project_helix
                 objects/Reaper.cpp
                 objects/Rectangle.cpp
                 objects/Nebula.cpp
+                objects/PlanetRing.cpp
                 
                 interactors/KeyboardEventHandler.cpp
 
