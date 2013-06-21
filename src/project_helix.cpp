@@ -1,8 +1,9 @@
+#include <osgViewer/CompositeViewer>
+
 #include "views/MainView.h"
 #include "views/CockpitView.h"
 #include "interactors/KeyboardEventHandler.h"
 
-#include <osgViewer/CompositeViewer>
 
 using namespace osg;
 using namespace osgViewer;

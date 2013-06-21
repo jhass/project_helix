@@ -1,16 +1,11 @@
 #include <osg/MatrixTransform>
 #include <osg/Texture2D>
-#include <osgDB/ReadFile>
-#include <osgParticle/ParticleSystemUpdater>
 #include <osg/ShapeDrawable>
-#include <osgShadow/ShadowMap>
 
 #include "objects/Skybox.h"
 #include "objects/Sun.h"
 #include "objects/Nebula.h"
 #include "objects/Asteroid.h"
-#include "objects/Sphere.h"
-#include "objects/Torus.h"
 #include "objects/Chronos.h"
 #include "objects/Reaper.h"
 #include "objects/PlanetRing.h"
@@ -23,14 +18,9 @@
 
 using namespace osg;
 
-ph::MainScene::MainScene() {
-    main = new Group;
-    ss = new osgShadow::ShadowedScene;
 
-    ref_ptr<osgShadow::ShadowMap> sm = new osgShadow::ShadowMap;
-    sm->setAmbientBias(Vec2(0.5,1));
-    ss->setShadowTechnique(sm.get());
-    ss->addChild(main.get());
+ph::MainScene::MainScene() {
+    this->shadowedScene = NULL;
 
     createSkyboxAndSuns();
     createPlanet();
@@ -41,16 +31,13 @@ ph::MainScene::MainScene() {
     createCuboid();
     createReaper();   
     createNebula();
-    main->addChild(ph::getDebugAxes(20, 0, 0, 0));
-
-    this->addChild(ss.get());
 }
 
 Node* ph::MainScene::addTransformedNode(Node* node, const Matrix& matrix) {
     ref_ptr<MatrixTransform> transform = new MatrixTransform;
     transform->setMatrix(matrix);
     transform->addChild(node);
-    main->addChild(transform.get());
+    this->addChild(transform.get());
     return transform.release();
 }
 
@@ -85,15 +72,19 @@ void ph::MainScene::createSkyboxAndSuns() {
     suntrans_vl->addChild(sun_violet.get());
 
     // Activate light of the suns
-    main->getOrCreateStateSet()->setMode(GL_LIGHT0, StateAttribute::ON);
-    main->getOrCreateStateSet()->setMode(GL_LIGHT1, StateAttribute::ON);
+    this->getOrCreateStateSet()->setMode(GL_LIGHT0, StateAttribute::ON);
+    this->getOrCreateStateSet()->setMode(GL_LIGHT1, StateAttribute::ON);
 
     //Quick fix of lights position, would probabply take some serious work to get it pretty.
     sun_orange->source->getLight()->setPosition(Vec4(800, width, 0,1));
     sun_violet->source->getLight()->setPosition(Vec4(height, 800, 0,1));
-    ss->addChild(sun_orange->source.get());
-    ss->addChild(sun_violet->source.get());
-    main->addChild(skybox.get());
+
+    if (shadowedScene != NULL) {
+        shadowedScene->addChild(sun_orange->source.get());
+        shadowedScene->addChild(sun_violet->source.get());
+    }
+
+    this->addChild(skybox.get());
 }
 
 void ph::MainScene::createPlanet() {
@@ -125,7 +116,7 @@ void ph::MainScene::createPlanet() {
     );
     planet->setUpdateCallback(animation_planet.get() );
     
-    main->addChild(planet.get());
+    this->addChild(planet.get());
 }
 
 void ph::MainScene::createStation() {
@@ -137,7 +128,7 @@ void ph::MainScene::createStation() {
 
 void ph::MainScene::createShip() {
     ship = new ph::Ship;
-    main->addChild(ship.get());
+    this->addChild(ship.get());
 }
 
 
@@ -148,7 +139,7 @@ void ph::MainScene::createAsteroidField() {
 void ph::MainScene::createComet() { 
     ref_ptr<ph::Comet> comet = new ph::Comet(12, 20, 20, 1, 1, 1);
     comet->translateAndAnimate(200, -1000, 200);
-    main->addChild(comet.get());
+    this->addChild(comet.get());
 }
 
 void ph::MainScene::createCuboid() {
@@ -190,14 +181,14 @@ void ph::MainScene::createReaper() {
     ref_ptr<osg::AnimationPathCallback> ani_reaper = new osg::AnimationPathCallback;
     ani_reaper->setAnimationPath(reaper->createFlightPath(2500,40,-1000,700,80,-1000,-400,90,0));
     reaper_node->setUpdateCallback(ani_reaper.get());
-    main->addChild(reaper_node.get());
+    this->addChild(reaper_node.get());
 
     // ref_ptr<ph::Reaper> reaper = new ph::Reaper();
     // reaper->transformAndAnimate(Matrix::rotate(PI_2+PI/10,Vec3(0,0,1)),
                                 // 2000, 40, 500, 80, -300, 90);
-    // main->addChild(reaper.get());
+    // this->addChild(reaper.get());
 }
 
 void ph::MainScene::createNebula() {
-    main->addChild(new ph::Nebula(Vec3d(1800, 500, -300), "../resources/nebulainner.png", 50, 75));
+    this->addChild(new ph::Nebula(Vec3d(1800, 500, -300), "../resources/nebulainner.png", 50, 75));
 }
