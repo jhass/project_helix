@@ -21,7 +21,7 @@ namespace ph {
     MatrixTransform* extendAsteroidField(double x, double y, double z);
     MatrixTransform* createCuboid(double x, double y, double z);
     
-    AnimationPath* createTurianFlightPath(double x0, double y0, double z0);
+    AnimationPath* createReaperFlightPath(double x0, double y0, double z0);
     
     Group* createComet(double x, double y, double z); 
     ParticleSystem* createParticleSystem(Group* _parent);

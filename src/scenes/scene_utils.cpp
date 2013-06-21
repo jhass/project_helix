@@ -66,7 +66,7 @@ MatrixTransform* ph::createPlanet(double x, double y, double z) {
     ref_ptr<ph::Sphere> sphere = new ph::Sphere(500, 200);
     
     // giving the sphere a texturefile
-    sphere->setTexture(0, "../Textures/EarthMap.jpg");
+    sphere->setTexture(0, "../Textures/mars_map.jpg");
     
     // Torus(innerRadius, torusRadius, lengthSteps, widthSteps)
     ref_ptr<ph::Torus> torus = new ph::Torus(650, 75, 200);
@@ -239,19 +239,19 @@ MatrixTransform* ph::extendAsteroidField(double x, double y, double z) {
     asteroid_copy_01->setMatrix(Matrix::translate(0.0,0.0,30));
     asteroid_copy_01->addChild(asteroid_field.get());
     ref_ptr<MatrixTransform> asteroid_copy_02 = new MatrixTransform;
-    asteroid_copy_02->setMatrix(Matrix::translate(120.0,0.0,0.0));
+    asteroid_copy_02->setMatrix(Matrix::translate(200.0,0.0,0.0));
     asteroid_copy_02->addChild(asteroid_field.get());
     ref_ptr<MatrixTransform> asteroid_copy_03 = new MatrixTransform;
     asteroid_copy_03->setMatrix(Matrix::rotate(PI,Vec3(0.0,1.0,0.0)));
     asteroid_copy_03->addChild(asteroid_field.get());
     ref_ptr<MatrixTransform> asteroid_copy_04 = new MatrixTransform;
-    asteroid_copy_04->setMatrix(Matrix::rotate(PI,Vec3(1.0,0.0,0.0))*Matrix::translate(-120.0,0.0,0.0));
+    asteroid_copy_04->setMatrix(Matrix::rotate(PI,Vec3(1.0,0.0,0.0))*Matrix::translate(-200.0,0.0,0.0));
     asteroid_copy_04->addChild(asteroid_field.get());
     ref_ptr<MatrixTransform> asteroid_copy_05 = new MatrixTransform;
-    asteroid_copy_05->setMatrix(Matrix::rotate(PI,Vec3(0.0,0.0,1.0))*Matrix::translate(120.0,0.0,30));
+    asteroid_copy_05->setMatrix(Matrix::rotate(PI,Vec3(0.0,0.0,1.0))*Matrix::translate(200.0,0.0,30));
     asteroid_copy_05->addChild(asteroid_field.get());
     ref_ptr<MatrixTransform> asteroid_copy_06 = new MatrixTransform;
-    asteroid_copy_06->setMatrix(Matrix::rotate(PI,Vec3(0.0,0.0,1.0))*Matrix::translate(-120.0,0.0,30));
+    asteroid_copy_06->setMatrix(Matrix::rotate(PI,Vec3(0.0,0.0,1.0))*Matrix::translate(-200.0,0.0,30));
     asteroid_copy_06->addChild(asteroid_field.get());
     
     ref_ptr<MatrixTransform> root = new MatrixTransform;
@@ -300,7 +300,7 @@ MatrixTransform* ph::createCuboid(double x, double y, double z) {
 }
 
 // Creates the flight path of our turian spacecraft
-AnimationPath* ph::createTurianFlightPath(double x0, double y0, double z0) {
+AnimationPath* ph::createReaperFlightPath(double x0, double y0, double z0) {
     
     ref_ptr<AnimationPath> path = new AnimationPath;
     path->setLoopMode( osg::AnimationPath::NO_LOOPING );
