@@ -107,7 +107,7 @@ ph::Ship::Ship() {
 
     // Setup animation callback
     callback = new ShipNodeCallback;
-    this->setUpdateCallback(callback.get());
+    //this->setUpdateCallback(callback.get());
 
 }
 
