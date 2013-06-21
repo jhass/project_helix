@@ -33,7 +33,67 @@
 #include "objects/Sphere.h"
 using namespace osg;
 
-    ph::Missile::Missile() {
+ParticleSystem* createParticleSystem(Group* _parent) {
+    ref_ptr<Group> parent = _parent;
+    ref_ptr<ParticleSystem> ps = new ParticleSystem();
+    ps->getDefaultParticleTemplate().setShape(Particle::POINT);
+    
+    ref_ptr<BlendFunc> blendFunc = new BlendFunc();
+    blendFunc->setFunction(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    // Texture erzeugen
+    ref_ptr<Texture2D> texture = new Texture2D;
+
+    texture->setImage( osgDB::readImageFile("../resources/particle.rgb") );
+    
+    // StateSetattribute setzen
+    ref_ptr<StateSet> ss = ps->getOrCreateStateSet();
+    ss->setAttributeAndModes(blendFunc.get());
+    // Texture übergeben
+    ss->setTextureAttributeAndModes(0, texture.get());
+    // Point-Atrribut setzen
+    ref_ptr<Point> attribute = new Point(10.0f);
+    ss->setAttribute(attribute);
+    ref_ptr<PointSprite> sprite = new PointSprite;
+    ss->setTextureAttributeAndModes(0, sprite);
+    // Lichteffekte auf Partikel ausmachen
+    ss->setMode( GL_LIGHTING, StateAttribute::OFF);
+    // Rendering einstellen
+    ss->setRenderingHint( StateSet::TRANSPARENT_BIN );
+    
+    //Rng
+    ref_ptr<RandomRateCounter> rrc = new RandomRateCounter();
+    rrc->setRateRange( 50, 200 ); //Reichweite des Partikelstrahls
+    
+    //makeshooter
+    ref_ptr<RadialShooter> myshooter = new RadialShooter();
+    myshooter->setThetaRange(-0.2,-0.3); // Streuung z-x-ebene gegen UZS
+    myshooter->setPhiRange(0.2,0.3); //Streuung x-y-ebene gegen UZS
+    myshooter->setInitialSpeedRange(0,50); //Geschwindigkeit
+    
+    //Emmiter
+    ref_ptr<ModularEmitter> emitter = new ModularEmitter();
+    emitter->setParticleSystem( ps.get() );
+    emitter->setCounter( rrc.get() );
+    emitter->setShooter(myshooter.get());    
+        
+    //??
+    ref_ptr<ModularProgram> program = new ModularProgram();
+    program->setParticleSystem( ps.get() );
+
+    
+    //Rendering stuff2
+    ref_ptr<Geode> geode = new Geode();
+    geode->addDrawable( ps.get() );
+    
+    parent->addChild( emitter.get() );
+    parent->addChild( program.get() );
+    parent->addChild( geode.get() );
+    return ps.release();
+}
+
+
+ph::Missile::Missile() {
     ref_ptr<ph::Rotator> rotator = new ph::Rotator(-1.7, 1.81, 30);
     rotator->setTexture(0, "../Textures/rotator_tx.png");
     
@@ -100,29 +160,35 @@ using namespace osg;
     sphere->setTexture(0,"../Textures/rocketeng.jpeg"); //mit durch Material ergänzen
     planet->addChild(sphere.get());
     
-    //PS
+    //Partikelsystem start
+    
        ref_ptr<osg::MatrixTransform> root = new osg::MatrixTransform;
      //Creating the particlesystem at the point defined above
-   
-   // ref_ptr<ParticleSystem> ps = createParticleSystem(root.get());
-  //  ref_ptr<ParticleSystemUpdater> updater = new ParticleSystemUpdater();
-  //  updater->addParticleSystem(ps);
     
     ref_ptr<osg::MatrixTransform> mtx = new osg::MatrixTransform;
-   // mtx->setMatrix(Matrix::translate(-5.0,0.0,0.0));
-   // mtx->addChild(ps.get());
-   // mtx->addChild(updater.get());
+    mtx->setMatrix(Matrix::translate(-5.0,0.0,0.0));  //um 5 ans Heck der Missile verschieben
     
+    ref_ptr<ParticleSystem> ps = createParticleSystem(root.get());
+    ref_ptr<ParticleSystemUpdater> updater = new ParticleSystemUpdater();
+    updater->addParticleSystem(ps);
+   
+   // 
+   
+    
+    ref_ptr<Group> node = new Group();
+   // node->addChild(ps.get());    //Kann ich hier nicht reinbekommen, WARUM?
+    node->addChild(updater.get());
+    node->addChild(mtx.get());
     
     //PS ende
     
  
-    root->setMatrix(Matrix::rotate(osg::DegreesToRadians(45.0),0,1,0));
+    root->setMatrix(Matrix::rotate(osg::DegreesToRadians(45.0),1,0,0));
     root->addChild(rotator.get());
     root->addChild(transf.get());
     root->addChild(transf2.get());
     root->addChild(planet.get());
-    root->addChild(mtx.get());
+    root->addChild(node.get());
    
     this->addChild(root.get());
     

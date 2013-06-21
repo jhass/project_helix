@@ -53,39 +53,30 @@ void ph::Rotator::setVerticesAndNormals() {
     ref_ptr<Vec3Array> normals = new Vec3Array();
     ref_ptr<Vec2Array> texcoords = new Vec2Array();
     Vec3d coords;
-    double x,y,zstrich, idouble4, idouble3, idouble2, ystrich,z,yabl;
- double gesamtbereich=(fabs(startx)+fabs(endx));
- double teilex=gesamtbereich*schritte;
- int count=0;   
+    double x, y, idouble2, ystrich, z, yabl, gesamtbereich=(fabs(startx)+fabs(endx));
+    int count=0;   
    
 
- for (double i = startx; i <=endx; i=i+0.1) { 
-    	  // printf("%f\n",i);
-    	    idouble4 = pow(i,4);
-    	    idouble3 = pow(i,3);
-            idouble2 = pow(i,2);
-  
-          
-           y=(-0.125*idouble2)+.4;
+ for (double i = startx; i <=endx; i=i+0.1) { // Durchlaufen der X-Achse vom -x nach x in 0.1er Schritten
+            
+ 	   idouble2 = pow(i,2);
+           y=(-0.125*idouble2)+.4;  // f(x)=-0.125x^2+0.4
            yabl=(-.25*i);
 
-            for (int j = 0; j <= schritte;j++){ // einzelner Scheibenringe  von "hinten nach vorne" in 100 Teile zerlegt
+            for (int j = 0; j <= schritte;j++){ // einzelner Scheibenringe  von "hinten nach vorne" in 'schritte' Teile zerlegt
                     
                     ystrich=(cos(2*PI/schritte*j)*y); 
                     z=(sin(2*PI/schritte*j)*y);
                     coords=Vec3d(i,ystrich, z);
-                    
-                    //z=-f(x)*f'(x)
-                    
                     vertices->push_back(coords);
-                    printf("%f\n",x);
+                    
                     x=(double)count/(gesamtbereich*10);
                     double y_test=(double)j/schritte;
+                    
                     texcoords->push_back(Vec2d(x,y_test));
                     
-                    coords = Vec3d(-(y)*yabl,ystrich,z);
+                    coords = Vec3d(-(y)*yabl,ystrich,z);     //Normalenberechnung des Z-Wertes z=-f(x)*f'(x)
                     coords.normalize();
-                  
                     normals->push_back(coords); 
                             
             }                       
@@ -105,7 +96,7 @@ void ph::Rotator::setIndicies() {
     ref_ptr<DrawElementsUInt> indices = new DrawElementsUInt(GL_TRIANGLE_STRIP);
    
 
-    for (double i = 0; i < (gesamtbereich*10)-1; i++) {
+    for (double i = 0; i < (gesamtbereich*10)-1; i++) {  //*10 da die Vertices in 0.1er Schritten gesetzt wurden
     	    
         for (int j =0; j<=schritte ; j++){
             indices->push_back( (int)(i*( schritte+1)+j )) ;

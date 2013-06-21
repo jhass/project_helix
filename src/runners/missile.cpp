@@ -1,29 +1,6 @@
 #include <osgViewer/Viewer>
 #include <osg/PolygonMode>
-#include <osg/MatrixTransform>
-#include <osg/Math>
-#include <osg/LightModel>
-#include <osg/Material>
-#include <osg/ShapeDrawable>
-#include <osg/Geode>
-#include <osg/Point>
-#include <osg/PointSprite>
 #include <osgGA/StateSetManipulator>
-#include <osgParticle/ParticleSystemUpdater>
-#include <osgParticle/ModularEmitter>
-#include <osgParticle/ModularProgram>
-#include <osgParticle/AccelOperator>
-#include <osgParticle/RadialShooter>
-#include <osg/BlendFunc>
-#include <osgParticle/ParticleSystem>
-#include <osgDB/ReadFile>
-#include <osg/Texture2D>
-
-#include "objects/Ship.h"
-#include "objects/Fins.h"
-#include "objects/Rotator.h"
-#include "util.h"
-#include "objects/Sphere.h"
 #include "objects/Missile.h"
 using namespace osg;
 
