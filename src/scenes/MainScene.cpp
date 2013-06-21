@@ -37,6 +37,14 @@ ph::MainScene::MainScene() {
     this->addChild(ph::getDebugAxes(20, 0, 0, 0));
 }
 
+Node* ph::MainScene::addTransformedNode(Node* node, const Matrix& matrix) {
+    ref_ptr<MatrixTransform> transform = new MatrixTransform;
+    transform->setMatrix(matrix);
+    transform->addChild(node);
+    this->addChild(transform.get());
+    return transform.release();
+}
+
 void ph::MainScene::createSkyboxAndSuns() {
     int height = 4000;
     int width = 4000;
@@ -107,28 +115,20 @@ void ph::MainScene::createPlanet() {
 }
 
 void ph::MainScene::createStation() {
-    ref_ptr<MatrixTransform> station = new MatrixTransform;
-    station->addChild(new ph::Chronos);
-    station->setMatrix(
+    addTransformedNode(new ph::Chronos,
         Matrix::rotate(-PI_2, Vec3(0, 0, 1)) *
         Matrix::translate(Vec3(-20, 80, 100))
     );
-    this->addChild(station.get());
 }
 
 void ph::MainScene::createShip() {
     ship = new ph::Ship;
-    ref_ptr<MatrixTransform> trans_ship = new MatrixTransform;
-    trans_ship->setMatrix(Matrix::translate(-850, 80, 100));
     this->addChild(ship.get());
 }
 
 
 void ph::MainScene::createAsteroidField() {
-    ref_ptr<MatrixTransform> trans_field = new MatrixTransform;
-    trans_field->addChild(new ph::AsteroidField);
-    trans_field->setMatrix(Matrix::translate(20, -600, 0));
-    this->addChild(trans_field.get());
+    addTransformedNode(new ph::AsteroidField, Matrix::translate(20, -600, 0));
 }   
 
 void ph::MainScene::createComet() { 
@@ -161,17 +161,11 @@ void ph::MainScene::createCuboid() {
     // giving the material to the cuboid
     cuboid->getOrCreateStateSet()->setAttributeAndModes(material.get(),StateAttribute::ON);
     
-    // translating cuboid to startposition
-    root->setMatrix(Matrix::translate(x,y,z));
-    
     // animating cuboid flight path
     osg::ref_ptr<osg::AnimationPathCallback> ani_cuboid = new osg::AnimationPathCallback;
     ani_cuboid->setAnimationPath( ph::createAnimationPath(1800, 0, ph::LOOP, ph::NO_AXIS,
      NULL, 0, x, lin_f, 400-y, y, NULL, 0, z));
-    root->setUpdateCallback( ani_cuboid.get() );
-    
-    root->addChild(cuboid.get());
-    this->addChild(root.get());
+    addTransformedNode(cuboid.get(), Matrix::translate(x,y,z))->setUpdateCallback(ani_cuboid.get());
 }
 
 void ph::MainScene::createReaper() {

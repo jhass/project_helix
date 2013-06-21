@@ -11,6 +11,7 @@ using namespace osg;
 namespace ph {
     class MainScene : public Group {
         private:
+            Node* addTransformedNode(Node* node, const Matrix& matrix);
             void createSkyboxAndSuns();
             void createPlanet();
             void createStation();
