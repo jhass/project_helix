@@ -1,5 +1,4 @@
 #include <osg/Texture1D>
-#include <osg/Texture2D>
 #include <osg/Material>
 
 #include "PlanetRing.h"

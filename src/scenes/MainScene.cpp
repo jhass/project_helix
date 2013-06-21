@@ -13,6 +13,7 @@
 #include "objects/Chronos.h"
 #include "objects/Reaper.h"
 #include "objects/PlanetRing.h"
+#include "objects/Comet.h"
 
 #include "util.h"
 #include "scene_utils.h"
@@ -285,48 +286,9 @@ void ph::MainScene::createAsteroidField() {
 }   
 
 void ph::MainScene::createComet() { 
-    double x = 200;
-    double y = -1000;
-    double z = 200;
-
-    ref_ptr<ph::Asteroid> asteroid = new ph::Asteroid(12, 20, 20, 1, 1, 1);
-    asteroid->setTexture(0, "../Textures/phobos.jpg");
-    double delta_x = 800.0, delta_y = 2000.0;
-    
-    // getting the big asteroids to its place
-    ref_ptr<MatrixTransform> trans_asteroid = new MatrixTransform;
-    trans_asteroid->setMatrix(Matrix::translate(x, y, z));
-    trans_asteroid->addChild(asteroid.get());
-    
-    // creating animation path for comet
-    osg::ref_ptr<osg::AnimationPathCallback> animation_asteroid = new osg::AnimationPathCallback;
-    animation_asteroid->setAnimationPath( ph::createAnimationPath(600.0f, 20*PI, ph::LOOP, ph::NEG_X_AXIS,
-     lin_f, delta_x, x, lin_f, delta_y, y, NULL, 0, z));
-    trans_asteroid->setUpdateCallback( animation_asteroid.get() );
-    
-    //Moving the origin of particles
-    ref_ptr<MatrixTransform> mt = new MatrixTransform();
-    mt->setMatrix( Matrix::translate(x, y+5, z) );
-
-    //Creating the particlesystem at the point defined above
-    ref_ptr<ParticleSystem> ps = createParticleSystem(mt.get());
-    ref_ptr<ParticleSystemUpdater> updater = new ParticleSystemUpdater();
-    updater->addParticleSystem(ps);
-    
-    // Creating Animation; Movement of the particles
-    osg::ref_ptr<osg::AnimationPathCallback> animation_particle = new osg::AnimationPathCallback;
-    animation_particle->setAnimationPath( ph::createAnimationPath(600.0f, 0, ph::LOOP, ph::NO_AXIS,
-     lin_f, delta_x, x, lin_f, delta_y, y+5, NULL, 0, z));
-    mt->setUpdateCallback( animation_particle.get() );
-    
-    // Parent node to separate asteroid and his animation from the particle animation
-    ref_ptr<Group> node = new Group();
-    
-    node->addChild(trans_asteroid.get());
-    node->addChild(updater.get());
-    node->addChild(mt.get());
-    
-    this->addChild(node.get());
+    ref_ptr<ph::Comet> comet = new ph::Comet(12, 20, 20, 1, 1, 1);
+    comet->translateAndAnimate(200, -1000, 200);
+    this->addChild(comet.get());
 }
 
 void ph::MainScene::createCuboid() {

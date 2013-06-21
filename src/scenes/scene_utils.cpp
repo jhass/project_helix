@@ -1,16 +1,13 @@
 #include <osg/MatrixTransform>
-#include <osg/Texture1D>
-#include <osg/Texture2D>
-#include <osg/Material>
-#include <osg/Point>
-#include <osg/PointSprite>
+
+
 #include <osgGA/StateSetManipulator>
 
-#include <osgParticle/ModularEmitter>
-#include <osgParticle/ModularProgram>
+
+
 #include <osgParticle/AccelOperator>
-#include <osgParticle/RadialShooter>
-#include <osg/BlendFunc>
+
+
 #include <osgDB/ReadFile>
 #include <osg/ShapeDrawable>
 #include <iostream>
@@ -103,66 +100,3 @@ AnimationPath* ph::createReaperFlightPath(double start_x, double end_x,
     
     return path.release();
  }
- 
-// Creating particle system for Comet
-ParticleSystem* ph::createParticleSystem(Group* _parent) {
-    ref_ptr<Group> parent = _parent;
-    ref_ptr<ParticleSystem> ps = new ParticleSystem();
-    Particle* part = new Particle();
-    part->setShape(Particle::POINT);
-    part->setLifeTime(5);
-    ps->setDefaultParticleTemplate(*part);
-    
-    ref_ptr<BlendFunc> blendFunc = new BlendFunc();
-    blendFunc->setFunction(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    // Create texture
-    ref_ptr<Texture2D> texture = new Texture2D;
-
-    texture->setImage( osgDB::readImageFile("../resources/particle.rgb") );
-    
-    // StateSetattribute setzen
-    ref_ptr<StateSet> ss = ps->getOrCreateStateSet();
-    ss->setAttributeAndModes(blendFunc.get());
-    // Texture übergeben
-    ss->setTextureAttributeAndModes(0, texture.get());
-    // Point-Atrribut setzen
-    ref_ptr<Point> attribute = new Point(6.0f);
-    ss->setAttribute(attribute);
-    ref_ptr<PointSprite> sprite = new PointSprite;
-    ss->setTextureAttributeAndModes(0, sprite);
-    // Lichteffekte auf Partikel ausmachen
-    ss->setMode( GL_LIGHTING, StateAttribute::OFF);
-    // Rendering einstellen
-    ss->setRenderingHint( StateSet::TRANSPARENT_BIN );
-    
-    //Rng
-    ref_ptr<RandomRateCounter> rrc = new RandomRateCounter();
-    rrc->setRateRange( 500, 1000 );
-    
-    //makeshooter
-    ref_ptr<RadialShooter> myshooter = new RadialShooter();
-    myshooter->setThetaRange(-PI_2+PI_4/2,-PI_2-PI_4/2); // Streuung z-x-ebene gegen UZS
-    myshooter->setPhiRange(PI_2-PI_4/2,PI_2+PI_4/2); //Streuung x-y-ebene gegen UZS
-    myshooter->setInitialSpeedRange(5,20); //Geschwindigkeit
-    
-    //Emmiter
-    ref_ptr<ModularEmitter> emitter = new ModularEmitter();
-    emitter->setParticleSystem( ps.get() );
-    emitter->setCounter( rrc.get() );
-    emitter->setShooter(myshooter.get());    
-        
-    //??
-    ref_ptr<ModularProgram> program = new ModularProgram();
-    program->setParticleSystem( ps.get() );
-
-    
-    //Rendering stuff2
-    ref_ptr<Geode> geode = new Geode();
-    geode->addDrawable( ps.get() );
-    
-    parent->addChild( emitter.get() );
-    parent->addChild( program.get() );
-    parent->addChild( geode.get() );
-    return ps.release();
-}
