@@ -19,7 +19,7 @@
 //Define the filelocation of the ship's .obj file here
 string ph::Ship::fileLocation = "../resources/cruiser.obj";
 
-//Particle function of DOOM
+//Creating a Particlesystem at thegiven location
 ParticleSystem* ph::Ship::createParticleSystem(Group* _parent) {
     ref_ptr<Group> parent = _parent;
     ref_ptr<ParticleSystem> ps = new ParticleSystem();
@@ -28,13 +28,11 @@ ParticleSystem* ph::Ship::createParticleSystem(Group* _parent) {
     ref_ptr<BlendFunc> blendFunc = new BlendFunc();
     blendFunc->setFunction(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    //choosing the texture, gonna have to create one somtimes soon......
+    //Setting the texture
     ref_ptr<Texture2D> texture = new Texture2D;
-//    texture->setImage( osgDB::readImageFile("../smoke.rgb") );
     texture->setImage( osgDB::readImageFile("../resources/particle.rgb") );
-//    texture->setImage( osgDB::readImageFile("../resources/fireparticle8x8.png") );
     
-    //Rendering stuffsies
+    //Rendering attributes
     ref_ptr<StateSet> ss = ps->getOrCreateStateSet();
     ss->setAttributeAndModes(blendFunc.get());
     ss->setTextureAttributeAndModes(0, texture.get());
@@ -45,28 +43,28 @@ ParticleSystem* ph::Ship::createParticleSystem(Group* _parent) {
     ss->setMode( GL_LIGHTING, StateAttribute::OFF);
     ss->setRenderingHint( StateSet::TRANSPARENT_BIN );
     
-    //Rng
+    //Create a RandomRateCounter so the amount of particles emmited varies
     ref_ptr<RandomRateCounter> rrc = new RandomRateCounter();
     rrc->setRateRange( 100, 500 );
     
-    //makeshooter
+    //Create a ParticleShooter that sets the proper vector in the particles
     ref_ptr<RadialShooter> myshooter = new RadialShooter();
     myshooter->setThetaRange(-1.7,-1.4); // Neigung z-x-ebene gegen UZS
     myshooter->setPhiRange(-0.2,0.2); //Neigung x-y-ebene gegen UZS
     myshooter->setInitialSpeedRange(5,15); //Geschwindigkeit
     
-    //Emmiter
+    //Create an Emmiter, which is a container for the Shooter, the Counter and the Particlesystem
     ref_ptr<ModularEmitter> emitter = new ModularEmitter();
     emitter->setParticleSystem( ps.get() );
     emitter->setCounter( rrc.get() );
     emitter->setShooter(myshooter.get());    
         
-    //??
+    //Create another container, which contains the Emmitter and Updateallbacks
     ref_ptr<ModularProgram> program = new ModularProgram();
     program->setParticleSystem( ps.get() );
 
     
-    //Rendering stuff2
+    //Adding the Particlesystem to a Geode so it will be drawn
     ref_ptr<Geode> geode = new Geode();
     geode->addDrawable( ps.get() );
     
@@ -78,6 +76,7 @@ ParticleSystem* ph::Ship::createParticleSystem(Group* _parent) {
  
 ph::Ship::Ship() {
 
+    //Set the transformations up for animation
     rotate = new MatrixTransform();
     rotate->setMatrix(Matrix::rotate(0,Vec3d(0,0,0)));
     translate = new MatrixTransform();
@@ -103,7 +102,9 @@ ph::Ship::Ship() {
 
     this->addChild(translate.get());
 
+    //Setting up the Camera
     camera = new Camera;
+
 }
 
 // void ph::Ship::Ship::addNode(Node* node) {

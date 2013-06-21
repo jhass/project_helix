@@ -21,58 +21,61 @@ double ph::ShipNodeCallback::roll  = 0;
 
 
 void ph::ShipNodeCallback::operator()(Node* node, NodeVisitor* nv) {
-	ref_ptr<ph::Ship> shipNode = dynamic_cast<ph::Ship*>(node); //You don't want the long way.
+    ref_ptr<ph::Ship> shipNode = dynamic_cast<ph::Ship*>(node); //Casting to access the transformation nodes
 
-	//Rotate direction for translation
-	Quat q = Quat(roll, x_axis, pitch, y_axis, yaw, z_axis);
-	direction = q * direction;
-	up = q * up;
+    
+    Quat q = Quat(roll, x_axis, pitch, y_axis, yaw, z_axis); // Quaternion(?) for Rotation
+    direction = q * direction; //Rotate direction vector for translation
+    up = q * up; //Rotate the up-vector of the camera
 
-	//Rotate Ship
-	Matrix rotation = shipNode->rotate->getMatrix();
-	rotation = rotation * Matrix::rotate(q);
-	shipNode->rotate->setMatrix(rotation);
-	
-	//Translate Ship
-	Matrix translation = Matrix::translate(shipNode->translate->getMatrix().getTrans() + direction*speed);
-	shipNode->translate->setMatrix(translation);
+    //Rotate ship
+    Matrix rotation = shipNode->rotate->getMatrix();
+    rotation = rotation * Matrix::rotate(q);
+    shipNode->rotate->setMatrix(rotation);
+    
+    //Translate ship by adding the direction vector
+    Matrix translation = Matrix::translate(shipNode->translate->getMatrix().getTrans() + direction*speed);
+    shipNode->translate->setMatrix(translation);
 
-	// Update camera
-	Vec3d eye = translation.getTrans()+up;
-	shipNode->camera->setViewMatrixAsLookAt(
-		 eye,            // eye
+    // Update camera
+    Vec3d eye = translation.getTrans()+up;
+    shipNode->camera->setViewMatrixAsLookAt(
+         eye,            // eye
          eye+direction,  // center
          up              // up
     );
 
+    //Rotating the axis of the quat, so further rotations are correct
     x_axis = q * x_axis;
     y_axis = q * y_axis;
     z_axis = q * z_axis;
-	pitch = yaw = roll = 0;
-	
-	traverse(node, nv);
+
+    //Resetting the angles so the ship flies straight unless a button is pressed
+    pitch = yaw = roll = 0;
+    
+    traverse(node, nv);
 }
 
 void ph::ShipNodeCallback::yawLeft() {
-	yaw +=  PI/60;
+    yaw +=  PI/60;
 }
 
 void ph::ShipNodeCallback::yawRight() {
-	yaw -= PI/60;
+    yaw -= PI/60;
 }
 
 void ph::ShipNodeCallback::pitchUp() {
-	pitch += PI/60;
+    pitch += PI/60;
 }
 
 void ph::ShipNodeCallback::pitchDown() {
-	pitch -=  PI/60;
+    pitch -=  PI/60;
 }
 
 void ph::ShipNodeCallback::turboOn() {
-	speed = 160;
+    speed = 160;
 }
 
 void ph::ShipNodeCallback::turboOff() {
-	speed = 1;
+    speed = 1;
 }

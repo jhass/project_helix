@@ -12,15 +12,14 @@
 #include "Nebula.h"
 
 void ph::Nebula::createRenderingAttributes(ref_ptr<ParticleSystem> ps, string texturePath) {
-    //Creating the Blendfunction, whatever that may be.
     ref_ptr<BlendFunc> blendFunc = new BlendFunc();
     blendFunc->setFunction(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    //choosing the texture, gonna have to create one somtimes soon......
+    
     ref_ptr<Texture2D> texture = new Texture2D();
     texture->setImage(osgDB::readImageFile(texturePath));
 
-    ref_ptr<StateSet> ss = ps->getOrCreateStateSet(); //Adding it to the Particlsystem here!
+    ref_ptr<StateSet> ss = ps->getOrCreateStateSet();
     ss->setAttributeAndModes(blendFunc.get());
     ss->setTextureAttributeAndModes(0, texture.get());
     ref_ptr<Point> attribute = new Point(20.0f);
@@ -34,11 +33,11 @@ void ph::Nebula::createRenderingAttributes(ref_ptr<ParticleSystem> ps, string te
 void ph::Nebula::createParticles(ref_ptr<ParticleSystem> ps, double innerRadius, double outerRadius) {
     Particle particle_template;
     particle_template.setShape(Particle::POINT);
-    particle_template.setLifeTime(-1); //Never gets lifelong warranty.......
+    particle_template.setLifeTime(-1); 
 
     double theta, phi;
     double xd = 1;
-    double yd = 1;  //Setting Dimensions
+    double yd = 1;  //Setting dimensions
     double zd = 1;
     double radius = outerRadius + innerRadius;
 
@@ -82,7 +81,7 @@ ph::Nebula::Nebula(Vec3d location, string texturePath, double innerRadius, doubl
     //Set the rendering attributes
     createRenderingAttributes(ps, texturePath);
 
-    //Glueing everything together, needs more Ducttape!
+    //Glueing everything together
     updater->addParticleSystem(ps.get());
     particlesystemContainer->addDrawable(ps.get());
     origin->addChild(particlesystemContainer.get());
@@ -90,7 +89,7 @@ ph::Nebula::Nebula(Vec3d location, string texturePath, double innerRadius, doubl
     //Creating a Particle
     ps->createParticle(NULL);
 
-    //Creating loads of Particles (Code secretly stolen from asteroid.cpp)
+    //Creating loads of Particles
     createParticles(ps, innerRadius, outerRadius);
 
     origin->addChild(updater.get());
