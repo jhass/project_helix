@@ -3,7 +3,7 @@
 #include <osgDB/ReadFile>
 #include <osgParticle/ParticleSystemUpdater>
 #include <osg/ShapeDrawable>
-#include <osgShadow/ParallelSplitShadowMap>
+#include <osgShadow/ShadowMap>
 
 #include "objects/Skybox.h"
 #include "objects/Sun.h"
@@ -28,7 +28,8 @@ using namespace osg;
 
 
 ph::MainScene::MainScene() {
-    ref_ptr<osgShadow::ParallelSplitShadowMap> sm = new osgShadow::ParallelSplitShadowMap;
+    ref_ptr<osgShadow::ShadowMap> sm = new osgShadow::ShadowMap;
+    sm->setAmbientBias(Vec2(0.5,1));
     ss->setShadowTechnique(sm.get());
     ss->addChild(main.get());
 
