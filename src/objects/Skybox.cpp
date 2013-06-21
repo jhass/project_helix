@@ -11,7 +11,7 @@ ph::Skybox::Skybox(const int height, const int width) {
     setReferenceFrame(Transform::ABSOLUTE_RF);
     setCullingActive(false);
     
-    osg::StateSet* stateSet = getOrCreateStateSet();
+    osg::StateSet* stateSet = this->getOrCreateStateSet();
     // Tiefenpuffer; Objekte verschwinden nicht einfach, wenn sich auf Rand
     // der Skybox treffen
     stateSet->setAttributeAndModes(new Depth(Depth::LEQUAL, 1.0f, 1.0f));
@@ -19,7 +19,6 @@ ph::Skybox::Skybox(const int height, const int width) {
     stateSet->setMode(GL_LIGHTING, StateAttribute::OFF);
     // Culling für Flächen außerhalb der Skybox
     stateSet->setMode(GL_CULL_FACE, StateAttribute::OFF);
-    //ss->setRenderBinDetails( 5, "RenderBin" );
     
     // Anlegen der Rechtecke
     createRectangles();
