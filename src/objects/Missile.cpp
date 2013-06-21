@@ -191,13 +191,13 @@ ph::Missile::Missile() {
     this->addChild(root.get());
     
     
-    
+   /* 
     osg::ref_ptr<osg::AnimationPathCallback> apcb = new osg::AnimationPathCallback;
     apcb->setAnimationPath( ph::createAnimationPath(10.0f, 2*PI, ph::LOOP, ph::NEG_Z_AXIS,
     ph::sin_f, 20,0 ,ph::cos_f, 20,0, ph::lin_f, -00,0));
     root->setUpdateCallback( apcb.get() );
 
-
+*/
     
     
    
