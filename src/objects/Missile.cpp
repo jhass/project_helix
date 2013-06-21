@@ -63,13 +63,13 @@ ParticleSystem* createParticleSystem(Group* _parent) {
     
     //Rng
     ref_ptr<RandomRateCounter> rrc = new RandomRateCounter();
-    rrc->setRateRange( 50, 200 ); //Reichweite des Partikelstrahls
+    rrc->setRateRange( 50, 500 ); //Reichweite des Partikelstrahls
     
     //makeshooter
     ref_ptr<RadialShooter> myshooter = new RadialShooter();
-    myshooter->setThetaRange(-0.2,-0.3); // Streuung z-x-ebene gegen UZS
-    myshooter->setPhiRange(0.2,0.3); //Streuung x-y-ebene gegen UZS
-    myshooter->setInitialSpeedRange(0,50); //Geschwindigkeit
+    myshooter->setThetaRange(-PI_2-0.05,-PI_2+0.05); // Streuung z-x-ebene gegen UZS
+    myshooter->setPhiRange(-0.02,0.02); //Streuung x-y-ebene gegen UZS
+    myshooter->setInitialSpeedRange(0,10); //Geschwindigkeit
     
     //Emmiter
     ref_ptr<ModularEmitter> emitter = new ModularEmitter();
@@ -166,7 +166,7 @@ ph::Missile::Missile() {
      //Creating the particlesystem at the point defined above
     
     ref_ptr<osg::MatrixTransform> mtx = new osg::MatrixTransform;
-    mtx->setMatrix(Matrix::translate(-5.0,0.0,0.0));  //um 5 ans Heck der Missile verschieben
+    mtx->setMatrix(Matrix::rotate(PI_2,Vec3(0,1,0))*Matrix::translate(-5.0,0.0,0.0));  //um 5 ans Heck der Missile verschieben
     
     ref_ptr<ParticleSystem> ps = createParticleSystem(root.get());
     ref_ptr<ParticleSystemUpdater> updater = new ParticleSystemUpdater();
@@ -176,14 +176,13 @@ ph::Missile::Missile() {
    
     
     ref_ptr<Group> node = new Group();
-   // node->addChild(ps.get());    //Kann ich hier nicht reinbekommen, WARUM?
     node->addChild(updater.get());
     node->addChild(mtx.get());
     
     //PS ende
     
  
-    root->setMatrix(Matrix::rotate(osg::DegreesToRadians(45.0),1,0,0));
+  //  root->setMatrix(Matrix::rotate(PI_4,1,0,0));
     root->addChild(rotator.get());
     root->addChild(transf.get());
     root->addChild(transf2.get());
