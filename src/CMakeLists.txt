@@ -24,6 +24,7 @@ add_executable( project_helix
                 objects/Nebula.cpp
                 objects/PlanetRing.cpp
                 objects/Comet.cpp
+                objects/AsteroidField.cpp
                 
                 interactors/KeyboardEventHandler.cpp
 
