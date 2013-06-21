@@ -16,8 +16,11 @@ namespace ph {
     class Nebula : public ProxyNode {
     
         private:
-            static void createParticles(ref_ptr<ParticleSystem> ps, double innerRadius, double outerRadius);
-            static void createRenderingAttributes(ref_ptr<ParticleSystem> ps, string texturePath);
+            string texturePath;
+            ref_ptr<ParticleSystem> ps;
+            double innerRadius, outerRadius;
+            void createParticles();
+            void createRenderingAttributes();
             
         public:
             Nebula(Vec3d location, string texturePath, double innerRadius, double outerRadius);

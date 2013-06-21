@@ -11,7 +11,7 @@
 
 #include "Nebula.h"
 
-void ph::Nebula::createRenderingAttributes(ref_ptr<ParticleSystem> ps, string texturePath) {
+void ph::Nebula::createRenderingAttributes() {
     ref_ptr<BlendFunc> blendFunc = new BlendFunc();
     blendFunc->setFunction(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -30,7 +30,7 @@ void ph::Nebula::createRenderingAttributes(ref_ptr<ParticleSystem> ps, string te
     ss->setRenderingHint(StateSet::TRANSPARENT_BIN);
 }
 
-void ph::Nebula::createParticles(ref_ptr<ParticleSystem> ps, double innerRadius, double outerRadius) {
+void ph::Nebula::createParticles() {
     Particle particle_template;
     particle_template.setShape(Particle::POINT);
     particle_template.setLifeTime(-1); 
@@ -61,6 +61,10 @@ void ph::Nebula::createParticles(ref_ptr<ParticleSystem> ps, double innerRadius,
 
 
 ph::Nebula::Nebula(Vec3d location, string texturePath, double innerRadius, double outerRadius) {
+    this->texturePath = texturePath;
+    this->innerRadius = innerRadius;
+    this->outerRadius = outerRadius;
+
     //Set the location of the Nebula
     ref_ptr<MatrixTransform> origin = new MatrixTransform();
     origin->setMatrix(Matrix::translate(location));
@@ -72,14 +76,14 @@ ph::Nebula::Nebula(Vec3d location, string texturePath, double innerRadius, doubl
     ref_ptr<ParticleSystemUpdater> updater = new ParticleSystemUpdater();
     
     //Creating the Particlesystem
-    ref_ptr<ParticleSystem> ps = new ParticleSystem();
+    ps = new ParticleSystem();
 
     //Set the default template of the particles
     ps->getDefaultParticleTemplate().setShape(Particle::POINT);
     ps->getDefaultParticleTemplate().setLifeTime(-1);
     
     //Set the rendering attributes
-    createRenderingAttributes(ps, texturePath);
+    createRenderingAttributes();
 
     //Glueing everything together
     updater->addParticleSystem(ps.get());
@@ -90,7 +94,7 @@ ph::Nebula::Nebula(Vec3d location, string texturePath, double innerRadius, doubl
     ps->createParticle(NULL);
 
     //Creating loads of Particles
-    createParticles(ps, innerRadius, outerRadius);
+    createParticles();
 
     origin->addChild(updater.get());
     this->addChild(origin.get());

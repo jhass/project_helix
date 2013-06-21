@@ -13,6 +13,7 @@ namespace ph {
     acceleration */
     class ShipNodeCallback : public NodeCallback {
         public:
+            ShipNodeCallback();
             virtual void operator()(Node* node, NodeVisitor* nv);
             void yawLeft();
             void yawRight();
@@ -24,8 +25,8 @@ namespace ph {
             void turboOff();
 
         private:
-            static Vec3d direction, up, x_axis, y_axis, z_axis;
-            static double pitch, yaw, roll, speed;
+            Vec3d direction, up, x_axis, y_axis, z_axis;
+            double pitch, yaw, roll, speed;
     };
 }
 #endif

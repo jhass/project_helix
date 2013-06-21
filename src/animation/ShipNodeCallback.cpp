@@ -10,16 +10,18 @@
 
 using namespace std;
 
-Vec3d ph::ShipNodeCallback::direction = Vec3d(0.3,0,0);
-Vec3d ph::ShipNodeCallback::up        = Vec3d(0,0,1);
-Vec3d ph::ShipNodeCallback::x_axis    = Vec3d(1,0,0);
-Vec3d ph::ShipNodeCallback::y_axis    = Vec3d(0,1,0);
-Vec3d ph::ShipNodeCallback::z_axis    = Vec3d(0,0,1);
-double ph::ShipNodeCallback::speed = 1;
-double ph::ShipNodeCallback::pitch = 0;
-double ph::ShipNodeCallback::yaw   = 0;
-double ph::ShipNodeCallback::roll  = 0;
 
+ph::ShipNodeCallback::ShipNodeCallback() {
+    direction = Vec3d(0.3,0,0);
+    up        = Vec3d(0,0,1);
+    x_axis    = Vec3d(1,0,0);
+    y_axis    = Vec3d(0,1,0);
+    z_axis    = Vec3d(0,0,1);
+    speed = 1;
+    pitch = 0;
+    yaw   = 0;
+    roll  = 0;
+}
 
 
 void ph::ShipNodeCallback::operator()(Node* node, NodeVisitor* nv) {

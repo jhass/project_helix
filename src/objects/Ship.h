@@ -20,7 +20,7 @@ namespace ph {
     class Ship : public ProxyNode {
         private:
             static string fileLocation;
-            static ParticleSystem* createParticleSystem(Group* parent);
+            ParticleSystem* createParticleSystem(Group* parent);
 
         public: 
             Ship();

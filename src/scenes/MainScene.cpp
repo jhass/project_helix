@@ -23,11 +23,10 @@
 
 using namespace osg;
 
-    ref_ptr<Group> ph::MainScene::main = new Group;
-    ref_ptr<osgShadow::ShadowedScene> ph::MainScene::ss = new osgShadow::ShadowedScene;
-
-
 ph::MainScene::MainScene() {
+    main = new Group;
+    ss = new osgShadow::ShadowedScene;
+
     ref_ptr<osgShadow::ShadowMap> sm = new osgShadow::ShadowMap;
     sm->setAmbientBias(Vec2(0.5,1));
     ss->setShadowTechnique(sm.get());

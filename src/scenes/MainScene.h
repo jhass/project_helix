@@ -13,8 +13,8 @@ using namespace osg;
 namespace ph {
     class MainScene : public Group {
         private:
-            static ref_ptr<osgShadow::ShadowedScene> ss;
-            static ref_ptr<Group> main;
+            ref_ptr<osgShadow::ShadowedScene> ss;
+            ref_ptr<Group> main;
             Node* addTransformedNode(Node* node, const Matrix& matrix);
             void createSkyboxAndSuns();
             void createPlanet();
