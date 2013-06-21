@@ -67,11 +67,19 @@ void ph::ShipNodeCallback::yawRight() {
 }
 
 void ph::ShipNodeCallback::pitchUp() {
-    pitch += PI/60;
+    pitch -= PI/60;
 }
 
 void ph::ShipNodeCallback::pitchDown() {
-    pitch -=  PI/60;
+    pitch +=  PI/60;
+}
+
+void ph::ShipNodeCallback::rollRight() {
+    roll +=  PI/60;
+}
+
+void ph::ShipNodeCallback::rollLeft() {
+    roll -=  PI/60;
 }
 
 void ph::ShipNodeCallback::turboOn() {

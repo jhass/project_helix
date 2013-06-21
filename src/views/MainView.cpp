@@ -61,6 +61,13 @@ void ph::MainView::pitchShipDown() {
     scene->ship->callback->pitchDown();
 }
 
+void ph::MainView::rollShipRight() {
+    scene->ship->callback->rollRight();
+}
+void ph::MainView::rollShipLeft() {
+    scene->ship->callback->rollLeft();
+}
+
 void ph::MainView::shipTurboOn() {
     scene->ship->callback->turboOn();
 }

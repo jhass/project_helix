@@ -31,6 +31,14 @@ bool ph::KeyboardEventHandler::handle(const GUIEventAdapter& eventAdapter, GUIAc
                 case 's':
                     this->view->pitchShipUp();
                     break;
+                case 'Q':
+                case 'q':
+                    this->view->rollShipLeft();
+                    break;
+                case 'E':
+                case 'e':
+                    this->view->rollShipRight();
+                    break;
                 case GUIEventAdapter::KEY_Shift_L:
                     this->view->shipTurboOn();
                     break;

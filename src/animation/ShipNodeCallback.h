@@ -18,6 +18,8 @@ namespace ph {
             void yawRight();
             void pitchUp();
             void pitchDown();
+            void rollRight();
+            void rollLeft();
             void turboOn();
             void turboOff();
 

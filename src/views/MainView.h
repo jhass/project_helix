@@ -19,6 +19,8 @@ namespace ph {
             void yawShipRight();
             void pitchShipUp();
             void pitchShipDown();
+            void rollShipLeft();
+            void rollShipRight();
             void shipTurboOn();
             void shipTurboOff();
     };
