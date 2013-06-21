@@ -55,5 +55,11 @@ ph::MainScene::MainScene() {
     ref_ptr<MatrixTransform> cuboid = ph::createCuboid(0,-200,15);
     this->addChild(cuboid.get());
     
+    // Create Reaper Spaceship
+    ref_ptr<MatrixTransform> reaper = ph::createShip(ph::REAPER, 750, 0, 150);
+    reaper->setMatrix(Matrix::rotate(PI_2, Vec3(0, 0, 1)) * reaper->getMatrix());
+    this->addChild(reaper.get());
+    
+    
     this->addChild(ph::getDebugAxes(20, 0, 0, 0));
 }
