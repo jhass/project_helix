@@ -375,7 +375,7 @@ Group* ph::createComet(double x, double y, double z) {
     
     //Moving the origin of particles
     ref_ptr<MatrixTransform> mt = new MatrixTransform();
-    mt->setMatrix( Matrix::translate(x, y-5, z) );
+    mt->setMatrix( Matrix::translate(x, y+5, z) );
 
     //Creating the particlesystem at the point defined above
     ref_ptr<ParticleSystem> ps = createParticleSystem(mt.get());
@@ -385,7 +385,7 @@ Group* ph::createComet(double x, double y, double z) {
     // Creating Animation; Movement of the particles
     osg::ref_ptr<osg::AnimationPathCallback> animation_particle = new osg::AnimationPathCallback;
     animation_particle->setAnimationPath( ph::createAnimationPath(600.0f, 0, ph::LOOP, ph::NO_AXIS,
-     lin_f, delta_x, x, lin_f, delta_y, y, NULL, 0, z));
+     lin_f, delta_x, x, lin_f, delta_y, y+5, NULL, 0, z));
     mt->setUpdateCallback( animation_particle.get() );
     
     // Parent node to separate asteroid and his animation from the particle animation
@@ -402,7 +402,10 @@ Group* ph::createComet(double x, double y, double z) {
 ParticleSystem* ph::createParticleSystem(Group* _parent) {
     ref_ptr<Group> parent = _parent;
     ref_ptr<ParticleSystem> ps = new ParticleSystem();
-    ps->getDefaultParticleTemplate().setShape(Particle::POINT);
+    Particle* part = new Particle();
+    part->setShape(Particle::POINT);
+    part->setLifeTime(5);
+    ps->setDefaultParticleTemplate(*part);
     
     ref_ptr<BlendFunc> blendFunc = new BlendFunc();
     blendFunc->setFunction(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -429,12 +432,12 @@ ParticleSystem* ph::createParticleSystem(Group* _parent) {
     
     //Rng
     ref_ptr<RandomRateCounter> rrc = new RandomRateCounter();
-    rrc->setRateRange( 100, 1000 );
+    rrc->setRateRange( 500, 1000 );
     
     //makeshooter
     ref_ptr<RadialShooter> myshooter = new RadialShooter();
-    myshooter->setThetaRange(-2.5,-0.5); // Streuung z-x-ebene gegen UZS
-    myshooter->setPhiRange(0.5,2.5); //Streuung x-y-ebene gegen UZS
+    myshooter->setThetaRange(-PI_2+PI_4/2,-PI_2-PI_4/2); // Streuung z-x-ebene gegen UZS
+    myshooter->setPhiRange(PI_2-PI_4/2,PI_2+PI_4/2); //Streuung x-y-ebene gegen UZS
     myshooter->setInitialSpeedRange(5,20); //Geschwindigkeit
     
     //Emmiter
