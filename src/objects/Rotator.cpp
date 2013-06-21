@@ -78,7 +78,7 @@ void ph::Rotator::setVerticesAndNormals() {
                     //z=-f(x)*f'(x)
                     
                     vertices->push_back(coords);
-                   // printf("%f\n",x);
+                    printf("%f\n",x);
                     x=(double)count/(gesamtbereich*10);
                     double y_test=(double)j/schritte;
                     texcoords->push_back(Vec2d(x,y_test));

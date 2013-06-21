@@ -53,7 +53,16 @@ add_executable( rotator
                 util.cpp
                 objects/Sphere.cpp
                 objects/Ship.cpp)
-
+                
+add_executable( missile
+                objects/Missile.cpp
+                objects/Fins.cpp
+                objects/Rotator.cpp
+                runners/missile.cpp
+                util.cpp
+                objects/Sphere.cpp
+                )
+                
 add_executable( ship
                 objects/Ship.cpp
                 animation/ShipNodeCallback.cpp
@@ -118,7 +127,7 @@ find_package( osgViewer )
 find_package( GLUT )
 find_package( OpenGL )
 
-foreach( executable project_helix sphere torus asteroid sun rotator ship nebula rectangle skybox planet station scene)
+foreach( executable project_helix sphere torus asteroid sun rotator missile ship nebula rectangle skybox planet station scene)
 
 
   config_project( ${executable} OPENTHREADS )
