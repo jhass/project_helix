@@ -23,6 +23,10 @@ Dazu: Ein bunter Nebel, sowie eine Skybox mit zwei verschieden
 farbigen Sonnen.
 Es gibt eine Außenperspektive sowie eine "Cockpit-Ansicht".
 Interaktion bewegt das Raumschiff.
+
+Compilieren am Besten per Build-Skript:
+\emph{./build.sh project_helix}
+
 \section{Tastaturbelegung}
 
 \begin{tabular}{cl}
@@ -30,8 +34,38 @@ Taste: & Aktion \\
 1-3 & Sekundäre Kamera umschalten. \\
 a, d & Nach links oder rechts gieren. \\
 w, s & Steigen oder Sinken. \\
+q, s & Rollen nach links oder rechst.\\
+f & Rakete abfeuern.\\
 Umschalt/Shift (halten) & Nachbrenner aktivieren. \\
 \end{tabular}
 
 \section{Interessante Dinge}
+\subsection{Rotationskörper}
+\begin{itemize}
+\item Rakete
+\item Asteroid und Nebel
+\item Sonnen und Planet
+\item Planetenring
+\end{itemize}
+
+\section{Besondere Effekte}
+\begin{itemize}
+\item Blending auf Planetenring
+\end{itemize}
+
+\section{Animationen}
+\begin{itemize}
+\item Planeten und Asteroid drehen sich.
+\item Schiff besitzt 6 Freiheitsgrade.
+\item Rakete bewegt sich auf geradem Pfad und verschwindet dann.
+\item "Reaper" bewegt sich auf Station zu.
+\item Station bewegt sich um Planeten.
+\end{itemize}
+
+\subsection{Weiteres}
+\begin{itemize}
+\item "Reaper", Schiff und Station aus Blender.
+\item Eindimensionale Textur auf Planetenring.
+\item Partikelsysteme an Schiff und Rakete.
+\end{itemize}
 \end{document}
