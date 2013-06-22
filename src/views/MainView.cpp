@@ -1,21 +1,13 @@
 #include <osg/Node>
 #include <osg/Vec3>
 
-#include "scenes/ShadowedScene.h"
-
-#include "config.h"
-
 #include "MainView.h"
 
 using namespace osg;
 
 
 ph::MainView::MainView() {
-    scene = new ph::ShadowedScene();
-    
-    #ifdef DISABLE_SHADOWS
     scene = new ph::MainScene();
-    #endif
 
     this->setSceneData(scene.get());
 

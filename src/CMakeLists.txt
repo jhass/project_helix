@@ -2,7 +2,6 @@ project( project_helix )
 
 include_directories( . .. ../build/src )
 
-set(DISBALE_SHADOWS OFF CACHE BOOL "Disable shadows")
 configure_file(config.h.in config.h)
 
 add_executable( project_helix
@@ -14,7 +13,6 @@ add_executable( project_helix
                 
                 # scenes
                 scenes/MainScene.cpp
-                scenes/ShadowedScene.cpp
                 
                 # basic objects
                 objects/Rectangle.cpp

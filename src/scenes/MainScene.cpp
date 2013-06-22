@@ -20,8 +20,6 @@ using namespace osg;
 
 
 ph::MainScene::MainScene() {
-    this->shadowedScene = NULL;
-
     createSkyboxAndSuns();
     createPlanet();
     createStation();
@@ -42,8 +40,8 @@ Node* ph::MainScene::addTransformedNode(Node* node, const Matrix& matrix) {
 }
 
 void ph::MainScene::createSkyboxAndSuns() {
-    int height = 4000;
-    int width = 4000;
+    int height = 1000;
+    int width = 1000;
 
     // ref-Pointer anlegen
     ref_ptr<ph::Skybox> skybox = new ph::Skybox(height, width);
@@ -78,11 +76,6 @@ void ph::MainScene::createSkyboxAndSuns() {
     //Quick fix of lights position, would probabply take some serious work to get it pretty.
     sun_orange->source->getLight()->setPosition(Vec4(800, width, 0,1));
     sun_violet->source->getLight()->setPosition(Vec4(height, 800, 0,1));
-
-    if (shadowedScene != NULL) {
-        shadowedScene->addChild(sun_orange->source.get());
-        shadowedScene->addChild(sun_violet->source.get());
-    }
 
     this->addChild(skybox.get());
 }
