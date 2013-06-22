@@ -2,6 +2,7 @@
 #define PH_SHIP_H
 
 #include <string>
+#include <list>
 
 #include <osg/Vec3d>
 #include <osg/ProxyNode>
@@ -9,6 +10,7 @@
 #include <osg/MatrixTransform>
 
 #include "animation/ShipNodeCallback.h"
+#include "Missile.h"
 
 using namespace std;
 using namespace osg;
@@ -30,6 +32,7 @@ namespace ph {
             ref_ptr<MatrixTransform> translate;
             ref_ptr<Camera> camera;
             ref_ptr<ph::ShipNodeCallback> callback;
+            list< ref_ptr<Missile> > missiles;
     };
 }
 

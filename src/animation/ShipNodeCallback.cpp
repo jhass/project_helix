@@ -2,11 +2,14 @@
 #include <osg/Quat>
 
 #include "objects/Ship.h"
+#include "objects/Missile.h"
 
 #include "ShipNodeCallback.h"
 
+
 using namespace std;
 
+bool isDead(const ref_ptr<ph::Missile>& m) {return m->lifetime < 1; }
 
 ph::ShipNodeCallback::ShipNodeCallback() {
     direction = Vec3d(0.3,0,0);
@@ -56,9 +59,16 @@ void ph::ShipNodeCallback::operator()(Node* node, NodeVisitor* nv) {
     pitch = yaw = roll = 0;
     
     if (missilefired) {
-        shipNode->fireMissile(direction, speed);
+        shipNode->fireMissile(direction, speed*1.5); //set speed here
         missilefired = false;
     }
+
+    for (list< ref_ptr<Missile> >::iterator it=shipNode->missiles.begin(); it != shipNode->missiles.end(); it++) {
+        (*it)->lifetime--;
+        if ((*it)->lifetime == 0) shipNode->removeChild((*it));
+    }
+
+    shipNode->missiles.remove_if(isDead);
 
     traverse(node, nv);
 }

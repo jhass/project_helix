@@ -111,15 +111,20 @@ ph::Ship::Ship() {
     callback = new ShipNodeCallback();
     this->setUpdateCallback(callback.get());
 
+    missiles = list< ref_ptr<Missile> >();
+
 }
 
 void ph::Ship::fireMissile(Vec3d& _direction, double _speed) {
     ref_ptr<Missile> missile = new Missile();
+    missile->lifetime = 6*60; //6 seconds * 60 frames
     missile->translate->setMatrix(this->translate->getMatrix());
     missile->rotate->setMatrix(this->rotate->getMatrix());
 
     ref_ptr<MissileNodeCallback> mcb = new MissileNodeCallback(_direction, _speed);
     missile->setUpdateCallback(mcb);
+
+    missiles.push_back(missile);
 
     this->addChild(missile);
 }
