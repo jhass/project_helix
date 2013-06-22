@@ -4,6 +4,8 @@
 #include <osg/NodeCallback>
 #include <osg/Vec3d>
 
+#include "objects/Missile.h"
+
 using namespace osg;
 
 namespace ph {
@@ -29,6 +31,7 @@ namespace ph {
             double pitch, yaw, roll, speed;
             bool missilefired;
             int missileLifetime;
+            static bool isDead(const ref_ptr<Missile>& m);
     };
 }
 #endif
