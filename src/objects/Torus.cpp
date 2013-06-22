@@ -113,7 +113,7 @@ void ph::Torus::setIndicies() {
     this->torus->addPrimitiveSet(indices.get());
 }
 
-
+// flat torus
 ph::FlatTorus::FlatTorus(const double iRadius, const double tRadius, const int iteration) : Torus(iRadius, tRadius, iteration) {
     this->setStyle(FLAT);
 }

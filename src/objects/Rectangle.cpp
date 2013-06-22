@@ -7,7 +7,7 @@
 
 #include "Rectangle.h"
 
-// Rectangle (länge, breite)
+// Rectangle (heigth, witdth)
 ph::Rectangle::Rectangle(const int height, const int width) {
     this->height = height;
     this->width = width;
@@ -56,6 +56,8 @@ void ph::Rectangle::setTexture(const int textureNumber, const string filename) {
     texture->setWrap(Texture::WRAP_S, Texture::CLAMP_TO_EDGE);
     texture->setImage(image.get());
     this->getOrCreateStateSet()->setTextureAttributeAndModes(textureNumber, texture.get());
+    
+    // enabling culling for rectangles / skybox
     ref_ptr<CullFace> cull = new CullFace;
     cull->setMode(CullFace::BACK);
     this->getOrCreateStateSet()->setAttributeAndModes(cull.get());

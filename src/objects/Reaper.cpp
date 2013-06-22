@@ -7,7 +7,7 @@
 
 using namespace osg;
 
-//Objekt-Dateipfad angeben
+// objectpath
 std::string ph::Reaper::fileLocation = "../resources/reaper.obj";
 
 ph::Reaper::Reaper() {
@@ -16,6 +16,7 @@ ph::Reaper::Reaper() {
     this->addChild(this->transform.get());
 }
 
+// setting reaper position and animation path
 void ph::Reaper::transformAndAnimate(const Matrix& matrix,
                                      double start_x, double mid_x, double end_x,
                                      double start_y, double mid_y, double end_y,
@@ -28,6 +29,8 @@ void ph::Reaper::transformAndAnimate(const Matrix& matrix,
     this->setUpdateCallback(animation.get());
 }
 
+/* creates a animation path from P(start_x,start_y,start_z) to Q(end_x,end_y,end_z) by
+   R(mid_x,mid_y,mid_z) with additional rotations at R*/
 AnimationPath* ph::Reaper::createFlightPath(double start_x, double mid_x, double end_x,
                                      double start_y, double mid_y, double end_y,
                                      double start_z, double mid_z, double end_z) {
@@ -35,6 +38,7 @@ AnimationPath* ph::Reaper::createFlightPath(double start_x, double mid_x, double
     ref_ptr<AnimationPath> path = new AnimationPath;
     path->setLoopMode( osg::AnimationPath::NO_LOOPING );
     
+    // base values
     double time_speed = 1; // for illustrational use only
     double start_time = 300.0/ time_speed;
     double rotation_time = 10.0/ time_speed;
@@ -48,12 +52,12 @@ AnimationPath* ph::Reaper::createFlightPath(double start_x, double mid_x, double
     
     unsigned int numSamples = (int)start_time;
     
-    // Iterationsschritte bestimmen
+    // preparing first step of animation
     float rot_angle = 3*PI_2/4;
-    float delta_rot = rot_angle/rotation_time; // Rotation um func in time
-    float delta_pos = 1 / start_time; // Bewegung um factor* func in time
+    float delta_rot = rot_angle/rotation_time; // rotation with rot_angle in rotation_time
+    float delta_pos = 1 / start_time; // setting movementspeed per second
  
-    // Pfad für ersten Teilweg zusammensetzen   
+    // path for first part P -> R   
     for ( unsigned int i=0; i<=numSamples; ++i )
     {
         float d_pos = delta_pos * (float)i;
@@ -67,7 +71,9 @@ AnimationPath* ph::Reaper::createFlightPath(double start_x, double mid_x, double
     numSamples = (int) rotation_time;
     time = start_time;
     
-    // Rotate to fire position
+    // animations at R
+    
+    // rotate to fire position
     for ( unsigned int i=0; i<=numSamples; ++i )
     {
         float yaw = delta_rot * (float)i;
@@ -77,7 +83,7 @@ AnimationPath* ph::Reaper::createFlightPath(double start_x, double mid_x, double
     }
     time += rotation_time;
 
-    // Wait
+    // wait / fire
     for ( unsigned int i=0; i<=numSamples; ++i )
     {
         Vec3 pos( new_x0, new_y0, new_z0 );
@@ -86,7 +92,7 @@ AnimationPath* ph::Reaper::createFlightPath(double start_x, double mid_x, double
     }  
     time += wait_time;  
 
-    // Return to previous position
+    // return to previous position
     for ( unsigned int i=0; i<=numSamples; ++i )
     {
         float yaw = delta_rot * (float)i;
@@ -98,7 +104,7 @@ AnimationPath* ph::Reaper::createFlightPath(double start_x, double mid_x, double
     rot_angle = PI/8;
     delta_rot = rot_angle/rotation_time;
     
-    // Rotate to new position
+    // rotate to new position
     for ( unsigned int i=0; i<=numSamples; ++i )
     {
         float yaw = delta_rot * (float)i;
@@ -107,6 +113,9 @@ AnimationPath* ph::Reaper::createFlightPath(double start_x, double mid_x, double
         path->insert( (float)(time+i), AnimationPath::ControlPoint(pos,rot));
     }
     
+    
+    // path for second part R -> Q
+    // setting up values
     time += rotation_time;
     delta_pos = 1 / return_time;
     numSamples = (int) return_time;
@@ -114,7 +123,7 @@ AnimationPath* ph::Reaper::createFlightPath(double start_x, double mid_x, double
     dy = end_y - mid_y;
     dz = end_z - mid_z;
     
-    // Pfad für den Rückweg zusammensetzen
+    // setting up path
     for ( unsigned int i=0; i<=numSamples; ++i )
     {
         float d_pos = delta_pos * (float)i;

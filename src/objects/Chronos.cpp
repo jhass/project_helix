@@ -4,7 +4,7 @@
 
 using namespace osg;
 
-//Objekt-Dateipfad angeben
+// objectpath
 string ph::Chronos::fileLocation = "../resources/chronos_station.obj";
 
 ph::Chronos::Chronos() {

@@ -3,6 +3,7 @@
 
 #include "PlanetRing.h"
 
+// creates a planet ring from a flat torus with self-created 1D ringtexture
 ph::PlanetRing::PlanetRing(const double iRadius, const double tRadius, const int iteration) :
     Torus(iRadius, tRadius, iteration) {
     this->setStyle(ph::Torus::FLAT);
@@ -15,33 +16,39 @@ void ph::PlanetRing::setRingTexture() {
     Image* image = new Image;
     int pixels = 1000;
     
-    // image anlegen mit pixels x 1 x 1 und RGBA dargestellt durch Vec4
+    /* setting up image with pixels x 1 x 1, colormodel RGBA 
+       and colors defined in Vec4*/
     image->allocateImage(pixels, 1, 1, GL_RGBA,GL_FLOAT);
     image->setInternalTextureFormat(GL_RGBA);
     
-    // creating colors
+    // creating colors (red,green,blue,alpha)
     vector<Vec4> colorBands;
-    colorBands.push_back(Vec4(0.0, 0.0, 0.0, 1.0));
-    colorBands.push_back(Vec4(0.1, 0.1, 0.1, 1.0));
-    colorBands.push_back(Vec4(0.2, 0.2, 0.2, 1.0));
-    colorBands.push_back(Vec4(0.3, 0.3, 0.3, 1.0));
-    colorBands.push_back(Vec4(1.0, 1.0, 1.0, 1.0));
+    colorBands.push_back(Vec4(0.0, 0.0, 0.0, 1.0)); // black
+    colorBands.push_back(Vec4(0.1, 0.1, 0.1, 1.0)); // dark-grey
+    colorBands.push_back(Vec4(0.2, 0.2, 0.2, 1.0)); // grey
+    colorBands.push_back(Vec4(0.3, 0.3, 0.3, 1.0)); // light-grey
+    colorBands.push_back(Vec4(1.0, 1.0, 1.0, 1.0)); // white
     
     int pos = 0, count = 0;
     
-    /* creating image data (% Pixel; symmetrical)
+    /* creating image data (% Pixelnumber; symmetrical)
        10 % dark grey; 3% black; 5% light grey;
        2% black; 10% light grey; 2% black;
-       5% light grey; 3% black; 5% light grey
+       5% grey; 3% black; 5% light grey
        5% dark grey*/
     Vec4* dataPoints = (Vec4*)image->data();
+    
+    // giving color to every pixel
     for (int k=1; k <=2; k++) {
+        
+        // dark-grey
         for(int i=0; i<pixels/10; i++) {
             Vec4 color = colorBands[1];
             *dataPoints++ = color;
         }
         
         pos += count;
+        // black
         for(int i=pos; i<(pos+3*pixels/100); i++) {
             Vec4 color = colorBands[0];
             *dataPoints++ = color;
@@ -49,6 +56,7 @@ void ph::PlanetRing::setRingTexture() {
         }
         
         pos += count;
+        // light-grey
         for(int i=pos; i<(pos+pixels/20); i++) {
             Vec4 color = colorBands[3];
             *dataPoints++ = color;
@@ -56,6 +64,7 @@ void ph::PlanetRing::setRingTexture() {
         }
         
         pos += count;
+        // black
         for(int i=pos; i<(pos+2*pixels/100); i++) {
             Vec4 color = colorBands[0];
             *dataPoints++ = color;
@@ -63,6 +72,7 @@ void ph::PlanetRing::setRingTexture() {
         }
         
         pos += count;
+        // light-grey
         for(int i=pos; i<(pos+pixels/10); i++) {
             Vec4 color = colorBands[3];
             *dataPoints++ = color;
@@ -70,6 +80,7 @@ void ph::PlanetRing::setRingTexture() {
         }
         
         pos += count;
+        // black
         for(int i=pos; i<(pos+2*pixels/100); i++) {
             Vec4 color = colorBands[0];
             *dataPoints++ = color;
@@ -77,6 +88,7 @@ void ph::PlanetRing::setRingTexture() {
         }
         
         pos += count;
+        // grey
         for(int i=pos; i<(pos+pixels/20); i++) {
             Vec4 color = colorBands[2];
             *dataPoints++ = color;
@@ -84,6 +96,7 @@ void ph::PlanetRing::setRingTexture() {
         }
 
         pos += count;
+        // black
         for(int i=pos; i<(pos+3*pixels/100); i++) {
             Vec4 color = colorBands[0];
             *dataPoints++ = color;
@@ -91,6 +104,7 @@ void ph::PlanetRing::setRingTexture() {
         }  
         
         pos += count;
+        // light-grey
         for(int i=pos; i<(pos+pixels/20); i++) {
             Vec4 color = colorBands[3];
             *dataPoints++ = color;
@@ -98,6 +112,7 @@ void ph::PlanetRing::setRingTexture() {
         }
         
        pos += count;
+       // dark-grey
        for(int i=pos; i<(pos+pixels/20); i++) {
             Vec4 color = colorBands[1];
             *dataPoints++ = color;
@@ -107,6 +122,8 @@ void ph::PlanetRing::setRingTexture() {
     }
     
     Texture1D* texture = new Texture1D;
+    
+    // setting up 1Dtexture to wrap it on the ring
     texture->setWrap(Texture1D::WRAP_T, Texture::MIRROR);
     texture->setFilter(Texture1D::MIN_FILTER, Texture::NEAREST);
     texture->setImage(image);
@@ -114,12 +131,15 @@ void ph::PlanetRing::setRingTexture() {
     Material* material = new Material;
     StateSet* stateSet = new StateSet;
     
+    // setting stateset
     stateSet->setTextureAttribute(0, texture, StateAttribute::OVERRIDE);
     stateSet->setTextureMode(0, GL_TEXTURE_1D, StateAttribute::ON|StateAttribute::OVERRIDE);
     stateSet->setTextureMode(0, GL_TEXTURE_2D, StateAttribute::OFF|StateAttribute::OVERRIDE);
     stateSet->setTextureMode(0, GL_TEXTURE_3D, StateAttribute::OFF|StateAttribute::OVERRIDE);
     
     stateSet->setAttribute(material, StateAttribute::OVERRIDE);
+    
+    // setting material attributes for reflection
     material->setDiffuse(Material::FRONT_AND_BACK, Vec4(0.1,0.1,0.1,1.0));
     material->setAmbient(Material::FRONT_AND_BACK, Vec4(1,1,1,1.0));
     material->setSpecular(Material::FRONT_AND_BACK, Vec4(1,1,1,1));

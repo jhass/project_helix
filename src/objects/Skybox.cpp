@@ -2,9 +2,9 @@
 
 #include "Skybox.h"
 
-// Konstruktor zum Anlegen der Skybox
+// Skybox( heigth, width)
 ph::Skybox::Skybox(const int height, const int width) {
-    // Übergeben der Länge/Breite
+    // setting up parameters
     this->height = height;
     this->width = width;
     
@@ -12,15 +12,14 @@ ph::Skybox::Skybox(const int height, const int width) {
     setCullingActive(false);
     
     osg::StateSet* stateSet = this->getOrCreateStateSet();
-    // Tiefenpuffer; Objekte verschwinden nicht einfach, wenn sich auf Rand
-    // der Skybox treffen
+    // Tiefenpuffer; objects dont vanish, if they move through the skybox rectangles
     stateSet->setAttributeAndModes(new Depth(Depth::LEQUAL, 1.0f, 1.0f));
-    // Licht ausmachen
+    // no light options for the skybox
     stateSet->setMode(GL_LIGHTING, StateAttribute::OFF);
-    // Culling für Flächen außerhalb der Skybox
+    // culling for outer sides of the skybox
     stateSet->setMode(GL_CULL_FACE, StateAttribute::OFF);
     
-    // Anlegen der Rechtecke
+    // creates the rectangles for the skybox
     createRectangles();
 }
 

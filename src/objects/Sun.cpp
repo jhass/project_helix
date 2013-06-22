@@ -14,6 +14,7 @@ ph::Sun::Sun(const double radius, const int steps,
 // creating light, setting lightoptions, creating surface material
 void ph::Sun::createLight(int lightNumber) {
 	// Creating a white light source in the interior of the sphere
+	
 	// creating a new light
     this->light = new Light;
     // giving the light an OpenGL-Lightnumber [0,7]
@@ -26,9 +27,6 @@ void ph::Sun::createLight(int lightNumber) {
     // setting parameter for specular light
     this->light->setSpecular(Vec4(1.0,1.0,1.0,1.0));
     
-    // atm we dont want ambient light
-    //this->light->setAmbient(Vec4(1.0,1.0,1.0,1.0));
-    
     // creating a new light source
     this->source = new LightSource;
     // giving the source a light
@@ -40,7 +38,7 @@ void ph::Sun::createLight(int lightNumber) {
     // material emits giving light (R,G,B,x)
     this->material->setEmission(Material::FRONT_AND_BACK, Vec4(this->red,this->green,this->blue,1.0));
     
-    // material parameters; perhaps we need some of them later
+    // material parameters
     this->material->setDiffuse(Material::FRONT_AND_BACK, Vec4(this->red,this->green,this->blue,1.0));
     //this->material->setAmbient(Material::FRONT_AND_BACK, Vec4(this->red,this->green,this->blue,1.0));
     //this->material->setSpecular(Material::FRONT_AND_BACK, Vec4(this->red,this->green,this->blue,1.0));

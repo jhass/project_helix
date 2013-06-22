@@ -9,8 +9,8 @@
 
 using namespace std;
 
-/* Asteriod (radius, Iterationsschritte horizontal, Iterationsschritte vertikal
-             Deformation in x, y, z) */
+/* Asteriod (radius, iterations horizontal, iterations vertical
+             deformation in x, y, z) */
 ph::Asteroid::Asteroid(const double radius, const int lsteps, const int wsteps,
                        const int xi, const int yi, const int zi) {
     this->radius = radius;
@@ -95,7 +95,7 @@ void ph::Asteroid::setTextureCoordinates(int textureNumber) {
     this->asteroid->setTexCoordArray(textureNumber, texcoords.get());
 }
 
-//setting texture on asteroid
+// setting texture on asteroid
 void ph::Asteroid::setTexture(const int textureNumber, const string filename) {
     this->setTextureCoordinates(textureNumber);
 
@@ -104,18 +104,18 @@ void ph::Asteroid::setTexture(const int textureNumber, const string filename) {
     texture->setWrap(Texture::WRAP_S, Texture::CLAMP_TO_EDGE);
     texture->setImage(image.get());
     
-    // Creating Material for the Cuboid
+    // creating material for the asteroid
     ref_ptr<Material> material = new Material;
-    // material emits giving light (R,G,B,x)
+    // material emits given light (R,G,B,x)
     material->setEmission(Material::FRONT_AND_BACK, Vec4(0.5,0.5,0.5,1));
     
-    // material parameters; perhaps we need some of them later
+    // material parameters
     material->setDiffuse(Material::FRONT_AND_BACK, Vec4(0.5,0.5,0.5,1.0));
     material->setAmbient(Material::FRONT_AND_BACK, Vec4(0.5,0.5,0.5,1.0));
     material->setSpecular(Material::FRONT_AND_BACK, Vec4(1,1,1,1));
     material->setShininess(Material::FRONT_AND_BACK, 30);
     
-    //giving the material to the sphere
+    //giving the material to the asteroid
     this->getOrCreateStateSet()->setAttributeAndModes(material.get(),StateAttribute::ON);
     this->getOrCreateStateSet()->setTextureAttributeAndModes(textureNumber, texture.get());
 }

@@ -7,7 +7,7 @@
 
 #include "Sphere.h"
 
-// Sphere(radius, Iterationsschritte)
+// Sphere(radius, iterations)
 ph::Sphere::Sphere(const double radius, const int steps) {
     this->radius = radius;
     this->steps = steps;
@@ -88,7 +88,7 @@ void ph::Sphere::setTexture(const int textureNumber, const string filename) {
     texture->setImage(image.get());
     this->getOrCreateStateSet()->setTextureAttributeAndModes(textureNumber, texture.get());
     ref_ptr<CullFace> cull = new CullFace;
-    // Effect is instant traveling through the planet; BACK = no texture if u are inside the sphere
+    // Effect is instant traveling through the planet; BACK = no texture if you are inside the sphere
     cull->setMode(CullFace::FRONT);
     this->getOrCreateStateSet()->setAttributeAndModes(cull.get());
 }
