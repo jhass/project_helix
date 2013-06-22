@@ -112,8 +112,6 @@ ph::Missile::Missile() {
     transf1d->setMatrix(osg::Matrix::rotate(osg::DegreesToRadians(-45.0), 1, 0, 0));
     transf1d->addChild(fins1a.get());
     
-  
-    
     
     ref_ptr<Group> fins1 = new Group();
     fins1->addChild(transf1a.get());
@@ -141,11 +139,7 @@ ph::Missile::Missile() {
     material->setShininess(Material::FRONT_AND_BACK, 10);
     
     sphere->getOrCreateStateSet()->setAttributeAndModes(material.get(),StateAttribute::ON);
-   
-   
-    
-    
-    
+       
     ref_ptr<MatrixTransform> planet = new MatrixTransform;
     
     planet->setMatrix(Matrix::translate(-1.8,0.0,0.0));
@@ -154,34 +148,33 @@ ph::Missile::Missile() {
     
     //Partikelsystem start
     
-       ref_ptr<osg::MatrixTransform> root = new osg::MatrixTransform;
      //Creating the particlesystem at the point defined above
     
     ref_ptr<osg::MatrixTransform> mtx = new osg::MatrixTransform;
-    mtx->setMatrix(Matrix::translate(-5.0,0.0,0.0));  //um 5 ans Heck der Missile verschieben
+    mtx->setMatrix(Matrix::translate(-2.0,0.0,0.0));  //um 2 ans Heck der Missile verschieben
     
-    ref_ptr<ParticleSystem> ps = createParticleSystem(root.get());
+    ref_ptr<ParticleSystem> ps = createParticleSystem(mtx.get());
     ref_ptr<ParticleSystemUpdater> updater = new ParticleSystemUpdater();
     updater->addParticleSystem(ps);
    
    
     
-    ref_ptr<Group> node = new Group();
-    node->addChild(updater.get());
-    node->addChild(mtx.get());
+    ref_ptr<Group> Particlesystemnode = new Group();
+    Particlesystemnode->addChild(updater.get());
+    Particlesystemnode->addChild(mtx.get());
     
     //PS ende
     
  
   //  root->setMatrix(Matrix::rotate(PI_4,1,0,0));
+    ref_ptr<osg::MatrixTransform> root = new osg::MatrixTransform;
     root->addChild(rotator.get());
     root->addChild(transf.get());
     root->addChild(transf2.get());
     root->addChild(planet.get());
-    root->addChild(node.get());
+    root->addChild(Particlesystemnode.get());
    
     this->addChild(root.get());
-    
     
    /* 
     osg::ref_ptr<osg::AnimationPathCallback> apcb = new osg::AnimationPathCallback;
@@ -190,19 +183,10 @@ ph::Missile::Missile() {
     root->setUpdateCallback( apcb.get() );
 
 */
-    
-    
-   
-   
-   
 
     // wenn man die Dreiecke mal sehen will:
      ref_ptr<PolygonMode> pm = new PolygonMode;
     // pm->setMode(PolygonMode::FRONT_AND_BACK, PolygonMode::LINE);
      root->getOrCreateStateSet()->setAttribute(pm.get());
- 
-    
-     
-     
 }
 
