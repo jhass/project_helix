@@ -29,7 +29,6 @@ namespace ph {
             Asteroid(const double radius, const int lsteps, const int wsteps, 
                      const int xd, const int yd, const int zd);
             void setTexture(const int textureNumber, const string filename);
-            ~Asteroid();
     };
 }
 

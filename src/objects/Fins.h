@@ -24,7 +24,6 @@ namespace ph {
           
         public:
             Fins(const int position, const double factor);
-            ~Fins();
             void setTexture(const int textureNumber, const string filename);
     };
 }

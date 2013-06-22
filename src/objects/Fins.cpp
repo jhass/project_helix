@@ -16,10 +16,6 @@ ph::Fins::Fins(const int position, const double factor) {
     this->compute();
 }
 
-ph::Fins::~Fins() {
-    this->fins.release();
-}
-
 void ph::Fins::setTexture(const int textureNumber, const string filename) {
     this->setTextureCoordinates(textureNumber);
 

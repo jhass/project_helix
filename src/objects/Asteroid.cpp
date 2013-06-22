@@ -24,10 +24,6 @@ ph::Asteroid::Asteroid(const double radius, const int lsteps, const int wsteps,
     this->compute();
 }
 
-ph::Asteroid::~Asteroid() {
-    this->asteroid.release();
-}
-
 void ph::Asteroid::compute() {
     this->setCoordinates();
     this->setIndicies();
