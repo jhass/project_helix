@@ -77,3 +77,7 @@ void ph::MainView::shipTurboOn() {
 void ph::MainView::shipTurboOff() {
     scene->ship->callback->turboOff();
 }
+
+void ph::MainView::fireMissilefromShip() {
+    scene->ship->callback->fireMissile();
+}

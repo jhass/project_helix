@@ -6,16 +6,19 @@
 #include <osg/Group>
 #include <osg/Node>
 
+#include "animation/MissileNodeCallback.h"
+
 using namespace osg;
 
 
 namespace ph {
     
-	class Missile : public Group {
-        private:
-            ref_ptr<Node> missile;          
+	class Missile : public Group {        
         public:
             Missile();
+            ref_ptr<MatrixTransform> rotate;
+            ref_ptr<MatrixTransform> translate;
+            ref_ptr<ph::MissileNodeCallback> callback;
     };
 }
 

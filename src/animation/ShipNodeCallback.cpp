@@ -18,6 +18,7 @@ ph::ShipNodeCallback::ShipNodeCallback() {
     pitch = 0;
     yaw   = 0;
     roll  = 0;
+    missilefired = false;
 }
 
 
@@ -54,6 +55,11 @@ void ph::ShipNodeCallback::operator()(Node* node, NodeVisitor* nv) {
     //Resetting the angles so the ship flies straight unless a button is pressed
     pitch = yaw = roll = 0;
     
+    if (missilefired) {
+        shipNode->fireMissile(direction, speed);
+        missilefired = false;
+    }
+
     traverse(node, nv);
 }
 
@@ -87,4 +93,8 @@ void ph::ShipNodeCallback::turboOn() {
 
 void ph::ShipNodeCallback::turboOff() {
     speed = 1;
+}
+
+void ph::ShipNodeCallback::fireMissile() {
+    missilefired = true;
 }

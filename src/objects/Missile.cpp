@@ -159,34 +159,41 @@ ph::Missile::Missile() {
    
    
     
-    ref_ptr<Group> Particlesystemnode = new Group();
-    Particlesystemnode->addChild(updater.get());
-    Particlesystemnode->addChild(mtx.get());
+    ref_ptr<Group> particlesystemNode = new Group();
+    particlesystemNode->addChild(updater.get());
+    particlesystemNode->addChild(mtx.get());
     
     //PS ende
     
- 
-  //  root->setMatrix(Matrix::rotate(PI_4,1,0,0));
-    ref_ptr<osg::MatrixTransform> root = new osg::MatrixTransform;
-    root->addChild(rotator.get());
-    root->addChild(transf.get());
-    root->addChild(transf2.get());
-    root->addChild(planet.get());
-    root->addChild(Particlesystemnode.get());
+    //Building Missile
+    ref_ptr<osg::Group> missileNode = new osg::Group;
+    missileNode->addChild(rotator.get());
+    missileNode->addChild(transf.get());
+    missileNode->addChild(transf2.get());
+    missileNode->addChild(planet.get());
+    missileNode->addChild(particlesystemNode.get());
    
-    this->addChild(root.get());
+    //Set the transformations up for animation
+    rotate = new MatrixTransform();
+    rotate->setMatrix(Matrix::rotate(0,Vec3d(0,0,0)));
+    translate = new MatrixTransform();
+    translate->setMatrix(Matrix::translate(Vec3d(0,0,0)));
+    translate->addChild(rotate.get());
+    rotate->addChild(missileNode.get());
+
+    this->addChild(translate.get());
     
    /* 
     osg::ref_ptr<osg::AnimationPathCallback> apcb = new osg::AnimationPathCallback;
     apcb->setAnimationPath( ph::createAnimationPath(10.0f, 2*PI, ph::LOOP, ph::NEG_Z_AXIS,
     ph::sin_f, 20,0 ,ph::cos_f, 20,0, ph::lin_f, -00,0));
-    root->setUpdateCallback( apcb.get() );
+    missileNode->setUpdateCallback( apcb.get() );
 
 */
 
     // wenn man die Dreiecke mal sehen will:
-     ref_ptr<PolygonMode> pm = new PolygonMode;
+    // ref_ptr<PolygonMode> pm = new PolygonMode;
     // pm->setMode(PolygonMode::FRONT_AND_BACK, PolygonMode::LINE);
-     root->getOrCreateStateSet()->setAttribute(pm.get());
+    // missileNode->getOrCreateStateSet()->setAttribute(pm.get());
 }
 

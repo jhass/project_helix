@@ -23,6 +23,7 @@ namespace ph {
             void rollShipRight();
             void shipTurboOn();
             void shipTurboOff();
+            void fireMissilefromShip();
     };
 }
 

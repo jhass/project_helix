@@ -15,6 +15,8 @@
 #include <osgParticle/RadialShooter>
 
 #include "Ship.h"
+#include "Missile.h"
+#include "animation/MissileNodeCallback.h"
 
 //Define the filelocation of the ship's .obj file here
 string ph::Ship::fileLocation = "../resources/cruiser.obj";
@@ -103,14 +105,21 @@ ph::Ship::Ship() {
     this->addChild(translate.get());
 
     //Setting up the Camera
-    camera = new Camera;
+    camera = new Camera();
 
     // Setup animation callback
-    callback = new ShipNodeCallback;
+    callback = new ShipNodeCallback();
     this->setUpdateCallback(callback.get());
 
 }
 
-// void ph::Ship::Ship::addNode(Node* node) {
-    // rotate->addChild(node);
-// }
+void ph::Ship::fireMissile(Vec3d& _direction, double _speed) {
+    ref_ptr<Missile> missile = new Missile();
+    missile->translate->setMatrix(this->translate->getMatrix());
+    missile->rotate->setMatrix(this->rotate->getMatrix());
+
+    ref_ptr<MissileNodeCallback> mcb = new MissileNodeCallback(_direction, _speed);
+    missile->setUpdateCallback(mcb);
+
+    this->addChild(missile);
+}

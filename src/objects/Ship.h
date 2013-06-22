@@ -24,6 +24,7 @@ namespace ph {
 
         public: 
             Ship();
+            void fireMissile(Vec3d& _direction, double _speed);
             // void addNode(Node* node);
             ref_ptr<MatrixTransform> rotate;
             ref_ptr<MatrixTransform> translate;

@@ -19,6 +19,8 @@ add_executable( project_helix
                 objects/Sphere.cpp
                 objects/Torus.cpp
                 objects/Nebula.cpp
+                objects/Fins.cpp
+                objects/Rotator.cpp
                 
                 # external objects
                 objects/Chronos.cpp
@@ -32,10 +34,12 @@ add_executable( project_helix
                 objects/PlanetRing.cpp
                 objects/Skybox.cpp
                 objects/Sun.cpp
+                objects/Missile.cpp
                 
                 # user interaction
                 interactors/KeyboardEventHandler.cpp
                 animation/ShipNodeCallback.cpp
+                animation/MissileNodeCallback.cpp
 
                 util.cpp )
 

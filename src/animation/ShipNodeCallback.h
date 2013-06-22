@@ -22,10 +22,13 @@ namespace ph {
             void rollLeft();
             void turboOn();
             void turboOff();
+            void fireMissile();
 
         private:
             Vec3d direction, up, x_axis, y_axis, z_axis;
             double pitch, yaw, roll, speed;
+            bool missilefired;
+            int missileLifetime;
     };
 }
 #endif
