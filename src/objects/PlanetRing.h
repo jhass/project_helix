@@ -6,6 +6,7 @@
 namespace ph {
     class PlanetRing : public Torus {
         private:
+            void enableBlending();
             void setRingTexture();
         public:
             PlanetRing(const double iRadius, const double tRadius, const int iteration);

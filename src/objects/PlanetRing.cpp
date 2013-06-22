@@ -1,5 +1,6 @@
 #include <osg/Texture1D>
 #include <osg/Material>
+#include <osg/Depth>
 
 #include "PlanetRing.h"
 
@@ -7,6 +8,7 @@
 ph::PlanetRing::PlanetRing(const double iRadius, const double tRadius, const int iteration) :
     Torus(iRadius, tRadius, iteration) {
     this->setStyle(ph::Torus::FLAT);
+    this->enableBlending();
     this->setRingTexture();
 }
 
@@ -23,7 +25,7 @@ void ph::PlanetRing::setRingTexture() {
     
     // creating colors (red,green,blue,alpha)
     vector<Vec4> colorBands;
-    colorBands.push_back(Vec4(0.0, 0.0, 0.0, 1.0)); // black
+    colorBands.push_back(Vec4(0.0, 0.0, 0.0, 0.0)); // transparent
     colorBands.push_back(Vec4(0.1, 0.1, 0.1, 1.0)); // dark-grey
     colorBands.push_back(Vec4(0.2, 0.2, 0.2, 1.0)); // grey
     colorBands.push_back(Vec4(0.3, 0.3, 0.3, 1.0)); // light-grey
@@ -129,15 +131,15 @@ void ph::PlanetRing::setRingTexture() {
     texture->setImage(image);
     
     Material* material = new Material;
-    StateSet* stateSet = new StateSet;
+    ref_ptr<StateSet> state_set = this->getOrCreateStateSet();
     
     // setting stateset
-    stateSet->setTextureAttribute(0, texture, StateAttribute::OVERRIDE);
-    stateSet->setTextureMode(0, GL_TEXTURE_1D, StateAttribute::ON|StateAttribute::OVERRIDE);
-    stateSet->setTextureMode(0, GL_TEXTURE_2D, StateAttribute::OFF|StateAttribute::OVERRIDE);
-    stateSet->setTextureMode(0, GL_TEXTURE_3D, StateAttribute::OFF|StateAttribute::OVERRIDE);
+    state_set->setTextureAttribute(0, texture, StateAttribute::OVERRIDE);
+    state_set->setTextureMode(0, GL_TEXTURE_1D, StateAttribute::ON|StateAttribute::OVERRIDE);
+    state_set->setTextureMode(0, GL_TEXTURE_2D, StateAttribute::OFF|StateAttribute::OVERRIDE);
+    state_set->setTextureMode(0, GL_TEXTURE_3D, StateAttribute::OFF|StateAttribute::OVERRIDE);
     
-    stateSet->setAttribute(material, StateAttribute::OVERRIDE);
+    state_set->setAttribute(material, StateAttribute::OVERRIDE);
     
     // setting material attributes for reflection
     material->setDiffuse(Material::FRONT_AND_BACK, Vec4(0.1,0.1,0.1,1.0));
@@ -145,5 +147,18 @@ void ph::PlanetRing::setRingTexture() {
     material->setSpecular(Material::FRONT_AND_BACK, Vec4(1,1,1,1));
     material->setShininess(Material::FRONT_AND_BACK, 30);
 
-    this->setStateSet(stateSet);
+    this->setStateSet(state_set.get());
+}
+
+
+void ph::PlanetRing::enableBlending() {
+    ref_ptr<StateSet> state_set = this->getOrCreateStateSet();
+    state_set->setMode(GL_BLEND, StateAttribute::ON);
+    state_set->setRenderingHint(StateSet::TRANSPARENT_BIN);
+    state_set->setMode(GL_DEPTH_TEST, StateAttribute::ON);
+    Depth* depth = new Depth;
+    depth->setWriteMask(false);
+    state_set->setAttributeAndModes(depth, StateAttribute::ON);
+    state_set->setMode(GL_LIGHTING, osg::StateAttribute::OFF );
+    this->setStateSet(state_set.get());
 }
