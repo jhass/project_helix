@@ -17,7 +17,7 @@ ph::PlanetRing::PlanetRing(const double iRadius, const double tRadius, const int
 void ph::PlanetRing::setRingTexture() {
 
     Image* image = new Image;
-    int pixels = 1000;
+    int pixels = 1024;
 
     /* setting up image with pixels x 1 x 1, colormodel RGBA 
        and colors defined in Vec4*/
