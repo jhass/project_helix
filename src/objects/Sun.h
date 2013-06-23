@@ -1,12 +1,15 @@
 #ifndef PH_SUN_H
 #define PH_SUN_H
 
+#include <string>
+
 #include <osg/LightSource>
 #include <osg/Material>
 
 #include "Sphere.h"
 
 using namespace osg;
+using namespace std;
 
 namespace ph {
     class Sun : public Group {
@@ -24,6 +27,7 @@ namespace ph {
             Sun(const double radius, const int steps,
              const int lightNumber,const double red, const double blue, const double green);
             ref_ptr<LightSource> source;
+            void setTexture(const int number, const string filename);
     };
 }
 
