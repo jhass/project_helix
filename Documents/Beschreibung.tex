@@ -25,7 +25,7 @@ Es gibt eine Außenperspektive sowie eine "Cockpit-Ansicht".
 Interaktion bewegt das Raumschiff.
 
 Compilieren am Besten per Build-Skript:
-\emph{./build.sh project_helix}
+\emph{./build.sh project\_helix}
 
 \section{Tastaturbelegung}
 
@@ -40,32 +40,32 @@ Umschalt/Shift (halten) & Nachbrenner aktivieren. \\
 \end{tabular}
 
 \section{Interessante Dinge}
-\subsection{Rotationskörper}
 \begin{itemize}
-\item Rakete
-\item Asteroid und Nebel
-\item Sonnen und Planet
-\item Planetenring
+\item Körper der Rakete ist durch den Rotationskörper realisiert.
+\item Nebel mit Hilfe von Partikeln.
+\item Sonnen, Planeten und Asteroiden auf Grundlage einer selbst gebauten Kugel.
+\item Sonnen dienen als punktförmige Lichtquelle
+\item Planetenring auf Basis eines selbst gebauten Torus
 \end{itemize}
 
 \section{Besondere Effekte}
 \begin{itemize}
-\item Blending auf Planetenring
+\item Blending auf Planetenring %das muss hier noch angepasst werden, ja nachdem, was die Ringe am Ende machen!
 \end{itemize}
 
 \section{Animationen}
 \begin{itemize}
-\item Planeten und Asteroid drehen sich.
+\item Planet und einige Asteroiden innerhalb des Feldes drehen sich.
 \item Schiff besitzt 6 Freiheitsgrade.
 \item Rakete bewegt sich auf geradem Pfad und verschwindet dann.
-\item "Reaper" bewegt sich auf Station zu.
-\item Station bewegt sich um Planeten.
+\item "Reaper"-Raumschiff bewegt sich auf Station zu, führt eine Animation aus und entfernt sich dann wieder.
+\item Ein kleiner (zu Beginn vielleicht etwas schwer zu sehen) Monolith fliegt von den Asteroiden her auf den Planeten zu.
 \item Komet fliegt durch die Szene und dreht sich.
 \end{itemize}
 
 \subsection{Weiteres}
 \begin{itemize}
-\item "Reaper", Schiff und Station aus Blender.
+\item "Reaper", zu steuerndes Raumschiff und Station aus Blender.
 \item Eindimensionale Textur auf Planetenring.
 \item Partikelsysteme an Schiff, Komet und Rakete.
 \end{itemize}
