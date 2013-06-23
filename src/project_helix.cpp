@@ -1,7 +1,7 @@
 #include <osgViewer/CompositeViewer>
 
 #include "views/MainView.h"
-#include "views/CockpitView.h"
+#include "views/ShipView.h"
 #include "interactors/KeyboardEventHandler.h"
 
 
@@ -14,9 +14,9 @@ int main(void) {
     ref_ptr<CompositeViewer> viewer = new CompositeViewer();
 
     ref_ptr<ph::MainView> mainView = new ph::MainView();
-    ref_ptr<ph::CockpitView> cockpitView = new ph::CockpitView(mainView->getScene());
+    ref_ptr<ph::ShipView> shipView = new ph::ShipView(mainView->getScene());
     ref_ptr<ph::KeyboardEventHandler> handler = new ph::KeyboardEventHandler(mainView.get());
-    cockpitView->addEventHandler(handler.get());
+    shipView->addEventHandler(handler.get());
 
     unsigned int width, height;
     GraphicsContext::WindowingSystemInterface* wsi = GraphicsContext::getWindowingSystemInterface();
@@ -33,11 +33,11 @@ int main(void) {
     traits->sharedContext = 0;
 
     ref_ptr<GraphicsContext> context = GraphicsContext::createGraphicsContext(traits.get());
-    cockpitView->getCamera()->setGraphicsContext(context.get());
+    shipView->getCamera()->setGraphicsContext(context.get());
     mainView->getCamera()->setGraphicsContext(context.get());
 
-    cockpitView->getCamera()->setViewport(new Viewport(0, 0, width, height));
-    viewer->addView(cockpitView);    
+    shipView->getCamera()->setViewport(new Viewport(0, 0, width, height));
+    viewer->addView(shipView);    
 
     //                                                  x,           y 
     mainView->getCamera()->setViewport(new Viewport(width-20-width/4, 20,

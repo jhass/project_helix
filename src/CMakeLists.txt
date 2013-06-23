@@ -9,7 +9,7 @@ add_executable( project_helix
 
                 # views
                 views/MainView.cpp
-                views/CockpitView.cpp
+                views/ShipView.cpp
                 
                 # scenes
                 scenes/MainScene.cpp

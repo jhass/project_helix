@@ -44,11 +44,12 @@ void ph::ShipNodeCallback::operator()(Node* node, NodeVisitor* nv) {
     shipNode->translate->setMatrix(translation);
 
     // Update camera
-    Vec3d eye = translation.getTrans()+up;
+    Vec3d eye    = translation.getTrans()+up*20-direction*200;
+    Vec3d center = translation.getTrans()+direction*150;
     shipNode->camera->setViewMatrixAsLookAt(
-         eye,            // eye
-         eye+direction,  // center
-         up              // up
+         eye,
+         center,
+         up
     );
 
     //Rotating the axis of the quat, so further rotations are correct
