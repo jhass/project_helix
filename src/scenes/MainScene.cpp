@@ -91,7 +91,7 @@ void ph::MainScene::createPlanet() {
     ref_ptr<ph::Sphere> sphere = new ph::Sphere(500, 200);
     
     // giving the sphere a texturefile
-    sphere->setTexture(0, "../Textures/mars_map.jpg");
+    sphere->setTexture(0, "../Textures/planet_Klendathu.jpg");
     
     // Torus(innerRadius, torusRadius, lengthSteps, widthSteps)
     ref_ptr<ph::PlanetRing> ring = new ph::PlanetRing(650, 75, 200);

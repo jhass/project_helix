@@ -3,3 +3,4 @@ ConcretePlates0007_9_preview.jpg http://cgtextures.com/texview.php?id=35237
 EarthMap: http://www.oera.net/how2/PlanetTexs/EarthMap_2500x1250.jpg
 Jupiter_map: http://www.solarvoyager.com/forum/forum_posts.asp?TID=7031
 Mars_map: http://www.oera.net/how2/PlanetTexs/MarsMap_2500x1250.jpg
+planet_Klendathu: freebitmaps.blogspot.de/2010/12/srgb-planet-klendathu.html
