@@ -18,14 +18,14 @@ int main(void) {
     ref_ptr<Group> root = new Group();
 
     // giving the sphere a texturefile
-    sphere->setTexture(0, "../Textures/EarthMap.jpg");
+    sphere->setTexture(0, "../resources/EarthMap.jpg");
     
     // Torus(innerRadius, torusRadius, lengthSteps, widthSteps)
     ref_ptr<ph::Torus> torus = new ph::Torus(8, 1.5, 100);
 
     // Default ist NORMAL
     torus->setStyle(ph::Torus::FLAT);
-    torus->setTexture(0, "../Textures/rings.jpg");
+    torus->setTexture(0, "../resources/rings.jpg");
     
     planet->addChild(sphere.get());
     planet->addChild(torus.get());

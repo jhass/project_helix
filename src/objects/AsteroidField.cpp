@@ -37,14 +37,14 @@ void ph::AsteroidField::createBaseField() {
 
     // Big main asteroids
     ref_ptr<ph::Asteroid> asteroid_main_fine = new ph::Asteroid(12, 20, 20, 1, 1, 1);
-    asteroid_main_fine->setTexture(0, "../Textures/phobos.jpg");
+    asteroid_main_fine->setTexture(0, "../resources/phobos.jpg");
     base_field->addChild(asteroid_main_fine.get());
     addToBaseField(asteroid_main_fine.get(),
         Matrix::rotate(PI_2,Vec3(0.0,1.0,1.0))*Matrix::translate(55.0, -30.0, -3.0));
     
     // small asteroids
     ref_ptr<ph::Asteroid> asteroid_small_fine = new ph::Asteroid(3, 20, 20, 1, 1, 1);
-    asteroid_small_fine->setTexture(0, "../Textures/phobos.jpg");
+    asteroid_small_fine->setTexture(0, "../resources/phobos.jpg");
     addToBaseField(asteroid_small_fine.get(),
         Matrix::translate(31.0, 12.0, 3.0));
     addToBaseField(asteroid_small_fine.get(),
@@ -55,7 +55,7 @@ void ph::AsteroidField::createBaseField() {
         Matrix::translate(-5.0, -25.0, -4.0));
 
     ref_ptr<ph::Asteroid> asteroid_small_crude = new ph::Asteroid(3, 5, 5, 1, 1, 1);
-    asteroid_small_crude->setTexture(0, "../Textures/ceres.jpg");
+    asteroid_small_crude->setTexture(0, "../resources/ceres.jpg");
     addToBaseField(asteroid_small_crude.get(),
         Matrix::translate(-5.0, 20.0, 7.0));
     addToBaseField(asteroid_small_crude.get(),
@@ -76,17 +76,17 @@ void ph::AsteroidField::createBaseField() {
     
     // flat asteroids
     ref_ptr<ph::Asteroid> asteroid_flat_fine = new ph::Asteroid(5, 20, 20, 2, 3, 1);
-    asteroid_flat_fine->setTexture(0, "../Textures/ceres.jpg");
+    asteroid_flat_fine->setTexture(0, "../resources/ceres.jpg");
     ref_ptr<Node> flat_fine = addToBaseField(asteroid_flat_fine.get(),
         Matrix::rotate(PI_4,Vec3(0.0,0.0,1.0))*Matrix::translate(76.0, 3.0, -2.0));
 
     ref_ptr<ph::Asteroid> asteroid_flat_crude = new ph::Asteroid(5, 5, 5, 1, 1, 4);
-    asteroid_flat_crude->setTexture(0, "../Textures/ceres.jpg");
+    asteroid_flat_crude->setTexture(0, "../resources/ceres.jpg");
     addToBaseField(asteroid_flat_crude.get(),
         Matrix::translate(50.0, 7.0, -2.0));
 
     ref_ptr<ph::Asteroid> asteroid_flat_small = new ph::Asteroid(2, 5, 5, 4, 1, 1);
-    asteroid_flat_small->setTexture(0, "../Textures/phobos.jpg");
+    asteroid_flat_small->setTexture(0, "../resources/phobos.jpg");
     ref_ptr<Node> flat_small = addToBaseField(asteroid_flat_small.get(),
         Matrix::rotate(PI_4,Vec3(1.0,0.0,1.0))*Matrix::translate(-22.0, 7.0, -2.0));
     

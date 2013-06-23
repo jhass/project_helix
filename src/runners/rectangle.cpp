@@ -11,7 +11,7 @@ int main(void)
     ref_ptr<Group> root = new Group;
 	// baue Geometry
 	ref_ptr<ph::Rectangle> testrec = new ph::Rectangle(100,50);
-	testrec->setTexture(0,"../Textures/EarthMap.jpg");
+	testrec->setTexture(0,"../resources/EarthMap.jpg");
 	testrec->getOrCreateStateSet()->setMode(GL_LIGHTING, StateAttribute::OFF);
 	root->addChild(testrec.get());
 	

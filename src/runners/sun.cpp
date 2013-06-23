@@ -28,7 +28,7 @@ int main(void) {
     ref_ptr<ph::Sphere> sphere = new ph::Sphere(5, 200);
 
     // giving the sphere a texturefile
-    sphere->setTexture(0, "../Textures/EarthMap.jpg");
+    sphere->setTexture(0, "../resources/EarthMap.jpg");
     
     // pushing sphere to the right
     ref_ptr<MatrixTransform> spheretrans = new MatrixTransform();

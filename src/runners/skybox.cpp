@@ -45,7 +45,7 @@ int main(void)
     root->addChild(spheretrans2.get());
     
     // giving the sphere a texturefile
-    sphere->setTexture(0, "../Textures/EarthMap.jpg");
+    sphere->setTexture(0, "../resources/EarthMap.jpg");
     
     // Sun(radius, Steps, GLLightNumber, red, green, blue)
     ref_ptr<ph::Sun> sun = new ph::Sun(10.0, 200, 0, 0.9, 0.6, 0.0);

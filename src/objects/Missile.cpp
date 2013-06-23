@@ -87,10 +87,10 @@ ParticleSystem* createParticleSystem(Group* _parent) {
 
 ph::Missile::Missile() {
     ref_ptr<ph::Rotator> rotator = new ph::Rotator(-1.7, 1.81, 30);
-    rotator->setTexture(0, "../Textures/rotator_tx.png");
+    rotator->setTexture(0, "../resources/rotator_tx.png");
     
     ref_ptr<ph::Fins> fins1a = new ph::Fins(0,0.4);
-    fins1a->setTexture(0, "../Textures/fin.png");
+    fins1a->setTexture(0, "../resources/fin.png");
     
     osg::ref_ptr<osg::MatrixTransform> transf1a = new osg::MatrixTransform;
 
@@ -143,7 +143,7 @@ ph::Missile::Missile() {
     ref_ptr<MatrixTransform> planet = new MatrixTransform;
     
     planet->setMatrix(Matrix::translate(-1.8,0.0,0.0));
-    sphere->setTexture(0,"../Textures/rocketeng.jpeg"); //mit durch Material ergänzen
+    sphere->setTexture(0,"../resources/rocketeng.jpeg"); //mit durch Material ergänzen
     planet->addChild(sphere.get());
     
     //Partikelsystem start

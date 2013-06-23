@@ -116,12 +116,12 @@ int main(void) {
     root->addChild(trans_flat_03.get());
     
     // giving the asteroids a texture
-    asteroid_main_fine->setTexture(0, "../Textures/phobos.jpg");
-    asteroid_flat_crude->setTexture(0, "../Textures/ceres.jpg");
-    asteroid_flat_fine->setTexture(0, "../Textures/ceres.jpg");
-    asteroid_flat_small->setTexture(0, "../Textures/phobos.jpg");
-    asteroid_small_crude->setTexture(0, "../Textures/ceres.jpg");
-    asteroid_small_fine->setTexture(0, "../Textures/phobos.jpg");
+    asteroid_main_fine->setTexture(0, "../resources/phobos.jpg");
+    asteroid_flat_crude->setTexture(0, "../resources/ceres.jpg");
+    asteroid_flat_fine->setTexture(0, "../resources/ceres.jpg");
+    asteroid_flat_small->setTexture(0, "../resources/phobos.jpg");
+    asteroid_small_crude->setTexture(0, "../resources/ceres.jpg");
+    asteroid_small_fine->setTexture(0, "../resources/phobos.jpg");
     
     // enables PolygonMode
     ref_ptr<PolygonMode> pm = new PolygonMode;

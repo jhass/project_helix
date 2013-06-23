@@ -18,7 +18,7 @@
 ph::Comet::Comet(const double radius, const int lsteps, const int wsteps, 
                  const int xd, const int yd, const int zd) {
     asteroid = new Asteroid(radius, lsteps, wsteps, xd, yd, zd);
-    asteroid->setTexture(0, "../Textures/phobos.jpg");
+    asteroid->setTexture(0, "../resources/phobos.jpg");
 
     // moving the origin of particles
     particleSystem = new MatrixTransform();

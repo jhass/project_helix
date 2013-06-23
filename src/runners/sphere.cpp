@@ -29,7 +29,7 @@ int main(void) {
     ref_ptr<MatrixTransform> root = new MatrixTransform;
 
     // giving the sphere a texturefile
-    sphere->setTexture(0, "../Textures/EarthMap.jpg");
+    sphere->setTexture(0, "../resources/EarthMap.jpg");
     
     root->addChild(sphere.get());
     

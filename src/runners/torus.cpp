@@ -20,7 +20,7 @@ int main(void) {
     torus->setStyle(ph::Torus::FLAT);
     
     // Textur setzen
-    torus->setTexture(0,"../Textures/EarthMap.jpg");
+    torus->setTexture(0,"../resources/EarthMap.jpg");
     
     // Alternativ: normal Torus
     //ref_ptr<ph::Torus> torus = new ph::FlatTorus(6, 1.5, 75);
