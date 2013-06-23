@@ -1,6 +1,7 @@
 #include <osg/Texture1D>
 #include <osg/Material>
 #include <osg/Depth>
+#include <osg/BlendFunc>
 
 #include "PlanetRing.h"
 
@@ -153,12 +154,13 @@ void ph::PlanetRing::setRingTexture() {
 
 void ph::PlanetRing::enableBlending() {
     ref_ptr<StateSet> state_set = this->getOrCreateStateSet();
-    state_set->setMode(GL_BLEND, StateAttribute::ON);
+    
+    // enables blending for transparent parts of the ring
+    ref_ptr<BlendFunc> blendFunc = new BlendFunc;
+    blendFunc->setFunction( BlendFunc::SRC_ALPHA, BlendFunc::ONE_MINUS_SRC_ALPHA);
+    state_set->setAttributeAndModes(blendFunc);
+   
     state_set->setRenderingHint(StateSet::TRANSPARENT_BIN);
-    state_set->setMode(GL_DEPTH_TEST, StateAttribute::ON);
-    Depth* depth = new Depth;
-    depth->setWriteMask(false);
-    state_set->setAttributeAndModes(depth, StateAttribute::ON);
-    state_set->setMode(GL_LIGHTING, osg::StateAttribute::OFF );
+   
     this->setStateSet(state_set.get());
 }

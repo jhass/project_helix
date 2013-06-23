@@ -71,7 +71,7 @@ Vec3d ph::Torus::calculateVertex(const double theta, const double phi) {
     double z = 0;
 
     if (this->style == FLAT) {
-        z = 0.5* sin(2*PI*phi);
+        z = 0.1* sin(2*PI*phi);
     } else if (this->style == NORMAL) {
         z =  this->tRadius* sin(2*PI*phi);
     }
