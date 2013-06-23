@@ -175,11 +175,6 @@ void ph::MainScene::createReaper() {
     ani_reaper->setAnimationPath(reaper->createFlightPath(2500,40,-1000,700,80,-1000,-400,90,0));
     reaper_node->setUpdateCallback(ani_reaper.get());
     this->addChild(reaper_node.get());
-
-    // ref_ptr<ph::Reaper> reaper = new ph::Reaper();
-    // reaper->transformAndAnimate(Matrix::rotate(PI_2+PI/10,Vec3(0,0,1)),
-                                // 2000, 40, 500, 80, -300, 90);
-    // this->addChild(reaper.get());
 }
 
 void ph::MainScene::createNebula() {
