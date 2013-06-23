@@ -1,12 +1,9 @@
 #include <cmath>
-
 #include <osg/Texture2D>
 #include <osg/MatrixTransform>
 #include <osg/LightModel>
 #include <osg/Material>
 #include <osgDB/ReadFile>
-#include <osg/PolygonMode> // Drop when debugging done
-
 #include <osg/Point>
 #include <osg/PointSprite>
 #include <osgParticle/ParticleSystem>
@@ -70,8 +67,8 @@ ParticleSystem* createParticleSystem(Group* _parent) {
     emitter->setShooter(myshooter.get());    
         
     //??
-    ref_ptr<ModularProgram> program = new ModularProgram();
-    program->setParticleSystem( ps.get() );
+    //ref_ptr<ModularProgram> program = new ModularProgram();
+   // program->setParticleSystem( ps.get() );
 
     
     //Rendering stuff2
@@ -79,7 +76,7 @@ ParticleSystem* createParticleSystem(Group* _parent) {
     geode->addDrawable( ps.get() );
     
     parent->addChild( emitter.get() );
-    parent->addChild( program.get() );
+   // parent->addChild( program.get() );
     parent->addChild( geode.get() );
     return ps.release();
 }
@@ -143,12 +140,10 @@ ph::Missile::Missile() {
     ref_ptr<MatrixTransform> planet = new MatrixTransform;
     
     planet->setMatrix(Matrix::translate(-1.8,0.0,0.0));
-    sphere->setTexture(0,"../resources/rocketeng.jpeg"); //mit durch Material ergänzen
+    sphere->setTexture(0,"../resources/rocketeng.jpeg"); 
     planet->addChild(sphere.get());
     
-    //Partikelsystem start
-    
-     //Creating the particlesystem at the point defined above
+    //Creating the particlesystem 
     
     ref_ptr<osg::MatrixTransform> mtx = new osg::MatrixTransform;
     mtx->setMatrix(Matrix::translate(-2.0,0.0,0.0));  //um 2 ans Heck der Missile verschieben
@@ -156,14 +151,11 @@ ph::Missile::Missile() {
     ref_ptr<ParticleSystem> ps = createParticleSystem(mtx.get());
     ref_ptr<ParticleSystemUpdater> updater = new ParticleSystemUpdater();
     updater->addParticleSystem(ps);
-   
-   
-    
+
     ref_ptr<Group> particlesystemNode = new Group();
     particlesystemNode->addChild(updater.get());
     particlesystemNode->addChild(mtx.get());
-    
-    //PS ende
+
     
     //Building Missile
     ref_ptr<osg::Group> missileNode = new osg::Group;
@@ -183,17 +175,6 @@ ph::Missile::Missile() {
 
     this->addChild(translate.get());
     
-   /* 
-    osg::ref_ptr<osg::AnimationPathCallback> apcb = new osg::AnimationPathCallback;
-    apcb->setAnimationPath( ph::createAnimationPath(10.0f, 2*PI, ph::LOOP, ph::NEG_Z_AXIS,
-    ph::sin_f, 20,0 ,ph::cos_f, 20,0, ph::lin_f, -00,0));
-    missileNode->setUpdateCallback( apcb.get() );
-
-*/
-
-    // wenn man die Dreiecke mal sehen will:
-    // ref_ptr<PolygonMode> pm = new PolygonMode;
-    // pm->setMode(PolygonMode::FRONT_AND_BACK, PolygonMode::LINE);
-    // missileNode->getOrCreateStateSet()->setAttribute(pm.get());
+   
 }
 
