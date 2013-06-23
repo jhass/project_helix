@@ -65,18 +65,13 @@ ParticleSystem* createParticleSystem(Group* _parent) {
     emitter->setParticleSystem( ps.get() );
     emitter->setCounter( rrc.get() );
     emitter->setShooter(myshooter.get());    
-        
-    //??
-    //ref_ptr<ModularProgram> program = new ModularProgram();
-   // program->setParticleSystem( ps.get() );
-
+   
     
     //Rendering stuff2
     ref_ptr<Geode> geode = new Geode();
     geode->addDrawable( ps.get() );
     
     parent->addChild( emitter.get() );
-   // parent->addChild( program.get() );
     parent->addChild( geode.get() );
     return ps.release();
 }
