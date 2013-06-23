@@ -11,6 +11,10 @@ ph::Sun::Sun(const double radius, const int steps,
     this->createLight(lightNumber);
 }
 
+void ph::Sun::setTexture(const int number, const string filename) {
+    this->sphere->setTexture(number, filename);
+}
+
 // creating light, setting lightoptions, creating surface material
 void ph::Sun::createLight(int lightNumber) {
 	// Creating a white light source in the interior of the sphere
@@ -39,9 +43,10 @@ void ph::Sun::createLight(int lightNumber) {
     this->material->setEmission(Material::FRONT_AND_BACK, Vec4(this->red,this->green,this->blue,1.0));
     
     // material parameters
-    this->material->setDiffuse(Material::FRONT_AND_BACK, Vec4(this->red,this->green,this->blue,1.0));
-    //this->material->setAmbient(Material::FRONT_AND_BACK, Vec4(this->red,this->green,this->blue,1.0));
-    //this->material->setSpecular(Material::FRONT_AND_BACK, Vec4(this->red,this->green,this->blue,1.0));
+    this->material->setDiffuse(Material::FRONT_AND_BACK, Vec4(1, 1, 1, 1.0));
+    // this->material->setDiffuse(Material::FRONT_AND_BACK, Vec4(this->red,this->green,this->blue,1.0));
+    // this->material->setAmbient(Material::FRONT_AND_BACK, Vec4(this->red,this->green,this->blue,1.0));
+    // this->material->setSpecular(Material::FRONT_AND_BACK, Vec4(this->red,this->green,this->blue,1.0));
     this->material->setShininess(Material::FRONT_AND_BACK, 1);
     
     //giving the material to the sphere

@@ -53,6 +53,7 @@ void ph::MainScene::createSkyboxAndSuns() {
     
     // Sun(radius, Steps, GLLightNumber, red, green, blue)
     ref_ptr<ph::Sun> sun_orange = new ph::Sun(100, 200, 0, 0.9, 0.6, 0);
+    sun_orange->setTexture(0, "../resources/sun.png");
     
     // translating sun and adding it so skybox
     ref_ptr<MatrixTransform> suntrans_or = new MatrixTransform;
@@ -61,13 +62,14 @@ void ph::MainScene::createSkyboxAndSuns() {
     suntrans_or->addChild(sun_orange.get());
     
     // Sun(radius, Steps, GLLightNumber, red, green, blue)
-    ref_ptr<ph::Sun> sun_violet = new ph::Sun(50, 200, 1, 0.9, 0.0, 0.6);
+    ref_ptr<ph::Sun> sun_blue = new ph::Sun(50, 200, 1, 0.1, 0.1, 1);
+    sun_blue->setTexture(0, "../resources/bluesun.png");
     
     // translating sun and adding it so skybox
     ref_ptr<MatrixTransform> suntrans_vl = new MatrixTransform();
     suntrans_vl->setMatrix(Matrix::translate(Vec3(height, 800, 0)));
     skybox->clampObjectToSkybox(suntrans_vl);
-    suntrans_vl->addChild(sun_violet.get());
+    suntrans_vl->addChild(sun_blue.get());
 
     // Activate light of the suns
     this->getOrCreateStateSet()->setMode(GL_LIGHT0, StateAttribute::ON);
@@ -75,7 +77,7 @@ void ph::MainScene::createSkyboxAndSuns() {
 
     //Quick fix of lights position, would probabply take some serious work to get it pretty.
     sun_orange->source->getLight()->setPosition(Vec4(800, width, 0,1));
-    sun_violet->source->getLight()->setPosition(Vec4(height, 800, 0,1));
+    sun_blue->source->getLight()->setPosition(Vec4(height, 800, 0,1));
 
     this->addChild(skybox.get());
 }
