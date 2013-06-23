@@ -5,3 +5,4 @@ Jupiter_map: http://www.solarvoyager.com/forum/forum_posts.asp?TID=7031
 Mars_map: http://www.oera.net/how2/PlanetTexs/MarsMap_2500x1250.jpg
 realsun.jpg: http://www.celestiamotherlode.net/catalog/show_addon_details.php?addon_id=998
 planet_Klendathu: freebitmaps.blogspot.de/2010/12/srgb-planet-klendathu.html
+camo.jpg: http://www.istyles.com/designs/military/digital-navy-camo-p-80862.html
