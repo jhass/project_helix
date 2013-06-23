@@ -117,7 +117,7 @@ ph::Ship::Ship() {
 
 void ph::Ship::fireMissile(Vec3d& up, Vec3d& direction, double speed) {
     ref_ptr<Missile> missile = new Missile();
-    missile->lifetime = 6*60; //6 seconds * 60 frames
+    missile->lifetime = 10*60; //10 seconds * 60 frames
     missile->translate->setMatrix(Matrix::translate(this->translate->getMatrix().getTrans()-up));
     missile->rotate->setMatrix(this->rotate->getMatrix());
 
