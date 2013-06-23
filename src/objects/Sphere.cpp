@@ -88,7 +88,7 @@ void ph::Sphere::setTexture(const int textureNumber, const string filename) {
     texture->setImage(image.get());
     this->getOrCreateStateSet()->setTextureAttributeAndModes(textureNumber, texture.get());
     ref_ptr<CullFace> cull = new CullFace;
-    // Effect is instant traveling through the planet; BACK = no texture if you are inside the sphere
-    cull->setMode(CullFace::FRONT);
+    //FRONT = Effect is instant traveling through the planet; BACK = no texture if you are inside the sphere
+    cull->setMode(CullFace::BACK);
     this->getOrCreateStateSet()->setAttributeAndModes(cull.get());
 }
