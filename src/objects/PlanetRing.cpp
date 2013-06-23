@@ -26,7 +26,7 @@ void ph::PlanetRing::setRingTexture() {
 
     // creating colors (red,green,blue,alpha)
     vector<Vec4> colorBands;
-    colorBands.push_back(Vec4(0.0, 0.0, 0.0, 0.1)); // transparent
+    colorBands.push_back(Vec4(0.0, 0.0, 0.0, 0.0)); // transparent
     colorBands.push_back(Vec4(0.1, 0.1, 0.1, 1.0)); // dark-grey
     colorBands.push_back(Vec4(0.2, 0.2, 0.2, 1.0)); // grey
     colorBands.push_back(Vec4(0.3, 0.3, 0.3, 1.0)); // light-grey
@@ -237,7 +237,7 @@ void ph::PlanetRing::enableBlending() {
     
     // enables blending for transparent parts of the ring
     ref_ptr<BlendFunc> blendFunc = new BlendFunc;
-    blendFunc->setFunction( BlendFunc::SRC_ALPHA, BlendFunc::ONE_MINUS_SRC_ALPHA);
+    blendFunc->setFunction( BlendFunc::SRC_ALPHA, BlendFunc::ZERO);
     state_set->setAttributeAndModes(blendFunc);
    
     state_set->setRenderingHint(StateSet::TRANSPARENT_BIN);
