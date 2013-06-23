@@ -24,6 +24,7 @@ namespace ph {
             void shipTurboOn();
             void shipTurboOff();
             void fireMissilefromShip();
+            void toggleShipView();
     };
 }
 
