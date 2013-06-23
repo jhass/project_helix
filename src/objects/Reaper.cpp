@@ -1,5 +1,8 @@
 #include <osgDB/ReadFile>
 #include <osg/Geode>
+#include <osg/Material>
+#include <osg/ShapeDrawable>
+#include <osg/Switch>
 
 #include "util.h"
 
@@ -11,8 +14,15 @@ using namespace osg;
 std::string ph::Reaper::fileLocation = "../resources/reaper.obj";
 
 ph::Reaper::Reaper() {
-    this->transform = new MatrixTransform;
+
+    // creating reaper
+    this->transform = new MatrixTransform;    
     this->transform->addChild(osgDB::readNodeFile(this->fileLocation));
+    
+    // creating laser and switch it off
+    ref_ptr<Switch> laser_switch = new Switch;
+    laser_switch->addChild(ph::Reaper::addLaser(),false); 
+    this->transform->addChild(laser_switch);
     this->addChild(this->transform.get());
 }
 
@@ -138,3 +148,36 @@ AnimationPath* ph::Reaper::createFlightPath(double start_x, double mid_x, double
     return path.release();
  }
 
+MatrixTransform* ph::Reaper::addLaser() {
+    // creating elements
+    ref_ptr<Geode> node = new Geode();
+    ref_ptr<MatrixTransform> transformation = new MatrixTransform;
+
+    // cylinder as laser beam    
+    node->addDrawable(new ShapeDrawable(new Cylinder(Vec3(0,0,-25),0.5,50)));
+    
+    // creating Material for the laser
+    ref_ptr<Material> material = new Material;
+    // material emits giving light (R,G,B,x); here red laser
+    material->setEmission(Material::FRONT_AND_BACK, Vec4(0.8,0,0.1,1));
+    
+    // material parameters
+    material->setDiffuse(Material::FRONT_AND_BACK, Vec4(1,0.0,0.0,1.0));
+    material->setAmbient(Material::FRONT_AND_BACK, Vec4(1,0,0,1));
+    material->setSpecular(Material::FRONT_AND_BACK, Vec4(1,0,0,1));
+    material->setShininess(Material::FRONT_AND_BACK, 30);
+    
+    //giving the material to the laser
+    node->getOrCreateStateSet()->setAttributeAndModes(material.get(),StateAttribute::ON);
+    
+    osg::ref_ptr<osg::AnimationPathCallback> animation_cylinder = new osg::AnimationPathCallback;
+    animation_cylinder->setAnimationPath(
+        ph::createAnimationPath(6.0f, PI_4, ph::LOOP, ph::NEG_X_AXIS,
+                                NULL, 0, 0.2, NULL, 0, 3.9, NULL, 0, -19.5)
+    );
+    
+    transformation->addChild(node);
+    transformation->setUpdateCallback(animation_cylinder.get() );
+    
+    return transformation.release();
+}    

@@ -24,6 +24,7 @@ namespace ph {
                                      double start_x, double mid_x, double end_x,
                                      double start_y, double mid_y, double end_y,
                                      double start_z, double mid_z, double end_z);
+            MatrixTransform* addLaser();                                     
     };
 }
 #endif
