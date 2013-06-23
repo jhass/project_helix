@@ -2,12 +2,12 @@
 #include <osg/Vec3>
 #include <osgGA/NodeTrackerManipulator>
 
-#include "CockpitView.h"
+#include "ShipView.h"
 
 using namespace osg;
 using namespace osgGA;
 
-ph::CockpitView::CockpitView(ph::MainScene* _scene) {
+ph::ShipView::ShipView(ph::MainScene* _scene) {
     ref_ptr<MainScene> scene = _scene;
     this->setSceneData(scene.get());
 

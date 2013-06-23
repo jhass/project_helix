@@ -25,11 +25,12 @@ namespace ph {
             void turboOn();
             void turboOff();
             void fireMissile();
+            void toggleView();
 
         private:
             Vec3d direction, up, x_axis, y_axis, z_axis;
             double pitch, yaw, roll, speed;
-            bool missilefired;
+            bool missilefired, third_person_view;
             int missileLifetime;
             static bool isDead(const ref_ptr<Missile>& m);
     };

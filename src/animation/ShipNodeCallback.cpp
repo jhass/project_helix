@@ -23,6 +23,7 @@ ph::ShipNodeCallback::ShipNodeCallback() {
     yaw   = 0;
     roll  = 0;
     missilefired = false;
+    third_person_view = false;
 }
 
 
@@ -43,12 +44,21 @@ void ph::ShipNodeCallback::operator()(Node* node, NodeVisitor* nv) {
     Matrix translation = Matrix::translate(shipNode->translate->getMatrix().getTrans() + direction*speed);
     shipNode->translate->setMatrix(translation);
 
+    Vec3d eye = translation.getTrans();
+    Vec3d center = translation.getTrans();
     // Update camera
-    Vec3d eye = translation.getTrans()+up;
+    if (third_person_view) {
+        eye    += up*20-direction*200;
+        center += direction*150;
+    } else {
+        eye    += up;
+        center += direction+up;
+    }
+
     shipNode->camera->setViewMatrixAsLookAt(
-         eye,            // eye
-         eye+direction,  // center
-         up              // up
+         eye,
+         center,
+         up
     );
 
     //Rotating the axis of the quat, so further rotations are correct
@@ -108,4 +118,8 @@ void ph::ShipNodeCallback::turboOff() {
 
 void ph::ShipNodeCallback::fireMissile() {
     missilefired = true;
+}
+
+void ph::ShipNodeCallback::toggleView() {
+    third_person_view = !third_person_view;
 }
